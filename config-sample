@@ -60,7 +60,7 @@ class Config(object):
 
     SOCIAL_GOOGLE = {
         'consumer_key': "cute.apps.googleusercontent.com",
-        'consumer_secret': password"
+        'consumer_secret': "password"
     }
 
 
