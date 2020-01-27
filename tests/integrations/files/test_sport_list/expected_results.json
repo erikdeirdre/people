@@ -1,0 +1,29 @@
+{
+  "data": {
+    "sportList": {
+      "edges": [
+        {
+          "node": {
+            "id": "U3BvcnQ6MQ==",
+            "active": true,
+            "description": "Baseball"
+          }
+        },
+        {
+          "node": {
+            "id": "U3BvcnQ6Mg==",
+            "active": true,
+            "description": "Soccer"
+          }
+        },
+        {
+          "node": {
+            "id": "U3BvcnQ6Mw==",
+            "active": true,
+            "description": "Football"
+          }
+        }
+      ]
+    }
+  }
+}
