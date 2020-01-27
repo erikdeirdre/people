@@ -27,6 +27,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: Test with pytest
+      env:
+        CONFIG_SETTINGS: config.TestConfig
       run: |
         cp config-sample config.py
         pip install -r test_requirements.txt
@@ -43,3 +45,4 @@ jobs:
         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
       run: |
         python-codacy-coverage -r test-results/coverage.xml
+
