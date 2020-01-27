@@ -1,2 +1,7 @@
 pytest
 Flask-Fixtures
+coverage
+codecov
+pytest-cov
+codacy-coverage
+https://github.com/food1984/testclass/releases/download/release-1.1.0/testclass-1.1.0-py3-none-any.whl
