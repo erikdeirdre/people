@@ -5,18 +5,18 @@
         {
           "node": {
             "active": true,
-            "description": "Baseball"
-          }
-        },
-        {
-          "node": {
-            "active": true,
             "description": "Soccer"
           }
         },
         {
           "node": {
-            "active": true,
+            "active": false,
+            "description": "Baseball"
+          }
+        },
+        {
+          "node": {
+            "active": null,
             "description": "Football"
           }
         }
