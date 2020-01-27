@@ -5,4 +5,4 @@ urllib3
 sqlalchemy
 graphene
 graphene-sqlalchemy
-psycopg2
+psycopg2-binary
