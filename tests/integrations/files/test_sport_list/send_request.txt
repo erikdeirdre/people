@@ -2,7 +2,6 @@ query {
   sportList {
     edges {
       node {
-        id
         active
         description
       }
