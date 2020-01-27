@@ -1,0 +1,19 @@
+[
+  {
+    "table": "referee",
+    "records": [
+      {
+        "id": 1,
+        "sport": 1,
+        "grade": "junior",
+        "active": 1
+      },
+      {
+        "id": 2,
+        "sport": 1,
+        "grade": "junior",
+        "active": 0
+      }
+    ]
+  }
+]

@@ -1,0 +1,8 @@
+flask
+flask-migrate
+flask-graphql
+urllib3
+sqlalchemy
+graphene
+graphene-sqlalchemy
+psycopg2

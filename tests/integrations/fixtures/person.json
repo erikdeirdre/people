@@ -1,0 +1,46 @@
+[
+  {
+    "table": "person",
+    "records": [
+      {
+        "first_name": "Mickey",
+        "last_name": "Mouse",
+        "address1": "1 Disney Lane",
+        "address2": "2 Disney Lane",
+        "city": "Orlando",
+        "state": "FL",
+        "zip_code": "12345",
+        "telephone": "1234567890",
+        "email": "mickey@sample.com",
+        "gender": "Male",
+        "birth_date": "01-01-1950"
+      },
+      {
+        "first_name": "Homer",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "address2": null,
+        "city": "Springfield",
+        "state": "MO",
+        "zip_code": "23456",
+        "telephone": "234567890",
+        "email": "homer@simpson.com",
+        "gender": null,
+        "birth_date": null
+      },
+      {
+        "first_name": null,
+        "last_name": null,
+        "address1": null,
+        "address2": null,
+        "city": null,
+        "state": null,
+        "zip_code": null,
+        "telephone": null,
+        "email": "marge@simpson.com",
+        "gender": null,
+        "birth_date": null
+      }
+    ]
+  }
+]

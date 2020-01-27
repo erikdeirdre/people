@@ -1,0 +1,19 @@
+[
+  {
+    "table": "sport",
+    "records": [
+      {
+        "description": "Soccer",
+        "active": 1
+      },
+      {
+        "description": "Baseball",
+        "active": 0
+      },
+      {
+        "description": "Football",
+        "active": null
+      }
+    ]
+  }
+]
