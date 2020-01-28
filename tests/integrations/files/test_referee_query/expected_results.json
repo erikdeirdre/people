@@ -17,7 +17,7 @@
           "node": {
             "sport": {
               "description": "Baseball",
-              "active": false
+              "active": true
             },
             "firstName": "Homer",
             "age": "0",
