@@ -51,7 +51,7 @@ class CreateReferee(graphene.Mutation):
         referee_data = CreateRefereeInput(required=True)
 
     @staticmethod
-    def mutate(self, info, sport_data=None):
+    def mutate(self, info, referee_data=None):
         data = input_to_dictionary(referee_data)
 
         referee = RefereeModel(**data)
