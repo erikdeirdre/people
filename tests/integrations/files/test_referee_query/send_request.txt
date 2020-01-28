@@ -1,0 +1,15 @@
+{
+  refereeList {
+    edges {
+      node {
+        sport {
+          description
+          active
+        }
+        firstName
+        age
+        grade
+      }
+    }
+  }
+}

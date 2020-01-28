@@ -5,9 +5,65 @@ from graphene_sqlalchemy import (SQLAlchemyObjectType,
 
 from helpers.utils import (input_to_dictionary)
 from app import db
-from .database import (Person as PersonModel, Sport as SportModel)
+from .database import (Person as PersonModel, Sport as SportModel,
+                       Referee as RefereeModel, Coach as CoachModel)
 
 __all__ = ['CreatePerson', 'UpdatePerson', 'CreateSport']
+
+
+class CoachAttribute:
+    sport = graphene.String()
+    grade = graphene.String()
+    active = graphene.Boolean()
+
+
+class Coach(SQLAlchemyObjectType):
+    class Meta:
+        model = CoachModel
+        interfaces = (relay.Node,)
+
+
+class CreateCoachInput(graphene.InputObjectType, CoachAttribute):
+    pass
+
+
+class RefereeAttribute:
+    sport = graphene.String()
+    grade = graphene.String()
+    active = graphene.Boolean()
+
+
+class Referee(SQLAlchemyObjectType):
+    class Meta:
+        model = RefereeModel
+        interfaces = (relay.Node,)
+
+
+class CreateRefereeInput(graphene.InputObjectType, RefereeAttribute):
+    pass
+
+
+class CreateReferee(graphene.Mutation):
+    person = graphene.Field(lambda: Referee,
+                             description="Referee created by this mutation.")
+
+    class Arguments:
+        referee_data = CreateRefereeInput(required=True)
+
+    @staticmethod
+    def mutate(self, info, sport_data=None):
+        data = input_to_dictionary(referee_data)
+
+        referee = RefereeModel(**data)
+        referee_db = SportModel.query.filter_by(description=data['email']).first()
+        if referee_db:
+            print('need to update')
+            referee_db = referee
+        else:
+            db.session.add(referee)
+        db.session.commit()
+
+        return CreateReferee(referee=referee)
 
 
 class SportAttribute:
@@ -58,6 +114,7 @@ class UpdateSport(graphene.Mutation):
     class Arguments:
         sport_data = UpdateSportInput(required=True)
 
+    @staticmethod
     def mutate(self, info, sport_data):
         data = input_to_dictionary(sport_data)
 
@@ -82,7 +139,6 @@ class PersonAttribute:
     gender = graphene.String()
     birth_date = graphene.String()
     age = graphene.Int()
-    active = graphene.Boolean()
 
 
 class Person(SQLAlchemyObjectType, PersonAttribute):
@@ -128,6 +184,7 @@ class UpdatePerson(graphene.Mutation):
     class Arguments:
         person_data = UpdatePersonInput(required=True)
 
+    @staticmethod
     def mutate(self, info, person_data):
         data = input_to_dictionary(person_data)
 
@@ -143,10 +200,13 @@ class Query(graphene.ObjectType):
     node = relay.Node.Field()
     personList = SQLAlchemyConnectionField(Person)
     sportList = SQLAlchemyConnectionField(Sport)
+    refereeList = SQLAlchemyConnectionField(Referee)
+    coachList = SQLAlchemyConnectionField(Coach)
 
 
 class Mutation(graphene.ObjectType):
     createPerson = CreatePerson.Field()
+    createReferee = CreateReferee.Field()
     updatePerson = UpdatePerson.Field()
     createSport = CreateSport.Field()
     updateSport = UpdateSport.Field()

@@ -1,7 +1,7 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from sqlalchemy import (Column, Integer, String, Boolean, Float, Date,
-                        ForeignKey)
+from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey)
+from sqlalchemy.orm import (relationship)
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import expression
 
@@ -40,14 +40,16 @@ class Person(db.Model):
 class Referee(Person):
     __tablename__ = 'referee'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
-    sport = Column(Integer, ForeignKey('sport.id'))
+    sportId = Column(Integer, ForeignKey('sport.id'))
     grade = Column(String(10))
     active = Column(Boolean, default=True)
+    sport = relationship('Sport', backref='referee')
 
 
 class Coach(Person):
     __tablename__ = 'coach'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
-    sport = Column(Integer, ForeignKey('sport.id'))
+    sportId = Column(Integer, ForeignKey('sport.id'))
     grade = Column(String(10))
     active = Column(Boolean, default=True)
+    sport = relationship('Sport', backref='coach')

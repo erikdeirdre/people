@@ -1,0 +1,27 @@
+{
+  "data": {
+    "coachList": {
+      "edges": [
+        {
+          "node": {
+            "sport": {
+              "description": "Soccer",
+              "active": true
+            },
+            "firstName": "Mickey",
+            "age": "70",
+            "grade": "junior"
+          }
+        },
+        {
+          "node": {
+            "sport": null,
+            "firstName": "Homer",
+            "age": "0",
+            "grade": "junior"
+          }
+        }
+      ]
+    }
+  }
+}
