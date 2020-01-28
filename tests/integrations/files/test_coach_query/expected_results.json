@@ -15,7 +15,10 @@
         },
         {
           "node": {
-            "sport": true,
+            "sport": {
+              "description": "Soccer",
+              "active": true
+            },
             "firstName": "Homer",
             "age": "0",
             "grade": "junior"

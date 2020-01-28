@@ -16,7 +16,7 @@
         {
           "node": {
             "sport": {
-              "description": "Baseball",
+              "description": "Soccer",
               "active": true
             },
             "firstName": "Homer",
