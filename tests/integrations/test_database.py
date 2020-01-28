@@ -70,24 +70,24 @@ class TestPersonTable(unittest.TestCase):
         self.assertEqual(result.active, True)
         self.assertEqual(result.city, 'Orlando')
         self.assertEqual(result.grade, 'junior')
-        self.assertEqual(result.sport, 1)
+        self.assertEqual(result.sportId, 1)
         result = db.session.query(Referee).get(2)
         self.assertEqual(result.active, False)
         self.assertEqual(result.city, 'Springfield')
         self.assertEqual(result.grade, 'junior')
-        self.assertEqual(result.sport, 1)
+        self.assertEqual(result.sportId, 1)
 
     def test_coach(self):
         result = db.session.query(Coach).get(1)
         self.assertEqual(result.active, True)
         self.assertEqual(result.city, 'Orlando')
         self.assertEqual(result.grade, 'junior')
-        self.assertEqual(result.sport, 1)
+        self.assertEqual(result.sportId, 1)
         result = db.session.query(Coach).get(2)
         self.assertEqual(result.active, False)
         self.assertEqual(result.city, 'Springfield')
         self.assertEqual(result.grade, 'junior')
-        self.assertEqual(result.sport, 1)
+        self.assertEqual(result.sportId, 1)
 
 if __name__ == '__main__':
     unittest.main()
