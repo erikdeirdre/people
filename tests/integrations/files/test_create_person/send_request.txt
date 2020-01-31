@@ -1,0 +1,11 @@
+mutation  {
+  createPerson( personData: {
+    lastName: "Simpson",
+    firstName: "Lisa",
+    email: "lsimpson@simpson.org"
+  }) {
+    person {
+      id
+    }
+  }
+}

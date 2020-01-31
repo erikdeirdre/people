@@ -1,21 +1,22 @@
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-
+DATABASE_DIR = os.environ.get('DATABASE_DIR') or basedir
 
 class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     APP_NAME = os.environ.get('APP_NAME') or 'people'
 
     DATABASE_TYPE = os.environ.get('DATABASE_TYPE') or 'sqlite'
-    DATABASE_NAME = os.environ.get('DATABASE_NAME') or 'people_migrate'
+    DATABASE_NAME = os.environ.get('DATABASE_NAME') or 'people'
     DATABASE_USER = os.environ.get('DATABASE_USER') or 'root'
     DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD') or 'mypassword'
     DATABASE_PORT = os.environ.get('DATABASE_PORT') or None
     DATABASE_HOST = os.environ.get('DATABASE_HOST') or '127.0.0.1'
 
     if DATABASE_TYPE == 'sqlite':
-        SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, DATABASE_NAME)
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format (os.path.join(
+        DATABASE_DIR, DATABASE_NAME))
     else:
         SQLALCHEMY_DATABASE_URI = '{}://{}:{}@{}:{}/{}'.format(
             DATABASE_TYPE, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST,
@@ -65,6 +66,8 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL',
+        'sqlite:///' + os.path.join(basedir, 'dev_app.db'))
     DEBUG = True
     BCRYPT_LOG_ROUNDS = 4
 
