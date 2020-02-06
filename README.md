@@ -20,10 +20,30 @@ The following assumes you're using `sqlite` for your database.
 
 You should be able to access the `graphql` console via `http://127.0.0.1:5000`
 
-### Running as a Docker container
+### Running a Docker container
 
 If you plan on persisting data between runs then you need to create a Docker volume, and mount it within the container.
 
 - create a Docker volume, `docker volume create {volume name}`. For example, `docker volume create sqlite_data`.
 - build the container, `docker build -t {tag name} .`. For example: `docker build -t people:latest .`
-- run the container, `docker run -d -v {source volume}:/{target name}  -e "CONFIG_SETTINGS=config.ProductionConfig" -e "DATABASE_DIR={database location}" {tag name}`. For example: `docker run -d -v sqlite_data:/data -e  -e "CONFIG_SETTINGS=config.ProductionConfig" "DATABASE_DIR=data" person`.
+- run the container, `docker run -d -v {source volume}:/{target name}  -e "CONFIG_SETTINGS=config.ProductionConfig" -e "DATABASE_DIR={database location}" {tag name}`. For example: `docker run -d -v sqlite_data:/data -e  -e "CONFIG_SETTINGS=config.ProductionConfig" "DATABASE_DIR=/data" person`.
+
+### Flask Options
+
+Two additional, `flask` commands exist for prepping the database. 
+
+- `initdb` creates the table schema for the application. Shouldn't be needed.
+- `seed` populates the database with data found in the directory specified. Usage: `flask seed {load files directory}`. It's not intended to do updates, only initial data load.
+
+
+## Troubleshooting
+
+If the system reports 
+```
+Usage: flask [OPTIONS] COMMAND [ARGS]...
+Try "flask --help" for help.
+
+Error: No such command "command".
+```
+when executing some commands then confirm you set `FLASK_APP` to the proper executable.
+

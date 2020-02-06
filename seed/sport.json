@@ -1,0 +1,43 @@
+[
+  {
+    "table": "sport",
+    "records": [
+      {
+        "description": "Soccer",
+        "active": 1
+      },
+      {
+        "description": "Baseball",
+        "active": 1
+      },
+      {
+        "description": "Football",
+        "active": 1
+      },
+            {
+        "description": "Basketball",
+        "active": 1
+      },
+      {
+        "description": "Rugby",
+        "active": 1
+      },
+      {
+        "description": "Futsal",
+        "active": 1
+      },
+      {
+        "description": "Lacrosse",
+        "active": 1
+      },
+      {
+        "description": "Tennis",
+        "active": 1
+      },
+      {
+        "description": "Golf",
+        "active": 1
+      }
+    ]
+  }
+]
