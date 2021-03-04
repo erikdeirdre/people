@@ -170,11 +170,11 @@ class Coach(SQLAlchemyObjectType):
         interfaces = (relay.Node,)
 
 
-class CreateCoachInput(graphene.InputObjectType, CoachAttribute):
+class CreateCoachInput(InputObjectType, CoachAttribute):
     pass
 
 
-class CreateCoach(graphene.Mutation):
+class CreateCoach(Mutation):
     coach = Field(lambda: Coach,
                              description="Coach created by this mutation.")
 

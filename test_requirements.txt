@@ -1,5 +1,5 @@
 pytest
-Flask-Fixtures
+nosetest
 coverage
 codecov
 pytest-cov
