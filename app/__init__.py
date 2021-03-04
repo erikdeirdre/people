@@ -11,8 +11,8 @@ app.config.from_object(environ.get('CONFIG_SETTINGS', "config.DevelopmentConfig"
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-post_office_url = app.config["POST_OFFICE_URL"]
-post_office_userid = app.config["POST_OFFICE_USERID"]
+post_office_url = app.config['POST_OFFICE_URL']
+post_office_userid = app.config['POST_OFFICE_USERID']
 
 CORS(app)
 

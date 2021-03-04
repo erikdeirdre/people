@@ -21,18 +21,18 @@ def initdb_command():
 @click.argument('demo', default=False)
 def seed_command(dir, demo):
     """
-    Populate database with seed data 
+    Populate database with seed data
         [DIR] - directory location of fixtures files, defaults to 'seed'
         [DEMO] - load demo data, defaults to 'false'
     """
-    if not exists(dir):
-        print("Directory, {}, doesn't exist ... exiting".format(dir))
+    if not exists(directory):
+        print("Directory, {}, doesn't exist ... exiting".format(directory))
         return False
 
     base_dir = abspath(dirname(__file__))
 
     print("Seeding Database")
-    for fixture_file in glob(join(base_dir, dir, '*.json')):
+    for fixture_file in glob(join(base_dir, directory, '*.json')):
         fixtures = JSONLoader().load(fixture_file)
         try:
             load_fixtures(db, fixtures)
@@ -40,17 +40,17 @@ def seed_command(dir, demo):
             print('It appears, {}, was already processed'.format(
                 fixture_file))
         print("Processed fixture file: {}".format(fixture_file))
-    
+
     print("Loading Demo Data")
     if demo:
-        for fixture_file in glob(join(base_dir, dir, 'demo', '*.json')):
+        for fixture_file in glob(join(base_dir, directory, 'demo', '*.json')):
             fixtures = JSONLoader().load(fixture_file)
             try:
                 load_fixtures(db, fixtures)
             except IntegrityError as err:
                 print('It appears, {}, was already processed'.format(
                     fixture_file))
-            print("Processed fixture file: {}".format(fixture_file))     
+            print("Processed fixture file: {}".format(fixture_file))
 
 
 if __name__ == '__main__':

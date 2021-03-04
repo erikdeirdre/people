@@ -1,7 +1,5 @@
 import requests
-import json
 import xmltodict
-from types import SimpleNamespace
 
 from graphene import (ObjectType, String, Boolean, ID, List, InputObjectType,
                       Field, Int, relay, Schema, Argument, Mutation, Interface)
@@ -9,18 +7,19 @@ from graphene_sqlalchemy import (SQLAlchemyObjectType,
                                  SQLAlchemyConnectionField)
 
 from helpers.utils import (input_to_dictionary)
-from app import (post_office_url, post_office_userid)
-from app import db
-from .database import (Sport as SportModel, Team as TeamModel, 
-                        Person as PersonModel, Coach as CoachModel, 
-                        Referee as RefereeModel)
+from app import (db, post_office_url, post_office_userid)
+from .database import (Sport as SportModel, Team as TeamModel,
+                       Person as PersonModel, Coach as CoachModel,
+                       Referee as RefereeModel)
 
 #__all__ = ['CreatePerson', 'UpdatePerson']
 
 
 def postal_code_request(postal_code):
-    url = '{}?API=CityStateLookup&XML=<CityStateLookupRequest USERID="{}"><ZipCode ID=\'0\'><Zip5>{}' \
-      '</Zip5></ZipCode></CityStateLookupRequest>'.format(post_office_url, post_office_userid, postal_code)
+    url = '{}?API=CityStateLookup&XML=<CityStateLookupRequest USERID="{}">' \
+          '<ZipCode ID=\'0\'><Zip5>{}</Zip5></ZipCode>'  \
+          '</CityStateLookupRequest>'.format(post_office_url, 
+          post_office_userid, postal_code)
 
     results = requests.get(url)
     if results.status_code == 200:
@@ -28,7 +27,7 @@ def postal_code_request(postal_code):
         if 'Error' in response:
             return {'error': response['Error']['Description']}
         return {'postalcode': postal_code, 'city': response["City"],
-        'state': response["State"]}
+                'state': response["State"]}
 
     return None
 
@@ -36,9 +35,9 @@ def verify_address_request(postal_code, address1, address2, city, state):
     url = '{}?API=Verify&XML=<AddressValidateRequest USERID="{}">' \
         '<Address><Address1>{}</Address1><Address2>{}</Address2>' \
         '<City>{}</City><State>{}</State><Zip5>{}</Zip5><Zip4></Zip4>' \
-        '</Address></AddressValidateRequest>'.format(post_office_url, 
+        '</Address></AddressValidateRequest>'.format(post_office_url,
         post_office_userid, address2, address1, city, state, postal_code)
-    
+
     results = requests.get(url)
     if results.status_code == 200:
         response = xmltodict.parse(results.text)["AddressValidateResponse"]["Address"]
@@ -58,29 +57,30 @@ def verify_address_request(postal_code, address1, address2, city, state):
             address2 = None
 
         return {'postalcode': postal_code, 'city': response["City"],
-        'state': response["State"], 'address1': address1,
-        'address2': address2}
+                'state': response["State"], 'address1': address1,
+                'address2': address2}
 
+    return {'postalcode': None, 'city': None, 'state': None,
+            'address1': None, 'address2': None}
 
-def resolve_address(self, info, postalcode, address1, address2='', 
-    city='', state=''):
-    address = verify_address_request(postalcode, address1, address2, city, 
-        state)
+def resolve_address(postalcode, address1, address2='', city='', state=''):
+    address = verify_address_request(postalcode, address1, address2, city,
+                                     state)
     return Address(
-        postalcode = postalcode,
-        city = address['city'],
-        state = address['state'],
-        address1 = address['address1'],
-        address2 = address['address2']
+        postalcode=postalcode,
+        city=address['city'],
+        state=address['state'],
+        address1=address['address1'],
+        address2=address['address2']
     )
 
 
-def resolve_city_states(self, info, postalcode):
+def resolve_city_states(postalcode):
     city_state = postal_code_request(postalcode)
     return CityState(
-        postalcode = postalcode,
-        city = city_state['city'],
-        state = city_state['state']
+        postalcode=postalcode,
+        city=city_state['city'],
+        state=city_state['state']
     )
 
 class Address(ObjectType):
@@ -157,10 +157,11 @@ class UpdateTeam(Mutation):
         return UpdateTeam(team=team)
 
 
-#class CoachAttribute:
-#    sport = String()
-#    grade = String()
-#    active = Boolean()
+class CoachAttribute:
+    sport = String()
+    grade = String()
+    active = Boolean()
+    team = String()
 
 
 class Coach(SQLAlchemyObjectType):
@@ -169,10 +170,56 @@ class Coach(SQLAlchemyObjectType):
         interfaces = (relay.Node,)
 
 
-#class CreateCoachInput(graphene.InputObjectType, CoachAttribute):
-#    pass
-#
-#
+class CreateCoachInput(graphene.InputObjectType, CoachAttribute):
+    pass
+
+
+class CreateCoach(graphene.Mutation):
+    coach = Field(lambda: Coach,
+                             description="Coach created by this mutation.")
+
+    class Arguments:
+        coach_data = CreateCoachInput(required=True)
+
+    @staticmethod
+    def mutate(self, info, coach_data=None):
+        data = input_to_dictionary(coach_data)
+
+        coach = CoachModel(**data)
+        coach_db = db.session.query(CoachModel).filter_by(
+            description=data['description']).first()
+        if coach_db:
+            print('need to update')
+            referee_db = coach
+        else:
+            db.session.add(coach)
+        db.session.commit()
+
+        return CreateCoach(coach=coach)
+
+
+class UpdateCoachInput(InputObjectType, CoachAttribute):
+    id = ID(required=True, description="Global Id of the Coach.")
+
+
+class UpdateCoach(Mutation):
+    coach = Field(lambda: Coach, description="Coach updated by this mutation.")
+
+    class Arguments:
+        coach_data = UpdateCoachInput(required=True)
+
+    @staticmethod
+    def mutate(self, info, coach_data):
+        data = input_to_dictionary(coach_data)
+
+        coach = db.session.query(CoachModel).filter_by(id=data['id']).first()
+        coach.update(data)
+        db.session.commit()
+        coach = db.session.query(CoachModel).filter_by(id=data['id']).first()
+
+        return UpdateCoach(coach=coach)
+
+
 #class RefereeAttribute:
 #    sport = String()
 #    grade = String()
@@ -201,7 +248,7 @@ class Referee(SQLAlchemyObjectType):
 #        data = input_to_dictionary(referee_data)
 #
 #        referee = RefereeModel(**data)
-#        referee_db = SportModel.query.filter_by(description=data['email']).first()
+#        referee_db = db.session.query(SportModel).filter_by(description=data['description']).first()
 #        if referee_db:
 #            print('need to update')
 #            referee_db = referee
@@ -399,7 +446,6 @@ class Query(ObjectType):
     )
 
     coachList = SQLAlchemyConnectionField(Coach)
-#    codeLocation = ConnectionField(CodeLocation)
     personList = SQLAlchemyConnectionField(Person)
     sportList = SQLAlchemyConnectionField(Sport)
     teamList = SQLAlchemyConnectionField(Team)
@@ -410,6 +456,8 @@ class Mutation(ObjectType):
 #    createPerson = CreatePerson.Field()
 #    updatePerson = UpdatePerson.Field()
  #   createReferee = CreateReferee.Field()
+    createCoach = CreateCoach.Field()
+    updateCoach = UpdateCoach.Field()
     createSport = CreateSport.Field()
     updateSport = UpdateSport.Field()
     createTeam = CreateTeam.Field()

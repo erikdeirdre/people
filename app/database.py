@@ -1,7 +1,7 @@
 from datetime import date
-from dateutil.relativedelta import relativedelta
 import enum
-from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey, 
+from dateutil.relativedelta import relativedelta
+from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey,
                         Table, Enum)
 from sqlalchemy.orm import (relationship, with_polymorphic)
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -21,7 +21,7 @@ class Level(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(100))
     level = Column(Integer)
-    active = Column(Boolean,  default=True, server_default=expression.true())
+    active = Column(Boolean, default=True, server_default=expression.true())
 
 
 class Team(db.Model):
@@ -83,7 +83,7 @@ class Coach(Person):
         foreign_keys=[sport_id])
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship(
-        "Team", 
+        "Team",
         foreign_keys=[team_id])
 
 
@@ -102,7 +102,7 @@ class Player(Person):
     birth_date = Column(Date)
     parent_id = Column(Integer, ForeignKey('parent.id'))
     parent = relationship(
-        "Parent", 
+        "Parent",
         foreign_keys=[parent_id])
 
 
