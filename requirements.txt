@@ -1,8 +1,11 @@
 flask
 flask-migrate
 flask-graphql
+requests
+xmltodict
 urllib3
 sqlalchemy
 graphene
 graphene-sqlalchemy
 psycopg2-binary
+Flask-Fixtures

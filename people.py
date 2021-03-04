@@ -18,14 +18,20 @@ def initdb_command():
 
 @app.cli.command('seed')
 @click.argument('dir', default='seed')
-def seed_command(dir):
-    """Load seed data"""
+@click.argument('demo', default=False)
+def seed_command(dir, demo):
+    """
+    Populate database with seed data 
+        [DIR] - directory location of fixtures files, defaults to 'seed'
+        [DEMO] - load demo data, defaults to 'false'
+    """
     if not exists(dir):
         print("Directory, {}, doesn't exist ... exiting".format(dir))
         return False
 
     base_dir = abspath(dirname(__file__))
 
+    print("Seeding Database")
     for fixture_file in glob(join(base_dir, dir, '*.json')):
         fixtures = JSONLoader().load(fixture_file)
         try:
@@ -33,6 +39,18 @@ def seed_command(dir):
         except IntegrityError as err:
             print('It appears, {}, was already processed'.format(
                 fixture_file))
+        print("Processed fixture file: {}".format(fixture_file))
+    
+    print("Loading Demo Data")
+    if demo:
+        for fixture_file in glob(join(base_dir, dir, 'demo', '*.json')):
+            fixtures = JSONLoader().load(fixture_file)
+            try:
+                load_fixtures(db, fixtures)
+            except IntegrityError as err:
+                print('It appears, {}, was already processed'.format(
+                    fixture_file))
+            print("Processed fixture file: {}".format(fixture_file))     
 
 
 if __name__ == '__main__':

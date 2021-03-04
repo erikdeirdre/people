@@ -1,0 +1,35 @@
+[
+  {
+    "table": "referee",
+    "records": [
+      {
+        "id": 1,
+        "grade": "first",
+        "sport_id": 1,
+        "grade_date": "2018-03-01",
+        "active": 1
+      },
+      {
+        "id": 2,
+        "grade": "second",
+        "sport_id": 2,
+        "grade_date": "2019-06-01",
+        "active": 1
+      },
+      {
+        "id": 3,
+        "grade": "third",
+        "sport_id": 3,
+        "grade_date": "2016-05-01",
+        "active": 1
+      },
+      {
+        "id": 4,
+        "grade": "fourth",
+        "sport_id": 4,
+        "grade_date": "2017-04-01",
+        "active": 1
+      }
+    ]
+  }
+]

@@ -1,6 +1,6 @@
 from flask_graphql import GraphQLView
 from .schema import schema
-from app import app
+from app import (app, db)
 
 
 @app.route('/')
@@ -14,6 +14,7 @@ app.add_url_rule(
     view_func=GraphQLView.as_view(
         'graphql',
         schema=schema,
-        graphiql=True # for having the GraphiQL interface
+        graphiql=True, # for having the GraphiQL interface
+        get_context=lambda: {'session': db.session}
     )
 )

@@ -1,0 +1,35 @@
+[
+  {
+    "table": "coach",
+    "records": [
+      {
+        "id": 1,
+        "grade": "first",
+        "sport_id": 1,
+        "team_id": 1,
+        "active": 1
+      },
+      {
+        "id": 2,
+        "grade": "second",
+        "sport_id": 2,
+        "team_id": 2,
+        "active": 1
+      },
+      {
+        "id": 3,
+        "grade": "third",
+        "sport_id": 3,
+        "team_id": 3,
+        "active": 1
+      },
+      {
+        "id": 4,
+        "grade": "fourth",
+        "sport_id": 4,
+        "team_id": 4,
+        "active": 1
+      }
+    ]
+  }
+]
