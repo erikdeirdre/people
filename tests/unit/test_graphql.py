@@ -1,4 +1,4 @@
-""" Unit Test Module for Graphql """ 
+""" Unit Test Module for Graphql """
 import sys
 from os.path import (join, abspath, dirname)
 from glob import glob
@@ -24,11 +24,11 @@ def init_database():
 
     for fixture_file in glob(join(base_dir, 'fixtures', '*.json')):
         fixtures = JSONLoader().load(fixture_file)
-        load_fixtures(db, fixtures)
+        load_fixtures(DB, fixtures)
 
     for fixture_file in glob(join(base_dir, 'fixtures', 'demo', '*.json')):
         fixtures = JSONLoader().load(fixture_file)
-        load_fixtures(db, fixtures)
+        load_fixtures(DB, fixtures)
 
     yield DB
     DB.drop_all()

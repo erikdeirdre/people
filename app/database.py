@@ -18,13 +18,13 @@ class Gender(enum.Enum):
     UNDEFINED = 99
 
 
-class Level(DB.Model):
-    """Table to describe skill levels for referees, coaches, and players"""
-    __tablename__ = 'level'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    description = Column(String(100))
-    level = Column(Integer)
-    active = Column(Boolean, default=True, server_default=expression.true())
+#class Level(DB.Model):
+#    """Table to describe skill levels for referees, coaches, and players"""
+#    __tablename__ = 'level'
+#    id = Column(Integer, primary_key=True, autoincrement=True)
+#    description = Column(String(100))
+#    level = Column(Integer)
+#    active = Column(Boolean, default=True, server_default=expression.true())
 
 
 class Team(DB.Model):
@@ -59,7 +59,7 @@ class Person(DB.Model):
     gender = Column(Enum(Gender))
 
 
-class Referee(DB.Model):
+class Referee(Person):
     """ Table for listing referees and their unique columns """
     __tablename__ = 'referee'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
@@ -80,7 +80,7 @@ class Referee(DB.Model):
         return 0
 
 
-class Coach(DB.Model):
+class Coach(Person):
     """ Table for listing coaches and their unique columns """
     __tablename__ = 'coach'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
@@ -96,7 +96,7 @@ class Coach(DB.Model):
         foreign_keys=[team_id])
 
 
-class Player(DB.Model):
+class Player(Person):
     """ Table for listing players and their unique columns """
     __tablename__ = 'player'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
@@ -124,7 +124,7 @@ class Player(DB.Model):
         return 0
 
 
-class Parent(DB.Model):
+class Parent(Person):
     """ Table for listing parents """
     __tablename__ = 'parent'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)

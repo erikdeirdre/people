@@ -11,7 +11,7 @@
         "state": "MA",
         "zip_code": "12345",
         "email": "hsimpson@simpsons.com",
-        "gender": "male"
+        "gender": "MALE"
       },
       {
         "id": 2,
@@ -22,7 +22,7 @@
         "state": "MA",
         "zip_code": "12345",
         "email": "msimpson@simpsons.com",
-        "gender": "female"
+        "gender": "FEMALE"
       },
       {
         "id": 3,
@@ -33,7 +33,7 @@
         "state": "MA",
         "zip_code": "12345",
         "email": "bsimpson@simpsons.com",
-        "gender": "male"
+        "gender": "MALE"
       },
       {
         "id": 4,
@@ -44,7 +44,7 @@
         "state": "MA",
         "zip_code": "12345",
         "email": "lsimpson@simpsons.com",
-        "gender": "female"
+        "gender": "FEMALE"
       },
       {
         "id": 5,
@@ -55,7 +55,7 @@
         "state": "MA",
         "zip_code": "12345",
         "email": "maggie.simpson@simpsons.com",
-        "gender": "female"
+        "gender": "FEMALE"
       }
     ]
   }
