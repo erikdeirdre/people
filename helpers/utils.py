@@ -12,7 +12,7 @@ def input_to_dictionary(input_value):
     return dictionary
 
 
-# Custom validator
 def must_not_be_blank(data):
+    """Customer validator to ensure data isn't blank """
     if not data:
         raise ValueError('Data not provided.')

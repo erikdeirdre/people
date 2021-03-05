@@ -1,5 +1,5 @@
 pytest
-nosetest
+nose
 coverage
 codecov
 pytest-cov

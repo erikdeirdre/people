@@ -1,20 +1,22 @@
+""" Routes Module """
 from flask_graphql import GraphQLView
-from app import (app, db)
+from app import (APP, DB)
 from .schema import schema
 
 
-@app.route('/')
+@APP.route('/')
 def hello_world():
+    """ Print hello world as poor excuse of a health check """
     print('hello world')
     return 'Hello World!'
 
 
-app.add_url_rule(
+APP.add_url_rule(
     '/graphql',
     view_func=GraphQLView.as_view(
         'graphql',
         schema=schema,
         graphiql=True, # for having the GraphiQL interface
-        get_context=lambda: {'session': db.session}
+        get_context=lambda: {'session': DB.session}
     )
 )

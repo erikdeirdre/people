@@ -1,22 +1,25 @@
+""" Database Module """
 from datetime import date
 import enum
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey,
-                        Table, Enum)
-from sqlalchemy.orm import (relationship, with_polymorphic)
+                        Enum)
+from sqlalchemy.orm import (relationship)
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import expression
-from app import db
+from app import DB
 
 
 class Gender(enum.Enum):
-    other = 0
-    male = 1
-    female = 2
-    undefined = 99
+    """Gender enum"""
+    OTHER = 0
+    MALE = 1
+    FEMALE = 2
+    UNDEFINED = 99
 
 
-class Level(db.Model):
+class Level(DB.Model):
+    """Table to describe skill levels for referees, coaches, and players"""
     __tablename__ = 'level'
     id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(100))
@@ -24,21 +27,24 @@ class Level(db.Model):
     active = Column(Boolean, default=True, server_default=expression.true())
 
 
-class Team(db.Model):
+class Team(DB.Model):
+    """ Table defining a team """
     __tablename__ = 'team'
     id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(100))
-    active = Column(Boolean,  default=True, server_default=expression.true())
+    active = Column(Boolean, default=True, server_default=expression.true())
 
 
-class Sport(db.Model):
+class Sport(DB.Model):
+    """ Table defining sports """
     __tablename__ = 'sport'
     id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(100))
     active = Column(Boolean,  default=True, server_default=expression.true())
 
 
-class Person(db.Model):
+class Person(DB.Model):
+    """ Base table for players, coaches, referees, and parents """
     __tablename__ = "person"
     id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(50))
@@ -53,12 +59,13 @@ class Person(db.Model):
     gender = Column(Enum(Gender))
 
 
-class Referee(Person):
+class Referee(DB.Model):
+    """ Table for listing referees and their unique columns """
     __tablename__ = 'referee'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
     sport_id = Column(Integer, ForeignKey('sport.id'))
     sport = relationship(
-        "Sport", 
+        "Sport",
         foreign_keys=[sport_id])
     grade = Column(String(10))
     grade_date = Column(Date)
@@ -67,19 +74,21 @@ class Referee(Person):
 
     @hybrid_property
     def years_grade(self):
+        """ function to return a years of experience at a grade """
         if self.grade_date:
             return relativedelta(date.today(), self.grade_date).years
         return 0
 
 
-class Coach(Person):
+class Coach(DB.Model):
+    """ Table for listing coaches and their unique columns """
     __tablename__ = 'coach'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
     grade = Column(String(10))
     active = Column(Boolean, default=True)
     sport_id = Column(Integer, ForeignKey('sport.id'))
     sport = relationship(
-        "Sport", 
+        "Sport",
         foreign_keys=[sport_id])
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship(
@@ -87,16 +96,17 @@ class Coach(Person):
         foreign_keys=[team_id])
 
 
-class Player(Person):
+class Player(DB.Model):
+    """ Table for listing players and their unique columns """
     __tablename__ = 'player'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
     sport_id = Column(Integer, ForeignKey('sport.id'))
     sport = relationship(
-        "Sport", 
+        "Sport",
         foreign_keys=[sport_id])
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship(
-        "Team", 
+        "Team",
         foreign_keys=[team_id])
     active = Column(Boolean, default=True)
     birth_date = Column(Date)
@@ -108,12 +118,14 @@ class Player(Person):
 
     @hybrid_property
     def age(self):
+        """ function to return a player's age """
         if self.birth_date:
             return relativedelta(date.today(), self.birth_date).years
         return 0
 
 
-class Parent(Person):
+class Parent(DB.Model):
+    """ Table for listing parents """
     __tablename__ = 'parent'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
     active = Column(Boolean, default=True)
