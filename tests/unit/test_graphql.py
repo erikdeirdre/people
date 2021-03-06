@@ -13,32 +13,29 @@ from app import DB
 from app.schema import schema
 
 
-@pytest.fixture(scope='class')
 def init_database():
     """Initializes the database """
     DB.drop_all()
     DB.create_all()
 
     base_dir = join(abspath(dirname(__file__)),  '..', '..')
-    print("base dir: {}".format(base_dir))
 
-    for fixture_file in glob(join(base_dir, 'fixtures', '*.json')):
+    for fixture_file in glob(join(base_dir, 'seed', '*.json')):
         fixtures = JSONLoader().load(fixture_file)
         load_fixtures(DB, fixtures)
 
-    for fixture_file in glob(join(base_dir, 'fixtures', 'demo', '*.json')):
+    for fixture_file in glob(join(base_dir, 'seed', 'demo', '*.json')):
         fixtures = JSONLoader().load(fixture_file)
         load_fixtures(DB, fixtures)
 
-    yield DB
-    DB.drop_all()
 
-
-@pytest.mark.usefixtures("init_database")
 class TestSchema(unittest.TestCase):
     """Test Suite for testing Schema"""
     dir_name = join(abspath(dirname(__file__)), 'files')
     client = Client(schema)
+
+    def setUp(self):
+        init_database()
 
     def test_sport_list(self):
         """Execute sport listing test"""
@@ -48,7 +45,6 @@ class TestSchema(unittest.TestCase):
         test_data.load_files()
 
         executed = self.client.execute(test_data.get_send_request())
-        print(dumps(executed['data']))
 
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])
