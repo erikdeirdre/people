@@ -101,7 +101,7 @@ class Address(ObjectType):
 
 
 class CityState(ObjectType):
-    postalcode = String() 
+    postalcode = String()
     city = String()
     state = String()
 

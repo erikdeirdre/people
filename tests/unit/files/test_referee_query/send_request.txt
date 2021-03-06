@@ -1,0 +1,18 @@
+{
+  refereeList {
+    edges {
+      node {
+        grade
+        gradeDate
+        yearsGrade
+        sport {
+          description
+        }
+        person {
+          lastName
+          firstName
+        }
+      }
+    }
+  }
+}

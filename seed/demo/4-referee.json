@@ -4,6 +4,7 @@
     "records": [
       {
         "id": 1,
+        "person_id": 5,
         "grade": "first",
         "sport_id": 1,
         "grade_date": "2018-03-01",
@@ -11,6 +12,7 @@
       },
       {
         "id": 2,
+        "person_id": 4,
         "grade": "second",
         "sport_id": 2,
         "grade_date": "2019-06-01",
@@ -18,6 +20,7 @@
       },
       {
         "id": 3,
+        "person_id": 3,
         "grade": "third",
         "sport_id": 3,
         "grade_date": "2016-05-01",
@@ -25,6 +28,7 @@
       },
       {
         "id": 4,
+        "person_id": 2,
         "grade": "fourth",
         "sport_id": 4,
         "grade_date": "2017-04-01",

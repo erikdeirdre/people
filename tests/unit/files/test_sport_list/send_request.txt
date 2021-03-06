@@ -1,0 +1,10 @@
+{
+  sportList {
+    edges {
+      node {
+        active
+        description
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  coachList{
+    edges {
+      node {
+        grade
+        active
+        team {
+          description
+        }
+        sport {
+          description
+        }
+        person {
+          lastName
+          firstName
+        }
+      }
+    }
+  }
+}

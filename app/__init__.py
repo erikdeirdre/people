@@ -10,7 +10,7 @@ from flask_cors import CORS
 APP = Flask(__name__)
 APP.config.from_object(environ.get('CONFIG_SETTINGS', "config.DevelopmentConfig"))
 DB = SQLAlchemy(APP)
-migrate = Migrate(APP, DB)
+MIGRATE = Migrate(APP, DB)
 
 PO_URL = APP.config['POST_OFFICE_URL']
 PO_USERID = APP.config['POST_OFFICE_USERID']

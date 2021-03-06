@@ -1,0 +1,64 @@
+{
+  "data": {
+    "refereeList": {
+      "edges": [
+        {
+          "node": {
+            "grade": "first",
+            "gradeDate": "2018-03-01",
+            "yearsGrade": "3",
+            "sport": {
+              "description": "Soccer"
+            },
+            "person": {
+              "lastName": "Simpson",
+              "firstName": "Maggie"
+            }
+          }
+        },
+        {
+          "node": {
+            "grade": "second",
+            "gradeDate": "2019-06-01",
+            "yearsGrade": "1",
+            "sport": {
+              "description": "Baseball"
+            },
+            "person": {
+              "lastName": "Simpson",
+              "firstName": "Lisa"
+            }
+          }
+        },
+        {
+          "node": {
+            "grade": "third",
+            "gradeDate": "2016-05-01",
+            "yearsGrade": "4",
+            "sport": {
+              "description": "Football"
+            },
+            "person": {
+              "lastName": "Simpson",
+              "firstName": "Bart"
+            }
+          }
+        },
+        {
+          "node": {
+            "grade": "fourth",
+            "gradeDate": "2017-04-01",
+            "yearsGrade": "3",
+            "sport": {
+              "description": "Basketball"
+            },
+            "person": {
+              "lastName": "Simpson",
+              "firstName": "Marge"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

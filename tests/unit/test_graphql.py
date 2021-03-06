@@ -60,6 +60,7 @@ class TestSchema(unittest.TestCase):
         test_data.load_files()
 
         executed = self.client.execute(test_data.get_send_request())
+        print(dumps(executed['data']))
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])
 
@@ -70,6 +71,7 @@ class TestSchema(unittest.TestCase):
         test_data.load_files()
 
         executed = self.client.execute(test_data.get_send_request())
+        print(dumps(executed['data']))
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])
 """

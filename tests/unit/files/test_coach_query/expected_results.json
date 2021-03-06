@@ -1,0 +1,72 @@
+{
+  "data": {
+    "coachList": {
+      "edges": [
+        {
+          "node": {
+            "grade": "first",
+            "active": true,
+            "team": {
+              "description": "Celtics"
+            },
+            "sport": {
+              "description": "Soccer"
+            },
+            "person": {
+              "lastName": "Simpson",
+              "firstName": "Homer"
+            }
+          }
+        },
+        {
+          "node": {
+            "grade": "second",
+            "active": true,
+            "team": {
+              "description": "Bruins"
+            },
+            "sport": {
+              "description": "Baseball"
+            },
+            "person": {
+              "lastName": "Simpson",
+              "firstName": "Marge"
+            }
+          }
+        },
+        {
+          "node": {
+            "grade": "third",
+            "active": true,
+            "team": {
+              "description": "Patriots"
+            },
+            "sport": {
+              "description": "Football"
+            },
+            "person": {
+              "lastName": "Simpson",
+              "firstName": "Bart"
+            }
+          }
+        },
+        {
+          "node": {
+            "grade": "fourth",
+            "active": true,
+            "team": {
+              "description": "Red Sox"
+            },
+            "sport": {
+              "description": "Basketball"
+            },
+            "person": {
+              "lastName": "Simpson",
+              "firstName": "Lisa"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
