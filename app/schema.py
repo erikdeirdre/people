@@ -91,8 +91,8 @@ def resolve_city_states(postalcode):
         state=city_state['state']
     )
 
-
-class Address(ObjectType):
+class Address(Interface):
+    """Address fields output """
     postalcode = String()
     city = String()
     state = String()
@@ -100,36 +100,44 @@ class Address(ObjectType):
     address2 = String()
 
 
-class CityState(ObjectType):
+class CityState(Interface):
+    """City State fields output """
     postalcode = String()
     city = String()
     state = String()
 
 
 class TeamAttribute(Interface):
+    """Team fields output """
     description = String()
     active = Boolean()
 
 
 class Team(SQLAlchemyObjectType):
+    """Team Graphql Query output"""
     class Meta:
+        """Team Graphql Query output"""
         model = TeamModel
         interfaces = (relay.Node, TeamAttribute,)
 
 
 class CreateTeamInput(InputObjectType, TeamAttribute):
+    """Create Team Input fields derived from TeamAttribute"""
     pass
 
 
 class CreateTeam(Mutation):
+    """Create Team Graphql"""
     team = Field(lambda: Team,
                  description="Team created by this mutation.")
 
     class Arguments:
+        """Arguments for Create Team"""
         team_data = CreateTeamInput(required=True)
 
     @staticmethod
     def mutate(team_data=None):
+        """Mutation method for Create Team"""
         data = input_to_dictionary(team_data)
 
         team = TeamModel(**data)
@@ -146,17 +154,21 @@ class CreateTeam(Mutation):
 
 
 class UpdateTeamInput(InputObjectType, TeamAttribute):
+    """Update Team Input fields derived from TeamAttribute"""
     id = ID(required=True, description="Global Id of the Team.")
 
 
 class UpdateTeam(Mutation):
+    """Update Team Graphql"""
     team = Field(lambda: Team, description="Team updated by this mutation.")
 
     class Arguments:
+        """Arguments for Update Team"""
         team_data = UpdateTeamInput(required=True)
 
     @staticmethod
     def mutate(team_data):
+        """Mutation method for Update Team"""
         data = input_to_dictionary(team_data)
 
         team = DB.session.query(TeamModel).filter_by(id=data['id'])

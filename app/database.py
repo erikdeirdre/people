@@ -64,9 +64,9 @@ class Referee(DB.Model):
     __tablename__ = 'referee'
     id = Column(Integer, primary_key=True, autoincrement=True)
     person_id = Column(Integer, ForeignKey('person.id')) 
-    person = relationship( "Person", foreign_keys=[person_id])
+    person = relationship("Person", foreign_keys=[person_id])
     sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship( "Sport", foreign_keys=[sport_id])
+    sport = relationship("Sport", foreign_keys=[sport_id])
     grade = Column(String(10))
     grade_date = Column(Date)
     active = Column(Boolean, default=True)
@@ -84,9 +84,9 @@ class Coach(DB.Model):
     __tablename__ = 'coach'
     id = Column(Integer, primary_key=True, autoincrement=True)
     person_id = Column(Integer, ForeignKey('person.id')) 
-    person = relationship( "Person", foreign_keys=[person_id])
+    person = relationship("Person", foreign_keys=[person_id])
     sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship( "Sport", foreign_keys=[sport_id]) 
+    sport = relationship("Sport", foreign_keys=[sport_id])
     grade = Column(String(10))
     active = Column(Boolean, default=True)
     team_id = Column(Integer, ForeignKey('team.id'))
@@ -121,7 +121,7 @@ class Parent(DB.Model):
     __tablename__ = 'parent'
     id = Column(Integer, primary_key=True, autoincrement=True)
     person_id = Column(Integer, ForeignKey('person.id')) 
-    person = relationship( "Person", foreign_keys=[person_id])
+    person = relationship("Person", foreign_keys=[person_id])
     sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship( "Sport", foreign_keys=[sport_id])
+    sport = relationship("Sport", foreign_keys=[sport_id])
     active = Column(Boolean, default=True)

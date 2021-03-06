@@ -33,6 +33,7 @@ If you plan on persisting data between runs then you need to create a Docker vol
 Two additional, `flask` commands exist for prepping the database.
 
 -   `initdb` creates the table schema for the application. Shouldn't be needed.
+
 -   `seed` populates the database with data found in the directory specified. `DEMO` loads demo data. It's not intended to do updates, only initial data load.
     Usage: `flask seed {load files directory} (defaults to 'seed') {demo switch} (defaults to 'false')`.
 
