@@ -180,6 +180,7 @@ class UpdateTeam(Mutation):
 
 
 class CoachAttribute:
+    """Coach Input Template """
     sport = String()
     grade = String()
     active = Boolean()
@@ -187,7 +188,9 @@ class CoachAttribute:
 
 
 class Coach(SQLAlchemyObjectType):
+    """Coach Graphql Query output"""
     class Meta:
+        """Coach Graphql Query output"""
         model = CoachModel
         interfaces = (relay.Node,)
 
@@ -250,7 +253,9 @@ class UpdateCoach(Mutation):
 #
 #
 class Referee(SQLAlchemyObjectType):
+    """Referee Graphql Query output"""
     class Meta:
+        """Referee Graphql Query output"""
         model = RefereeModel
         interfaces = (relay.Node,)
 
@@ -283,18 +288,21 @@ class Referee(SQLAlchemyObjectType):
 #
 
 class SportAttribute:
+    """Sport Graphql Attributes"""
     description = String()
     active = Boolean()
 
 
 class Sport(SQLAlchemyObjectType, SportAttribute):
+    """Sport Graphql Query output"""
     class Meta:
+        """Sport Graphql Query output"""
         model = SportModel
         interfaces = (relay.Node,)
 
 
 class CreateSportInput(InputObjectType, SportAttribute):
-    pass
+    """Sport Graphql Input Attributes"""
 
 '''
 mutation AddSport($sport: CreateSportInput!) {
@@ -314,14 +322,17 @@ mutation AddSport($sport: CreateSportInput!) {
 }
 '''
 class CreateSport(Mutation):
+    """Sport Graphql Create mutation"""
     sport = Field(lambda: Sport,
                   description="Sport created by this mutation.")
 
     class Arguments:
+        """Sport Create Arguments"""
         sport_data = CreateSportInput(required=True)
 
     @staticmethod
     def mutate(sport_data=None):
+        """Sport Graphql mutation"""
         data = input_to_dictionary(sport_data)
 
         sport = SportModel(**data)
@@ -337,6 +348,7 @@ class CreateSport(Mutation):
 
 
 class UpdateSportInput(InputObjectType, SportAttribute):
+    """Sport Graphql Update Input"""
     id = ID(required=True, description="Global Id of the Sport.")
 
 '''
@@ -358,14 +370,17 @@ mutation UpdateSport($sport: UpdateSportInput!) {
 }
 '''
 class UpdateSport(Mutation):
+    """Sport Graphql Update mutation"""
     sport = Field(lambda: Sport,
                   description="Sport updated by this mutation.")
 
     class Arguments:
+        """Sport Graphql Update arguments"""
         sport_data = UpdateSportInput(required=True)
 
     @staticmethod
-    def mutate(self, info, sport_data):
+    def mutate(sport_data):
+        """Sport Graphql Update mutation"""
         data = input_to_dictionary(sport_data)
 
         sport = DB.session.query(SportModel).filter_by(id=data['id'])
@@ -390,7 +405,9 @@ class PersonAttribute:
 
 
 class Person(SQLAlchemyObjectType):
+    """Person Graphql Query output"""
     class Meta:
+        """Person Graphql Query output"""       
         model = PersonModel
         interfaces = (relay.Node,)
 
