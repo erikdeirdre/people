@@ -1,3 +1,4 @@
+"""Utilities used by other classes"""
 from graphql_relay.node.node import from_global_id
 
 

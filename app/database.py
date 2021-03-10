@@ -40,7 +40,7 @@ class Sport(DB.Model):
     __tablename__ = 'sport'
     id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(100))
-    active = Column(Boolean,  default=True, server_default=expression.true())
+    active = Column(Boolean, default=True, server_default=expression.true())
 
 
 class Person(DB.Model):
@@ -63,7 +63,7 @@ class Referee(DB.Model):
     """ Table for listing referees and their unique columns """
     __tablename__ = 'referee'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    person_id = Column(Integer, ForeignKey('person.id')) 
+    person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship("Person", foreign_keys=[person_id])
     sport_id = Column(Integer, ForeignKey('sport.id'))
     sport = relationship("Sport", foreign_keys=[sport_id])

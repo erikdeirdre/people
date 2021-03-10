@@ -1,10 +1,10 @@
 """ Main Flask App """
 from os.path import (join, exists, abspath, dirname)
 from glob import glob
+import click
 from sqlalchemy.exc import IntegrityError
 from flask_fixtures.loaders import JSONLoader
 from flask_fixtures import load_fixtures
-import click
 from app import (APP, DB)
 
 

@@ -275,7 +275,7 @@ class CreateRefereeInput(InputObjectType, RefereeAttribute):
 class CreateReferee(Mutation):
     """Create Referee Graphql"""
     referee = Field(lambda: Referee,
-                             description="Referee created by this mutation.")
+                    description="Referee created by this mutation.")
 
     class Arguments:
         """Create Referee Arguments"""
@@ -287,7 +287,8 @@ class CreateReferee(Mutation):
         data = input_to_dictionary(referee_data)
 
         referee = RefereeModel(**data)
-        referee_db = DB.session.query(SportModel).filter_by(description=data['description']).first()
+        referee_db = DB.session.query(SportModel).filter_by(
+            description=data['description']).first()
         if referee_db:
             print('need to update')
             referee_db = referee
@@ -303,10 +304,10 @@ class UpdateRefereeInput(InputObjectType, RefereeAttribute):
     id = ID(required=True, description="Global Id of the Referee.")
 
 
-class RefereeCoach(Mutation):
+class UpdateReferee(Mutation):
     """Update Referee Graphql"""
     referee = Field(lambda: Referee,
-                  description="Referee updated by this mutation.")
+                    description="Referee updated by this mutation.")
 
     class Arguments:
         """Arguments for Update Referee"""
@@ -446,14 +447,13 @@ class PersonAttribute:
 class Person(SQLAlchemyObjectType):
     """Person Graphql Query output"""
     class Meta:
-        """Person Graphql Query output"""    
+        """Person Graphql Query output"""
         model = PersonModel
         interfaces = (relay.Node,)
 
 
 class CreatePersonInput(InputObjectType, PersonAttribute):
     """Person Graphql Create Input"""
-    pass
 
 
 class CreatePerson(Mutation):
