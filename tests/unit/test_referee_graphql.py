@@ -6,11 +6,10 @@ from json import (loads, dumps)
 import unittest
 from flask_fixtures.loaders import JSONLoader
 from flask_fixtures import load_fixtures
-import pytest
 from graphene.test import Client
 from testclass.testclass import TestClass
 from app import DB
-from app.schema import schema
+from app.schema import SCHEMA
 
 
 def init_database():
@@ -18,7 +17,7 @@ def init_database():
     DB.drop_all()
     DB.create_all()
 
-    base_dir = join(abspath(dirname(__file__)),  '..', '..')
+    base_dir = join(abspath(dirname(__file__)), '..', '..')
 
     for fixture_file in glob(join(base_dir, 'seed', '*.json')):
         fixtures = JSONLoader().load(fixture_file)
@@ -32,7 +31,7 @@ def init_database():
 class TestRefereeGraphGL(unittest.TestCase):
     """Test Suite for testing Referee GraphQL"""
     dir_name = join(abspath(dirname(__file__)), 'files')
-    client = Client(schema)
+    client = Client(SCHEMA)
 
     def setUp(self):
         """Initialize the database"""

@@ -16,7 +16,7 @@ def init_database():
     DB.drop_all()
     DB.create_all()
 
-    base_dir = join(abspath(dirname(__file__)),  '..', '..')
+    base_dir = join(abspath(dirname(__file__)), '..', '..')
     print("base dir: {}".format(join(base_dir, 'seed', '*.json')))
 
     for fixture_file in glob(join(base_dir, 'seed', '*.json')):
