@@ -11,3 +11,9 @@ ignore-docstrings=yes
 
 # Ignore imports when computing similarities.
 ignore-imports=no
+
+disable=
+    too-few-public-methods
+
+ignore=
+    migrations
