@@ -15,5 +15,4 @@ ignore-imports=no
 disable=
     too-few-public-methods
 
-ignore=
-    migrations
+ignore=migrations

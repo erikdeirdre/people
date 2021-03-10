@@ -459,7 +459,7 @@ class CreatePersonInput(InputObjectType, PersonAttribute):
 class CreatePerson(Mutation):
     """Person Graphql Create mutation"""
     person = Field(lambda: Person,
-                             description="Person created by this mutation.")
+                   description="Person created by this mutation.")
 
     class Arguments:
         """Person Graphql Create arguments"""
