@@ -83,7 +83,7 @@ class Coach(DB.Model):
     """ Table for listing coaches and their unique columns """
     __tablename__ = 'coach'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    person_id = Column(Integer, ForeignKey('person.id')) 
+    person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship("Person", foreign_keys=[person_id])
     sport_id = Column(Integer, ForeignKey('sport.id'))
     sport = relationship("Sport", foreign_keys=[sport_id])
@@ -97,7 +97,7 @@ class Player(DB.Model):
     """ Table for listing players and their unique columns """
     __tablename__ = 'player'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    person_id = Column(Integer, ForeignKey('person.id')) 
+    person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship( "Person", foreign_keys=[person_id])
     sport_id = Column(Integer, ForeignKey('sport.id'))
     sport = relationship( "Sport", foreign_keys=[sport_id])
@@ -120,7 +120,7 @@ class Parent(DB.Model):
     """ Table for listing parents """
     __tablename__ = 'parent'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    person_id = Column(Integer, ForeignKey('person.id')) 
+    person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship("Person", foreign_keys=[person_id])
     sport_id = Column(Integer, ForeignKey('sport.id'))
     sport = relationship("Sport", foreign_keys=[sport_id])

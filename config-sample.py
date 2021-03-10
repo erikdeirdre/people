@@ -1,9 +1,24 @@
+""" Configuration Module
+
+- Copy to config.py
+- Update values as needed
+
+Usage: set FLASK_ENV to define the configuration to use.
+       Development - for development environment
+       Test - for testing environment
+       Production - for production environment
+
+Additional environments can be created by creating the appropriate class name,
+and then setting FLASK_ENV to that class Name.
+
+"""
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 DATABASE_DIR = os.environ.get('DATABASE_DIR') or basedir
 
-class Config(object):
+class Config():
+    """ Base Config Class"""
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     APP_NAME = os.environ.get('APP_NAME') or 'people'
 
@@ -69,6 +84,7 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
+    """ Development Config settings. """
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL',
         'sqlite:///' + os.path.join(basedir, 'dev_app.db'))
     DEBUG = True
@@ -76,6 +92,7 @@ class DevelopmentConfig(Config):
 
 
 class TestConfig(Config):
+    """ Configuration settings for Test """
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL',
         'sqlite:///' + os.path.join(basedir, 'test_app.db'))
     DEBUG = True
@@ -86,4 +103,5 @@ class TestConfig(Config):
 
 
 class ProductionConfig(Config):
+    """ Production configuration section """
     SECRET_KEY = 'my_precious_production'

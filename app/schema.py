@@ -123,7 +123,6 @@ class Team(SQLAlchemyObjectType):
 
 class CreateTeamInput(InputObjectType, TeamAttribute):
     """Create Team Input fields derived from TeamAttribute"""
-    pass
 
 
 class CreateTeam(Mutation):
@@ -218,7 +217,7 @@ class CreateCoach(Mutation):
             description=data['description']).first()
         if coach_db:
             print('need to update')
-            referee_db = coach
+            coach_db = coach
         else:
             DB.session.add(coach)
         DB.session.commit()
@@ -343,7 +342,7 @@ class Sport(SQLAlchemyObjectType, SportAttribute):
 class CreateSportInput(InputObjectType, SportAttribute):
     """Create Sport Input fields derived from SportAttribute"""
 
-'''
+"""
 mutation AddSport($sport: CreateSportInput!) {
   createSport(sportData: $sport) {
     sport {
@@ -359,7 +358,7 @@ mutation AddSport($sport: CreateSportInput!) {
     "active": true
   }
 }
-'''
+"""
 class CreateSport(Mutation):
     """Sport Graphql Create mutation"""
     sport = Field(lambda: Sport,
@@ -528,8 +527,8 @@ class Query(ObjectType):
     address = Field(
         Address,
         postalcode=Argument(String, required=True),
-        address1=Argument(String, required=True),        
-        address2=Argument(String),        
+        address1=Argument(String, required=True),
+        address2=Argument(String),
         city=Argument(String),
         state=Argument(String),
         resolver = resolve_address
