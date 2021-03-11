@@ -1,0 +1,10 @@
+{
+  teamList {
+    edges {
+      node {
+        active
+        description
+      }
+    }
+  }
+}

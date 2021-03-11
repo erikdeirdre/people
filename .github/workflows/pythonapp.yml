@@ -30,7 +30,7 @@ jobs:
       env:
         CONFIG_SETTINGS: config.TestConfig
       run: |
-        cp config-sample config.py
+        cp config-sample.py config.py
         pip install -r test_requirements.txt
         coverage run -m pytest --junitxml=test-results/test-results.xml
 

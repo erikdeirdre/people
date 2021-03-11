@@ -1,0 +1,6 @@
+{
+"team": {
+    "description": "Isotopes",
+    "active": true
+  }
+}

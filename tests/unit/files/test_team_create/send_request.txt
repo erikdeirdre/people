@@ -1,0 +1,7 @@
+mutation addTeam($team: CreateTeamInput!) {
+  createTeam(teamData: $team) {
+    team {
+      description
+    }
+  }
+}

@@ -6,6 +6,7 @@ from json import (loads, dumps)
 import unittest
 from flask_fixtures.loaders import JSONLoader
 from flask_fixtures import load_fixtures
+import pytest
 from graphene.test import Client
 from testclass.testclass import TestClass
 from app import DB
@@ -28,8 +29,8 @@ def init_database():
         load_fixtures(DB, fixtures)
 
 
-class TestRefereeGraphGL(unittest.TestCase):
-    """Test Suite for testing Referee GraphQL"""
+class TestTeamGraphGL(unittest.TestCase):
+    """Test Suite for testing Sport GraphQL"""
     dir_name = join(abspath(dirname(__file__)), 'files')
     client = Client(SCHEMA)
 
@@ -37,26 +38,32 @@ class TestRefereeGraphGL(unittest.TestCase):
         """Initialize the database"""
         init_database()
 
-    def test_referee_list(self):
-        """Execute referee query test"""
+    def test_team_list(self):
+        """Execute team listing test"""
         test_data = TestClass(self.dir_name,
                               sys._getframe(  ).f_code.co_name)
+
         test_data.load_files()
 
         executed = self.client.execute(test_data.get_send_request())
-        print(dumps(executed['data']))
+
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])
 
-#    def test_referee_attribute_query(self):
-#        test_data = TestClass(self.dir_name,
-#                              sys._getframe(  ).f_code.co_name)
-#        test_data.load_files()
+    def test_team_create(self):
+        """Execute team create test"""
+        test_data = TestClass(self.dir_name,
+                              sys._getframe(  ).f_code.co_name)
 
-#        executed = self.client.execute(test_data.get_send_request())
-#        self.assertEqual(loads(dumps(executed['data'])),
-#                         test_data.get_expected_result()['data'])
+        test_data.load_files()
 
+        executed = self.client.execute(test_data.get_send_request(),
+                    variables={"team": {"description": "Isotopes","active": True}})
+#                                       context=test_data.get_variables())
+        print(executed)
+
+        self.assertEqual(loads(dumps(executed['data'])),
+                         test_data.get_expected_result()['data'])
 
 if __name__ == '__main__':
     unittest.main()

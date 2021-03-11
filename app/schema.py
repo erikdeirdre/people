@@ -134,8 +134,7 @@ class CreateTeam(Mutation):
         """Arguments for Create Team"""
         team_data = CreateTeamInput(required=True)
 
-    @staticmethod
-    def mutate(team_data=None):
+    def mutate(self, info, team_data=None):
         """Mutation method for Create Team"""
         data = input_to_dictionary(team_data)
 
@@ -165,8 +164,7 @@ class UpdateTeam(Mutation):
         """Arguments for Update Team"""
         team_data = UpdateTeamInput(required=True)
 
-    @staticmethod
-    def mutate(team_data):
+    def mutate(self, info, team_data):
         """Mutation method for Update Team"""
         data = input_to_dictionary(team_data)
 
@@ -207,8 +205,7 @@ class CreateCoach(Mutation):
         """Arguments for Create Coach"""
         coach_data = CreateCoachInput(required=True)
 
-    @staticmethod
-    def mutate(coach_data=None):
+    def mutate(self, info, coach_data=None):
         """Create Coach Graphql"""
         data = input_to_dictionary(coach_data)
 
@@ -239,8 +236,7 @@ class UpdateCoach(Mutation):
         """Arguments for Update Coach"""
         coach_data = UpdateCoachInput(required=True)
 
-    @staticmethod
-    def mutate(coach_data):
+    def mutate(self, info, coach_data):
         """Update Coach Graphql"""
         data = input_to_dictionary(coach_data)
 
@@ -280,8 +276,7 @@ class CreateReferee(Mutation):
         """Create Referee Arguments"""
         referee_data = CreateRefereeInput(required=True)
 
-    @staticmethod
-    def mutate(referee_data=None):
+    def mutate(self, info, referee_data=None):
         """Create Referee Graphql"""
         data = input_to_dictionary(referee_data)
 
@@ -312,8 +307,7 @@ class UpdateReferee(Mutation):
         """Arguments for Update Referee"""
         referee_data = UpdateRefereeInput(required=True)
 
-    @staticmethod
-    def mutate(referee_data):
+    def mutate(self, info, referee_data):
         """Update Referee Graphql"""
         data = input_to_dictionary(referee_data)
 
@@ -368,8 +362,7 @@ class CreateSport(Mutation):
         """Sport Create Arguments"""
         sport_data = CreateSportInput(required=True)
 
-    @staticmethod
-    def mutate(sport_data=None):
+    def mutate(self, info, sport_data=None):
         """Sport Graphql mutation"""
         data = input_to_dictionary(sport_data)
 
@@ -416,8 +409,7 @@ class UpdateSport(Mutation):
         """Sport Graphql Update arguments"""
         sport_data = UpdateSportInput(required=True)
 
-    @staticmethod
-    def mutate(sport_data):
+    def mutate(self, info, sport_data):
         """Sport Graphql Update mutation"""
         data = input_to_dictionary(sport_data)
 
@@ -464,8 +456,7 @@ class CreatePerson(Mutation):
         """Person Graphql Create arguments"""
         person_data = CreatePersonInput(required=True)
 
-    @staticmethod
-    def mutate(person_data=None):
+    def mutate(self, info, person_data=None):
         """Person Graphql Create mutation"""
         data = input_to_dictionary(person_data)
 
@@ -494,8 +485,7 @@ class UpdatePerson(Mutation):
         """Person Graphql Update arguments"""
         person_data = UpdatePersonInput(required=True)
 
-    @staticmethod
-    def mutate(person_data):
+    def mutate(self, info, person_data):
         """Person Graphql Update mutation"""
         data = input_to_dictionary(person_data)
 

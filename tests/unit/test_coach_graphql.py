@@ -36,7 +36,7 @@ class TestCoachGraphGL(unittest.TestCase):
     def setUp(self):
         init_database()
 
-    def test_coach_query(self):
+    def test_coach_list(self):
         """Execute coach query test"""
         test_data = TestClass(self.dir_name,
                               sys._getframe(  ).f_code.co_name)
