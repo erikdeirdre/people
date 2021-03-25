@@ -1,5 +1,5 @@
 {
-  sportList {
+  allSport {
     edges {
       node {
         active

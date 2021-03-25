@@ -1,0 +1,17 @@
+[
+  {
+    "table": "parent",
+    "records": [
+      {
+        "id": 1,
+        "person_id": 1,
+        "active": 1
+      },
+      {
+        "id": 2,
+        "person_id": 2,
+        "active": 0
+      }
+    ]
+  }
+]

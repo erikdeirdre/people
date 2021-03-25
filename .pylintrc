@@ -14,5 +14,8 @@ ignore-imports=no
 
 disable=
     too-few-public-methods
+    no-self-use
+    unused-argument
+    
 
 ignore=migrations

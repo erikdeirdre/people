@@ -11,9 +11,9 @@ from app import (APP, DB)
 @APP.cli.command('initdb')
 def initdb_command():
     """Initializes the database with proper tables"""
-    DB.create_all()
-    DB.session.commit()
     print(APP.config['SQLALCHEMY_DATABASE_URI'])
+    DB.create_all()
+#    DB.session.commit()
     print("Initialized the database")
 
 
@@ -33,6 +33,8 @@ def seed_command(directory, demo):
     base_dir = abspath(dirname(__file__))
 
     print("Seeding Database")
+    print(APP.config['SQLALCHEMY_DATABASE_URI'])
+
     for fixture_file in glob(join(base_dir, directory, '*.json')):
         fixtures = JSONLoader().load(fixture_file)
         try:
@@ -40,11 +42,10 @@ def seed_command(directory, demo):
         except IntegrityError as err:
             print('It appears, {}, was already processed'.format(
                 fixture_file))
-            return False
         print("Processed fixture file: {}".format(fixture_file))
 
-    print("Loading Demo Data")
     if demo:
+        print("Loading Demo Data")
         for fixture_file in glob(join(base_dir, directory, 'demo', '*.json')):
             fixtures = JSONLoader().load(fixture_file)
             try:
@@ -52,7 +53,6 @@ def seed_command(directory, demo):
             except IntegrityError as err:
                 print('It appears, {}, was already processed'.format(
                     fixture_file))
-                return False
             print("Processed fixture file: {}".format(fixture_file))
 
     return True

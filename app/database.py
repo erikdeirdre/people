@@ -1,10 +1,11 @@
 """ Database Module """
-from datetime import date
+from datetime import (datetime, date)
 import enum
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey,
-                        Enum)
-from sqlalchemy.orm import (relationship)
+                        Enum, DateTime as DT)
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declared_attr 
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import expression
 from app import DB
@@ -18,13 +19,13 @@ class Gender(enum.Enum):
     UNDEFINED = 99
 
 
-#class Level(DB.Model):
-#    """Table to describe skill levels for referees, coaches, and players"""
-#    __tablename__ = 'level'
-#    id = Column(Integer, primary_key=True, autoincrement=True)
-#    description = Column(String(100))
-#    level = Column(Integer)
-#    active = Column(Boolean, default=True, server_default=expression.true())
+class Level(DB.Model):
+    """Table to describe skill levels for referees, coaches, and players"""
+    __tablename__ = 'level'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    description = Column(String(100))
+    level = Column(Integer)
+    active = Column(Boolean, default=True, server_default=expression.true())
 
 
 class Team(DB.Model):
@@ -45,7 +46,7 @@ class Sport(DB.Model):
 
 class Person(DB.Model):
     """ Base table for players, coaches, referees, and parents """
-    __tablename__ = "person"
+    __tablename__ = 'person'
     id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(50))
     last_name = Column(String(50))
@@ -53,8 +54,8 @@ class Person(DB.Model):
     address2 = Column(String(100))
     city = Column(String(50))
     state = Column(String(50))
-    zip_code = Column(String(10))
-    telephone = Column(String(10))
+    zip_code = Column(String(15))
+    telephone = Column(String(15))
     email = Column(String(100))
     gender = Column(Enum(Gender))
 
@@ -64,12 +65,13 @@ class Referee(DB.Model):
     __tablename__ = 'referee'
     id = Column(Integer, primary_key=True, autoincrement=True)
     person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship("Person", foreign_keys=[person_id])
+    person = relationship("Person", backref='referee')
     sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship("Sport", foreign_keys=[sport_id])
-    grade = Column(String(10))
-    grade_date = Column(Date)
-    active = Column(Boolean, default=True)
+    sport = relationship("Sport", backref='sports')
+    active = Column(Boolean)
+    level_id = Column(Integer, ForeignKey('level.id'))
+    level = relationship("Level", backref='levels')
+    level_date = Column(Date)
 
     @hybrid_property
     def years_grade(self):
@@ -84,13 +86,14 @@ class Coach(DB.Model):
     __tablename__ = 'coach'
     id = Column(Integer, primary_key=True, autoincrement=True)
     person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship("Person", foreign_keys=[person_id])
-    sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship("Sport", foreign_keys=[sport_id])
-    grade = Column(String(10))
-    active = Column(Boolean, default=True)
+    person = relationship("Person", backref='coach')
+    active = Column(Boolean)
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship("Team", foreign_keys=[team_id])
+    sport_id = Column(Integer, ForeignKey('sport.id'))
+    sport = relationship("Sport", foreign_keys=[sport_id])
+
+    #grade = relationship("Grade", foreign_keys=[grade.id])
 
 
 class Player(DB.Model):
@@ -98,15 +101,15 @@ class Player(DB.Model):
     __tablename__ = 'player'
     id = Column(Integer, primary_key=True, autoincrement=True)
     person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship( "Person", foreign_keys=[person_id])
-    sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship( "Sport", foreign_keys=[sport_id])
+    person = relationship("Person", backref='player')
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship("Team", foreign_keys=[team_id])
-    active = Column(Boolean, default=True)
     birth_date = Column(Date)
     parent_id = Column(Integer, ForeignKey('parent.id'))
     parent = relationship("Parent", foreign_keys=[parent_id])
+    sport_id = Column(Integer, ForeignKey('sport.id'))
+    sport = relationship("Sport", foreign_keys=[sport_id])
+    active = Column(Boolean)
 
     @hybrid_property
     def age(self):
@@ -121,7 +124,5 @@ class Parent(DB.Model):
     __tablename__ = 'parent'
     id = Column(Integer, primary_key=True, autoincrement=True)
     person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship("Person", foreign_keys=[person_id])
-    sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship("Sport", foreign_keys=[sport_id])
-    active = Column(Boolean, default=True)
+    person = relationship("Person", backref='parent')
+    active = Column(Boolean)

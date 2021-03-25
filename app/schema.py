@@ -3,15 +3,18 @@ import requests
 import xmltodict
 
 from graphene import (ObjectType, String, Boolean, Int, ID, InputObjectType,
-                      Field, relay, Schema, Argument, Mutation, Interface)
+                      Field, relay, Schema, Argument, Mutation, Interface,
+                      Connection, Node)
 from graphene_sqlalchemy import (SQLAlchemyObjectType,
                                  SQLAlchemyConnectionField)
+from graphene_sqlalchemy_filter import (FilterableConnectionField, FilterSet)
 
 from helpers.utils import (input_to_dictionary)
 from app import (DB, PO_URL, PO_USERID)
 from .database import (Sport as SportModel, Team as TeamModel,
                        Person as PersonModel, Coach as CoachModel,
                        Referee as RefereeModel)
+from .filters import (FilterConnectionField)
 
 #__all__ = ['CreatePerson', 'UpdatePerson']
 
@@ -107,18 +110,30 @@ class CityState(Interface):
     state = String()
 
 
+class TotalCount(Interface):
+    total_count = Int()
+
+    def resolve_total_count(self, info):
+        return self.length
+
+
+class TeamNode(SQLAlchemyObjectType):
+    class Meta:
+        model = TeamModel
+        interfaces = (Node,)
+        connection_field_factory = FilterConnectionField.factory
+
+
+class TeamConnection(Connection):
+    class Meta:
+        node = TeamNode
+        interfaces = (TotalCount,)
+
+
 class TeamAttribute(Interface):
     """Team fields output """
     description = String()
     active = Boolean()
-
-
-class Team(SQLAlchemyObjectType):
-    """Team Graphql Query output"""
-    class Meta:
-        """Team Graphql Query output"""
-        model = TeamModel
-        interfaces = (relay.Node, TeamAttribute,)
 
 
 class CreateTeamInput(InputObjectType, TeamAttribute):
@@ -127,7 +142,7 @@ class CreateTeamInput(InputObjectType, TeamAttribute):
 
 class CreateTeam(Mutation):
     """Create Team Graphql"""
-    team = Field(lambda: Team,
+    team = Field(lambda: TeamNode,
                  description="Team created by this mutation.")
 
     class Arguments:
@@ -158,7 +173,8 @@ class UpdateTeamInput(InputObjectType, TeamAttribute):
 
 class UpdateTeam(Mutation):
     """Update Team Graphql"""
-    team = Field(lambda: Team, description="Team updated by this mutation.")
+    team = Field(lambda: TeamNode, 
+                 description="Team updated by this mutation.")
 
     class Arguments:
         """Arguments for Update Team"""
@@ -255,12 +271,17 @@ class RefereeAttribute:
     active = Boolean()
 
 
-class Referee(SQLAlchemyObjectType):
-    """Referee Graphql Query output"""
+class RefereeNode(SQLAlchemyObjectType):
     class Meta:
-        """Referee Graphql Query output"""
         model = RefereeModel
-        interfaces = (relay.Node,)
+        interfaces = (Node,)
+        connection_field_factory = FilterConnectionField.factory
+
+
+class RefereeConnection(Connection):
+    class Meta:
+        node = RefereeNode
+        interfaces = (TotalCount,)
 
 
 class CreateRefereeInput(InputObjectType, RefereeAttribute):
@@ -269,7 +290,7 @@ class CreateRefereeInput(InputObjectType, RefereeAttribute):
 
 class CreateReferee(Mutation):
     """Create Referee Graphql"""
-    referee = Field(lambda: Referee,
+    referee = Field(lambda: RefereeNode,
                     description="Referee created by this mutation.")
 
     class Arguments:
@@ -281,7 +302,7 @@ class CreateReferee(Mutation):
         data = input_to_dictionary(referee_data)
 
         referee = RefereeModel(**data)
-        referee_db = DB.session.query(SportModel).filter_by(
+        referee_db = DB.session.query(RefereeModel).filter_by(
             description=data['description']).first()
         if referee_db:
             print('need to update')
@@ -300,7 +321,7 @@ class UpdateRefereeInput(InputObjectType, RefereeAttribute):
 
 class UpdateReferee(Mutation):
     """Update Referee Graphql"""
-    referee = Field(lambda: Referee,
+    referee = Field(lambda: RefereeNode,
                     description="Referee updated by this mutation.")
 
     class Arguments:
@@ -319,18 +340,27 @@ class UpdateReferee(Mutation):
         return UpdateReferee(referee=referee)
 
 
-class SportAttribute:
+class SportAttribute(Interface):
     """Sport Graphql Attributes"""
     description = String()
     active = Boolean()
 
 
-class Sport(SQLAlchemyObjectType, SportAttribute):
+class SportNode(SQLAlchemyObjectType):
+    """Sport Graphql Node output"""
+    class Meta:
+        """Sport Graphql Node output"""
+        model = SportModel
+        interfaces = (Node,)
+        connection_field_factory = FilterConnectionField.factory
+
+
+class SportConnection(Connection):
     """Sport Graphql Query output"""
     class Meta:
         """Sport Graphql Query output"""
-        model = SportModel
-        interfaces = (relay.Node,)
+        node = SportNode
+        interfaces = (TotalCount,)
 
 
 class CreateSportInput(InputObjectType, SportAttribute):
@@ -353,9 +383,10 @@ mutation AddSport($sport: CreateSportInput!) {
   }
 }
 """
+
 class CreateSport(Mutation):
     """Sport Graphql Create mutation"""
-    sport = Field(lambda: Sport,
+    sport = Field(lambda: SportNode,
                   description="Sport created by this mutation.")
 
     class Arguments:
@@ -400,9 +431,11 @@ mutation UpdateSport($sport: UpdateSportInput!) {
   }
 }
 '''
+
+
 class UpdateSport(Mutation):
     """Sport Graphql Update mutation"""
-    sport = Field(lambda: Sport,
+    sport = Field(lambda: SportNode,
                   description="Sport updated by this mutation.")
 
     class Arguments:
@@ -526,9 +559,12 @@ class Query(ObjectType):
 
     coachList = SQLAlchemyConnectionField(Coach)
     personList = SQLAlchemyConnectionField(Person)
-    sportList = SQLAlchemyConnectionField(Sport)
-    teamList = SQLAlchemyConnectionField(Team)
-    refereeList = SQLAlchemyConnectionField(Referee)
+    sport = relay.Node.Field(SportNode)
+    team = relay.Node.Field(TeamNode)
+    referee = relay.Node.Field(RefereeNode)
+    all_team = FilterConnectionField(TeamConnection)
+    all_sport = FilterConnectionField(SportConnection)
+    all_referee = FilterConnectionField(RefereeConnection)
 
 
 class Mutation(ObjectType):

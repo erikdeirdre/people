@@ -33,6 +33,7 @@ class TestTeamGraphGL(unittest.TestCase):
     """Test Suite for testing Sport GraphQL"""
     dir_name = join(abspath(dirname(__file__)), 'files')
     client = Client(SCHEMA)
+    last_id = None
 
     def setUp(self):
         """Initialize the database"""
@@ -58,9 +59,7 @@ class TestTeamGraphGL(unittest.TestCase):
         test_data.load_files()
 
         executed = self.client.execute(test_data.get_send_request(),
-                    variables={"team": {"description": "Isotopes","active": True}})
-#                                       context=test_data.get_variables())
-        print(executed)
+                   variables=test_data.get_variables())
 
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])
