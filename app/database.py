@@ -5,7 +5,6 @@ from dateutil.relativedelta import relativedelta
 from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey,
                         Enum, DateTime as DT)
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declared_attr 
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import expression
 from app import DB

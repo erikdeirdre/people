@@ -3,13 +3,13 @@ from graphene import (String, Boolean, Int, ID, InputObjectType,
                       Field, relay, Schema, Argument, Mutation, Interface,
                       Connection, Node)
 from graphene_sqlalchemy import SQLAlchemyObjectType
-from graphene_sqlalchemy_filter import (FilterableConnectionField)
+from graphene_sqlalchemy_filter import FilterableConnectionField
+from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
 from app import (DB)
 from app.database import (Team as TeamModel)
 from .total_count import TotalCount
-from app.filters import FilterConnectionField
 
 
 class TeamNode(SQLAlchemyObjectType):

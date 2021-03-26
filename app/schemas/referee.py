@@ -1,5 +1,5 @@
 """ Graphql Referee Schema Module """
-from graphene import (String, Boolean, Int, ID, InputObjectType,
+from graphene import (String, Boolean, ID, InputObjectType,
                       Field, relay, Schema, Argument, Mutation, Interface,
                       Connection, Node)
 from graphene_sqlalchemy import SQLAlchemyObjectType

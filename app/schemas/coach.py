@@ -2,8 +2,7 @@
 from graphene import (String, Boolean, Int, ID, InputObjectType, Node,
                       Field, relay, Schema, Argument, Mutation, Interface,
                       Connection)
-from graphene_sqlalchemy import (SQLAlchemyObjectType,
-                                 SQLAlchemyConnectionField)
+from graphene_sqlalchemy import SQLAlchemyObjectType
 from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
