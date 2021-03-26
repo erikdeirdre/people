@@ -1,5 +1,5 @@
 """ Graphql Sport Schema Module """
-from graphene import (String, Boolean, ID, InputObjectType, Field, relay,
+from graphene import (String, Boolean, ID, InputObjectType, Field,
                       Schema, Argument, Mutation, Interface, Connection,
                       Node)
 from graphene_sqlalchemy import SQLAlchemyObjectType

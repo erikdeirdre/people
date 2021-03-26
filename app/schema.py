@@ -1,7 +1,7 @@
 """ Graphql Schema Module """
 import xmltodict
 
-from graphene import (ObjectType, String, ID, InputObjectType,
+from graphene import (ObjectType, String, InputObjectType,
                       Field, relay, Schema, Argument, Mutation, Interface,
                       Connection, Node)
 from graphene_sqlalchemy import (SQLAlchemyObjectType,

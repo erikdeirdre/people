@@ -1,6 +1,6 @@
 """ Graphql Referee Schema Module """
 from graphene import (String, Boolean, ID, InputObjectType,
-                      Field, relay, Schema, Argument, Mutation, Interface,
+                      Field, Schema, Argument, Mutation, Interface,
                       Connection, Node)
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from app.filters import FilterConnectionField
