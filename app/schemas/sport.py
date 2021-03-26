@@ -1,14 +1,13 @@
 """ Graphql Sport Schema Module """
 from graphene import (String, Boolean, ID, InputObjectType, Field,
-                      Schema, Argument, Mutation, Interface, Connection,
-                      Node)
+                      Mutation, Interface, Connection, Node)
 from graphene_sqlalchemy import SQLAlchemyObjectType
+from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
-from app import (DB)
+from app import DB
 from app.database import (Sport as SportModel)
 from .total_count import TotalCount
-from app.filters import FilterConnectionField
 
 
 class SportAttribute(Interface):

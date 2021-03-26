@@ -1,9 +1,9 @@
 """ Database Module """
-from datetime import (datetime, date)
+from datetime import date
 import enum
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey,
-                        Enum, DateTime as DT)
+                        Enum)
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import expression

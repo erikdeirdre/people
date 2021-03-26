@@ -1,15 +1,8 @@
 """ Graphql Schema Module """
-import xmltodict
+from graphene import (ObjectType, String, Field, relay, Schema, Argument,
+                      Mutation)
+from graphene_sqlalchemy_filter import FilterableConnectionField
 
-from graphene import (ObjectType, String, InputObjectType,
-                      Field, relay, Schema, Argument, Mutation, Interface,
-                      Connection, Node)
-from graphene_sqlalchemy import (SQLAlchemyObjectType,
-                                 SQLAlchemyConnectionField)
-from graphene_sqlalchemy_filter import (FilterableConnectionField, FilterSet)
-
-from .database import (Sport as SportModel, Team as TeamModel,
-                       Coach as CoachModel, Referee as RefereeModel)
 from .filters import (FilterConnectionField)
 from .schemas.team import (TeamNode, TeamConnection, CreateTeam, UpdateTeam)
 from .schemas.sport import (SportNode, SportConnection, CreateSport,

@@ -1,12 +1,11 @@
 """ Graphql Player Schema Module """
-from graphene import (String, Boolean, Int, ID, InputObjectType,
-                      Field, relay, Schema, Argument, Mutation, Interface,
-                      Connection, Node)
+from graphene import (String, Boolean, ID, InputObjectType,
+                      Field, Mutation, Connection, Node)
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
-from app import (DB)
+from app import DB
 from app.database import (Player as PlayerModel)
 from .total_count import TotalCount
 

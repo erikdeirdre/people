@@ -1,7 +1,6 @@
 """ Graphql Coach Schema Module """
-from graphene import (String, Boolean, Int, ID, InputObjectType, Node,
-                      Field, relay, Schema, Argument, Mutation, Interface,
-                      Connection)
+from graphene import (String, Boolean, ID, InputObjectType, Node,
+                      Field, Mutation, Connection)
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from app.filters import FilterConnectionField
 

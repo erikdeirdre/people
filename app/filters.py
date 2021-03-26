@@ -24,7 +24,7 @@ class SportFilter(FilterSet):
         fields = {
             'description': ['eq', 'ilike'],
             'active': ['eq']
-        }        
+        }
 
 
 class RefereeFilter(FilterSet):

@@ -1,6 +1,6 @@
 """ Graphql Team Schema Module """
-from graphene import (String, Boolean, Int, ID, InputObjectType,
-                      Field, Schema, Argument, Mutation, Interface,
+from graphene import (String, Boolean, ID, InputObjectType,
+                      Field, Mutation, Interface,
                       Connection, Node)
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from app.filters import FilterConnectionField
