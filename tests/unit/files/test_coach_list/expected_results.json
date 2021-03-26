@@ -1,68 +1,38 @@
 {
   "data": {
-    "coachList": {
+    "allCoach": {
       "edges": [
         {
           "node": {
-            "grade": "first",
-            "active": true,
-            "team": {
-              "description": "Celtics"
-            },
+            "gender": "MALE",
+            "lastName": "Simpson",
+            "email": "hsimpson@simpsons.com",
+            "address1": "123 Evergreen Terrace",
+            "city": "Springfield",
+            "state": "MA",
+            "zipCode": "12345",
+            "firstName": "Homer",
+            "yearsLevel": "0",
+            "levelDate": null,
             "sport": {
               "description": "Soccer"
-            },
-            "person": {
-              "lastName": "Simpson",
-              "firstName": "Homer"
             }
           }
         },
         {
           "node": {
-            "grade": "second",
-            "active": true,
-            "team": {
-              "description": "Bruins"
-            },
+            "gender": "FEMALE",
+            "lastName": "Simpson",
+            "email": "msimpson@simpsons.com",
+            "address1": "123 Evergreen Terrace",
+            "city": "Springfield",
+            "state": "MA",
+            "zipCode": "12345",
+            "firstName": "Marge",
+            "yearsLevel": "0",
+            "levelDate": null,
             "sport": {
               "description": "Baseball"
-            },
-            "person": {
-              "lastName": "Simpson",
-              "firstName": "Marge"
-            }
-          }
-        },
-        {
-          "node": {
-            "grade": "third",
-            "active": true,
-            "team": {
-              "description": "Patriots"
-            },
-            "sport": {
-              "description": "Football"
-            },
-            "person": {
-              "lastName": "Simpson",
-              "firstName": "Bart"
-            }
-          }
-        },
-        {
-          "node": {
-            "grade": "fourth",
-            "active": true,
-            "team": {
-              "description": "Red Sox"
-            },
-            "sport": {
-              "description": "Basketball"
-            },
-            "person": {
-              "lastName": "Simpson",
-              "firstName": "Lisa"
             }
           }
         }

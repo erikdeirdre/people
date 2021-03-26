@@ -4,14 +4,28 @@
     "records": [
       {
         "id": 1,
-        "person_id": 3,
+        "first_name": "Homer",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "hsimpson@simpsons.com",
+        "gender": "MALE",
         "sport_id": 1,
         "team_id": 1,
         "active": 1
       },
       {
         "id": 2,
-        "person_id": 4,
+        "first_name": "Marge",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "msimpson@simpsons.com",
+        "gender": "FEMALE",
         "sport_id": 2,
         "team_id": 2,
         "active": 0

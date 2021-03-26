@@ -192,20 +192,37 @@ class UpdateTeam(Mutation):
         return UpdateTeam(team=team)
 
 
+class CoachNode(SQLAlchemyObjectType):
+    class Meta:
+        model = CoachModel
+        interfaces = (Node,)
+        connection_field_factory = FilterConnectionField.factory
+
+
+class CoachConnection(Connection):
+    """Coach Graphql Query output"""
+    class Meta:
+        """Coach Graphql Query output"""
+        node = CoachNode
+        interfaces = (TotalCount,)
+
+
 class CoachAttribute:
     """Coach Input Template """
+    first_name = String()
+    last_name = String()
+    address1 = String()
+    address2 = String()
+    city = String()
+    state = String()
+    zip_code = String()
+    telephone = String()
+    email = String(required=True)
+    gender = String()
     sport = String()
     grade = String()
     active = Boolean()
     team = String()
-
-
-class Coach(SQLAlchemyObjectType):
-    """Coach Graphql Query output"""
-    class Meta:
-        """Coach Graphql Query output"""
-        model = CoachModel
-        interfaces = (relay.Node,)
 
 
 class CreateCoachInput(InputObjectType, CoachAttribute):
@@ -214,7 +231,7 @@ class CreateCoachInput(InputObjectType, CoachAttribute):
 
 class CreateCoach(Mutation):
     """Create Coach Graphql"""
-    coach = Field(lambda: Coach,
+    coach = Field(lambda: CoachNode,
                   description="Coach created by this mutation.")
 
     class Arguments:
@@ -245,7 +262,7 @@ class UpdateCoachInput(InputObjectType, CoachAttribute):
 
 class UpdateCoach(Mutation):
     """Update Coach Graphql"""
-    coach = Field(lambda: Coach,
+    coach = Field(lambda: CoachNode,
                   description="Coach updated by this mutation.")
 
     class Arguments:
@@ -266,6 +283,16 @@ class UpdateCoach(Mutation):
 
 class RefereeAttribute:
     """Referee Graphql Attributes"""
+    first_name = String()
+    last_name = String()
+    address1 = String()
+    address2 = String()
+    city = String()
+    state = String()
+    zip_code = String()
+    telephone = String()
+    email = String(required=True)
+    gender = String()
     sport = String()
     grade = String()
     active = Boolean()
@@ -454,8 +481,8 @@ class UpdateSport(Mutation):
         return UpdateSport(sport=sport)
 
 
-class PersonAttribute:
-    """Person Graphql Attributes"""
+class Player(ObjectType):
+    """Player Graphql Attributes"""
     first_name = String()
     last_name = String()
     address1 = String()
@@ -466,72 +493,6 @@ class PersonAttribute:
     telephone = String()
     email = String(required=True)
     gender = String()
-
-
-class Person(SQLAlchemyObjectType):
-    """Person Graphql Query output"""
-    class Meta:
-        """Person Graphql Query output"""
-        model = PersonModel
-        interfaces = (relay.Node,)
-
-
-class CreatePersonInput(InputObjectType, PersonAttribute):
-    """Person Graphql Create Input"""
-
-
-class CreatePerson(Mutation):
-    """Person Graphql Create mutation"""
-    person = Field(lambda: Person,
-                   description="Person created by this mutation.")
-
-    class Arguments:
-        """Person Graphql Create arguments"""
-        person_data = CreatePersonInput(required=True)
-
-    def mutate(self, info, person_data=None):
-        """Person Graphql Create mutation"""
-        data = input_to_dictionary(person_data)
-
-        person = PersonModel(**data)
-        person_db = PersonModel.query.filter_by(email=data['email']).first()
-        if person_db:
-            print('need to update')
-            person_db = person
-        else:
-            DB.session.add(person)
-        DB.session.commit()
-
-        return CreatePerson(person=person)
-
-
-class UpdatePersonInput(InputObjectType, PersonAttribute):
-    """Person Graphql Update Input"""
-    id = ID(required=True, description="Global Id of the Person.")
-
-
-class UpdatePerson(Mutation):
-    """Person Graphql Update mutation"""
-    person = Field(lambda: Person, description="Person updated by this mutation.")
-
-    class Arguments:
-        """Person Graphql Update arguments"""
-        person_data = UpdatePersonInput(required=True)
-
-    def mutate(self, info, person_data):
-        """Person Graphql Update mutation"""
-        data = input_to_dictionary(person_data)
-
-        person = DB.session.query(PersonModel).filter_by(id=data['id'])
-        person.update(data)
-        DB.session.commit()
-        person = DB.session.query(PersonModel).filter_by(id=data['id']).first()
-
-        return UpdatePerson(person=person)
-
-
-class Player(ObjectType):
-    """Player Graphql Attributes"""
     birth_date = String()
     age = Int()
     sport = String()
@@ -557,20 +518,18 @@ class Query(ObjectType):
         resolver = resolve_address
     )
 
-    coachList = SQLAlchemyConnectionField(Coach)
-    personList = SQLAlchemyConnectionField(Person)
     sport = relay.Node.Field(SportNode)
     team = relay.Node.Field(TeamNode)
     referee = relay.Node.Field(RefereeNode)
-    all_team = FilterConnectionField(TeamConnection)
+    coach = relay.Node.Field(CoachNode)
+    all_team = FilterableConnectionField(TeamConnection)
     all_sport = FilterConnectionField(SportConnection)
     all_referee = FilterConnectionField(RefereeConnection)
+    all_coach = FilterConnectionField(CoachConnection)
 
 
 class Mutation(ObjectType):
     """Create Mutation object list"""
-    createPerson = CreatePerson.Field()
-    updatePerson = UpdatePerson.Field()
     createReferee = CreateReferee.Field()
     createCoach = CreateCoach.Field()
     updateCoach = UpdateCoach.Field()
