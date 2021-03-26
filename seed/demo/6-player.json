@@ -3,22 +3,19 @@
     "table": "player",
     "records": [
       {
-        "id": 1,
-        "person_id": 3,
+        "id": 5,
+        "first_name": "Maggie",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "maggie.simpson@simpsons.com",
+        "gender": "FEMALE",
         "sport_id": 1,
         "team_id": 1,
-        "parent_id": 1,
         "birth_date": "2002-10-03",
         "active": 1
-      },
-      {
-        "id": 2,
-        "person_id": 4,
-        "sport_id": 2,
-        "team_id": 2,
-        "parent_id": 2,
-        "birth_date": "2004-04-03",
-        "active": 0
       }
     ]
   }

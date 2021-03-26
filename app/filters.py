@@ -1,8 +1,7 @@
 """ Graphql Filter Module """
 from graphene_sqlalchemy_filter import (FilterableConnectionField, FilterSet)
 from .database import (Sport as SportModel, Team as TeamModel,
-                       Person as PersonModel, Coach as CoachModel,
-                       Referee as RefereeModel)
+                       Coach as CoachModel, Referee as RefereeModel)
 
 
 class TeamFilter(FilterSet):
@@ -27,5 +26,43 @@ class SportFilter(FilterSet):
         }        
 
 
+class RefereeFilter(FilterSet):
+    """Referee Graphql Filter"""
+    class Meta:
+        """Referee Graphql Query output"""
+        model = RefereeModel
+        fields = {
+            'last_name': ['eq', 'ilike'],
+            'first_name': ['eq', 'ilike'],
+            'address1': ['eq', 'ilike'],
+            'address2': ['eq', 'ilike'],
+            'city': ['eq', 'ilike'],
+            'state': ['eq', 'ilike'],
+            'zip_code': ['eq', 'ilike'],
+            'active': ['eq']
+        }
+
+
+class CoachFilter(FilterSet):
+    """Coach Graphql Filter"""
+    class Meta:
+        """Coach Graphql Query output"""
+        model = CoachModel
+        fields = {
+            'last_name': ['eq', 'ilike'],
+            'first_name': ['eq', 'ilike'],
+            'address1': ['eq', 'ilike'],
+            'address2': ['eq', 'ilike'],
+            'city': ['eq', 'ilike'],
+            'state': ['eq', 'ilike'],
+            'zip_code': ['eq', 'ilike'],
+            'active': ['eq']
+        }
+
+
 class FilterConnectionField(FilterableConnectionField):
-    filters = {TeamModel: TeamFilter(), SportModel: SportFilter()}
+    """ Consolidate the filters"""
+    filters = {
+        TeamModel: TeamFilter(), SportModel: SportFilter(),
+        RefereeModel: RefereeFilter(), CoachModel: CoachFilter()
+    }

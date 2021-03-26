@@ -3,15 +3,29 @@
     "model": "app.database.Referee",
     "records": [
       {
-        "id": 1,
-        "person_id": 5,
+        "id": 3,
+        "first_name": "Bart",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "bsimpson@simpsons.com",
+        "gender": "MALE",
         "sport_id": 1,
         "level_date": "2018-03-01",
         "active": 1
       },
       {
-        "id": 2,
-        "person_id": 4,
+        "id": 4,
+        "first_name": "Lisa",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "lsimpson@simpsons.com",
+        "gender": "FEMALE",
         "sport_id": 2,
         "level_date": "2019-06-01",
         "active": 0

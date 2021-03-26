@@ -1,16 +1,19 @@
 {
-  refereeList {
+  allReferee {
     edges {
       node {
-        grade
-        gradeDate
-        yearsGrade
+        gender
+        lastName
+        email
+        address1
+        city
+        state
+        zipCode
+        firstName
+        yearsLevel
+        levelDate
         sport {
           description
-        }
-        person {
-          lastName
-          firstName
         }
       }
     }

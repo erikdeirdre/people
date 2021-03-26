@@ -9,6 +9,7 @@ from flask_fixtures import load_fixtures
 from app import DB
 from app.database import (Team, Sport, Person, Referee, Coach)
 
+
 @pytest.fixture(scope='class')
 def init_database():
     """Initializes the database """
@@ -69,26 +70,6 @@ class TestTeamTable(unittest.TestCase):
 
 
 @pytest.mark.usefixtures("init_database")
-class TestPersonTable(unittest.TestCase):
-    """Test Person Table"""
-    def test_person_all(self):
-        """Test Query gets correct number of rows"""
-        result = DB.session.query(Person).all()
-        self.assertEqual(len(result), 5, "Not equal to FIVE person rows")
-
-    def test_person(self):
-        """Test to confirm columns return correctly"""
-        result = DB.session.query(Person).filter_by(last_name="Simpson").first()
-        self.assertEqual(result.address1, "123 Evergreen Terrace")
-        self.assertEqual(result.first_name, "Homer")
-        self.assertEqual(result.last_name, "Simpson")
-        self.assertEqual(result.city, "Springfield")
-        self.assertEqual(result.state, "MA")
-        self.assertEqual(result.zip_code, "12345")
-        self.assertEqual(result.email, "hsimpson@simpsons.com")
-#        self.assertEqual(result.gender, "Gender.MALE")
-
-@pytest.mark.usefixtures("init_database")
 class TestRefereeTable(unittest.TestCase):
     """Test Referee Table"""
     def test_referee_all(self):
@@ -98,12 +79,29 @@ class TestRefereeTable(unittest.TestCase):
 
     def test_referee(self):
         """Test to confirm columns return correctly"""
-        result = DB.session.query(Referee).get(1)
+        result = DB.session.query(Referee).get(3)
         self.assertEqual(result.active, True)
         self.assertEqual(result.level_date, date(2018, 3, 1))
         self.assertEqual(result.sport_id, 1)
-        result = DB.session.query(Referee).get(2)
+        self.assertEqual(result.first_name, "Bart")
+        self.assertEqual(result.last_name, "Simpson")
+        self.assertEqual(result.address1, "123 Evergreen Terrace")
+        self.assertEqual(result.city, "Springfield")
+        self.assertEqual(result.state, "MA")
+        self.assertEqual(result.zip_code, "12345")
+        self.assertEqual(result.email, "bsimpson@simpsons.com")
+#        self.assertEqual(result.gender, "MALE")
+
+        result = DB.session.query(Referee).get(4)
         self.assertEqual(result.active, False)
+        self.assertEqual(result.first_name, "Lisa")
+        self.assertEqual(result.last_name, "Simpson")
+        self.assertEqual(result.address1, "123 Evergreen Terrace")
+        self.assertEqual(result.city, "Springfield")
+        self.assertEqual(result.state, "MA")
+        self.assertEqual(result.zip_code, "12345")
+        self.assertEqual(result.email, "lsimpson@simpsons.com")
+#        self.assertEqual(result.gender, "FEMALE")
         self.assertEqual(result.level_date, date(2019, 6, 1))
         self.assertEqual(result.sport_id, 2)
 
@@ -118,10 +116,25 @@ class TestCoachTable(unittest.TestCase):
         """Test to confirm columns return correctly"""
         result = DB.session.query(Coach).get(1)
         self.assertEqual(result.active, True)
+        self.assertEqual(result.first_name, "Homer")
+        self.assertEqual(result.last_name, "Simpson")
+        self.assertEqual(result.address1, "123 Evergreen Terrace")
+        self.assertEqual(result.city, "Springfield")
+        self.assertEqual(result.state, "MA")
+        self.assertEqual(result.zip_code, "12345")
+        self.assertEqual(result.email, "hsimpson@simpsons.com")
         self.assertEqual(result.team_id, 1)
         self.assertEqual(result.sport_id, 1)
+
         result = DB.session.query(Coach).get(2)
         self.assertEqual(result.active, False)
+        self.assertEqual(result.first_name, "Marge")
+        self.assertEqual(result.last_name, "Simpson")
+        self.assertEqual(result.address1, "123 Evergreen Terrace")
+        self.assertEqual(result.city, "Springfield")
+        self.assertEqual(result.state, "MA")
+        self.assertEqual(result.zip_code, "12345")
+        self.assertEqual(result.email, "msimpson@simpsons.com")
         self.assertEqual(result.team_id, 2)
         self.assertEqual(result.sport_id, 2)
 
