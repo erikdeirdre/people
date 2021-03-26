@@ -1,5 +1,6 @@
 {
   allSport {
+    totalCount
     edges {
       node {
         active

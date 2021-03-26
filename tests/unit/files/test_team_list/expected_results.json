@@ -1,6 +1,7 @@
 {
   "data": {
     "allTeam": {
+      "totalCount": 4,
       "edges": [
         {
           "node": {

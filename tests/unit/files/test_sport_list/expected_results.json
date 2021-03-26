@@ -1,6 +1,7 @@
 {
   "data": {
     "allSport": {
+      "totalCount": 9,
       "edges": [
         {
           "node": {

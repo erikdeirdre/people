@@ -1,6 +1,6 @@
 [
   {
-    "table": "player",
+    "model": "app.database.Player",
     "records": [
       {
         "id": 5,
@@ -16,6 +16,21 @@
         "team_id": 1,
         "birth_date": "2002-10-03",
         "active": 1
+      },
+      {
+        "id": 6,
+        "first_name": "Milhouse",
+        "last_name": "Van Houten",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "mvanhouten@simpsons.com",
+        "gender": "MALE",
+        "sport_id": 1,
+        "team_id": 2,
+        "birth_date": "2000-03-10",
+        "active": 0
       }
     ]
   }

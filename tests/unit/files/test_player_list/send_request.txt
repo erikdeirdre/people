@@ -1,5 +1,5 @@
 {
-  allCoach {
+  allPlayer {
     totalCount
     edges {
       node {
@@ -11,8 +11,9 @@
         state
         zipCode
         firstName
-        yearsLevel
-        levelDate
+        team {
+          description
+        }
         sport {
           description
         }

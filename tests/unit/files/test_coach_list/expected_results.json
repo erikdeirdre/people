@@ -1,6 +1,7 @@
 {
   "data": {
     "allCoach": {
+      "totalCount": 2,
       "edges": [
         {
           "node": {

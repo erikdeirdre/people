@@ -1,5 +1,6 @@
 {
   allTeam {
+    totalCount
     edges {
       node {
         active

@@ -1,5 +1,6 @@
 {
   allReferee {
+    totalCount
     edges {
       node {
         gender
