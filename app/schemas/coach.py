@@ -1,20 +1,21 @@
 """ Graphql Coach Schema Module """
-from graphene import (ObjectType, String, Boolean, Int, ID, InputObjectType,
+from graphene import (String, Boolean, Int, ID, InputObjectType, Node,
                       Field, relay, Schema, Argument, Mutation, Interface,
-                      Connection, Node)
+                      Connection)
 from graphene_sqlalchemy import (SQLAlchemyObjectType,
                                  SQLAlchemyConnectionField)
-from graphene_sqlalchemy_filter import (FilterableConnectionField)
+from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
 from app import (DB)
 from app.database import (Coach as CoachModel)
 from .total_count import TotalCount
-from app.filters import FilterConnectionField
 
 
 class CoachNode(SQLAlchemyObjectType):
+    """ Coach Node """
     class Meta:
+        """ Coach Node """
         model = CoachModel
         interfaces = (Node,)
         connection_field_factory = FilterConnectionField.factory

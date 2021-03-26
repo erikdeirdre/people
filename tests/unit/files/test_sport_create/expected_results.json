@@ -1,0 +1,9 @@
+{
+  "data": {
+    "createSport": {
+      "sport": {
+        "active": true
+      }
+    }
+  }
+}

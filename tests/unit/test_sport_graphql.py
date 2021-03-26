@@ -50,8 +50,18 @@ class TestSportGraphGL(unittest.TestCase):
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])
 
-#    def test_sport_create(self):
+    def test_sport_create(self):
+        """Execute sport create test"""
+        test_data = TestClass(self.dir_name,
+                              sys._getframe(  ).f_code.co_name)
 
+        test_data.load_files()
+
+        executed = self.client.execute(test_data.get_send_request(),
+                   variables=test_data.get_variables())
+
+        self.assertEqual(loads(dumps(executed['data'])),
+                         test_data.get_expected_result()['data'])
 
 if __name__ == '__main__':
     unittest.main()

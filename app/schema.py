@@ -10,12 +10,10 @@ from graphene_sqlalchemy import (SQLAlchemyObjectType,
 from graphene_sqlalchemy_filter import (FilterableConnectionField, FilterSet)
 
 from helpers.utils import (input_to_dictionary)
-from app import (DB)
 from .database import (Sport as SportModel, Team as TeamModel,
                        Person as PersonModel, Coach as CoachModel,
                        Referee as RefereeModel)
 from .filters import (FilterConnectionField)
-from .schemas.total_count import TotalCount
 from .schemas.team import (TeamNode, TeamConnection, CreateTeam, UpdateTeam)
 from .schemas.sport import (SportNode, SportConnection, CreateSport,
                             UpdateSport)
@@ -27,24 +25,6 @@ from .schemas.player import (PlayerNode, PlayerConnection, CreatePlayer,
                              UpdatePlayer)
 from .schemas.address import (CityState, Address, resolve_city_states,
                               resolve_address)
-
-
-
-class Player(ObjectType):
-    """Player Graphql Attributes"""
-    first_name = String()
-    last_name = String()
-    address1 = String()
-    address2 = String()
-    city = String()
-    state = String()
-    zip_code = String()
-    telephone = String()
-    email = String(required=True)
-    gender = String()
-    birth_date = String()
-    age = Int()
-    sport = String()
 
 
 class Query(ObjectType):
@@ -89,6 +69,7 @@ class Mutation(ObjectType):
     createPlayer = CreatePlayer.Field()
 
     updateTeam = UpdateTeam.Field()
+    UpdateReferee = UpdateReferee.Field()
     updateCoach = UpdateCoach.Field()
     updateSport = UpdateSport.Field()
     updatePlayer = UpdatePlayer.Field()

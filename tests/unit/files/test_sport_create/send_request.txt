@@ -1,0 +1,7 @@
+mutation AddSport($sport: CreateSportInput!) {
+  createSport(sportData: $sport) {
+    sport {
+      active
+    }
+  }
+}

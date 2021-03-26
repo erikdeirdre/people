@@ -49,6 +49,17 @@ class TestPlayerGraphGL(unittest.TestCase):
                          test_data.get_expected_result()['data'])
 
 
+    def test_player_filter_lastname(self):
+        """Execute player query test"""
+        test_data = TestClass(self.dir_name,
+                              sys._getframe(  ).f_code.co_name)
+        test_data.load_files()
+
+        executed = self.client.execute(test_data.get_send_request())
+        print(dumps(executed['data']))
+        self.assertEqual(loads(dumps(executed['data'])),
+                         test_data.get_expected_result()['data'])
+
 
 if __name__ == '__main__':
     unittest.main()

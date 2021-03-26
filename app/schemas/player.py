@@ -1,20 +1,20 @@
 """ Graphql Player Schema Module """
-from graphene import (ObjectType, String, Boolean, Int, ID, InputObjectType,
+from graphene import (String, Boolean, Int, ID, InputObjectType,
                       Field, relay, Schema, Argument, Mutation, Interface,
                       Connection, Node)
-from graphene_sqlalchemy import (SQLAlchemyObjectType,
-                                 SQLAlchemyConnectionField)
-from graphene_sqlalchemy_filter import (FilterableConnectionField)
+from graphene_sqlalchemy import SQLAlchemyObjectType
+from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
 from app import (DB)
 from app.database import (Player as PlayerModel)
 from .total_count import TotalCount
-from app.filters import FilterConnectionField
 
 
 class PlayerNode(SQLAlchemyObjectType):
+    """ Player Node """
     class Meta:
+        """ Player Node """
         model = PlayerModel
         interfaces = (Node,)
         connection_field_factory = FilterConnectionField.factory
@@ -83,7 +83,7 @@ class UpdatePlayerInput(InputObjectType, PlayerAttribute):
 class UpdatePlayer(Mutation):
     """Update Player Graphql"""
     player = Field(lambda: PlayerNode,
-                  description="Player updated by this mutation.")
+                   description="Player updated by this mutation.")
 
     class Arguments:
         """Arguments for Update Player"""

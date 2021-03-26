@@ -1,0 +1,23 @@
+{
+  allPlayer(filters:{lastName: "Van Houten"}) {
+    totalCount
+    edges {
+      node {
+        gender
+        lastName
+        email
+        address1
+        city
+        state
+        zipCode
+        firstName
+        team {
+          description
+        }
+        sport {
+          description
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,8 @@
 """ Graphql Sport Schema Module """
-from graphene import (ObjectType, String, Boolean, Int, ID, InputObjectType,
+from graphene import (String, Boolean, Int, ID, InputObjectType,
                       Field, relay, Schema, Argument, Mutation, Interface,
                       Connection, Node)
-from graphene_sqlalchemy import (SQLAlchemyObjectType,
-                                 SQLAlchemyConnectionField)
-from graphene_sqlalchemy_filter import (FilterableConnectionField)
+from graphene_sqlalchemy import SQLAlchemyObjectType
 
 from helpers.utils import (input_to_dictionary)
 from app import (DB)

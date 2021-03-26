@@ -1,16 +1,14 @@
 """ Graphql Referee Schema Module """
-from graphene import (ObjectType, String, Boolean, Int, ID, InputObjectType,
+from graphene import (String, Boolean, Int, ID, InputObjectType,
                       Field, relay, Schema, Argument, Mutation, Interface,
                       Connection, Node)
-from graphene_sqlalchemy import (SQLAlchemyObjectType,
-                                 SQLAlchemyConnectionField)
-from graphene_sqlalchemy_filter import (FilterableConnectionField)
+from graphene_sqlalchemy import SQLAlchemyObjectType
+from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
 from app import (DB)
 from app.database import (Referee as RefereeModel)
 from .total_count import TotalCount
-from app.filters import FilterConnectionField
 
 
 class RefereeAttribute:
@@ -31,7 +29,9 @@ class RefereeAttribute:
 
 
 class RefereeNode(SQLAlchemyObjectType):
+    """Referee Node """
     class Meta:
+        """ Referee Node """
         model = RefereeModel
         interfaces = (Node,)
         connection_field_factory = FilterConnectionField.factory

@@ -1,9 +1,8 @@
 """ Graphql Team Schema Module """
-from graphene import (ObjectType, String, Boolean, Int, ID, InputObjectType,
+from graphene import (String, Boolean, Int, ID, InputObjectType,
                       Field, relay, Schema, Argument, Mutation, Interface,
                       Connection, Node)
-from graphene_sqlalchemy import (SQLAlchemyObjectType,
-                                 SQLAlchemyConnectionField)
+from graphene_sqlalchemy import SQLAlchemyObjectType
 from graphene_sqlalchemy_filter import (FilterableConnectionField)
 
 from helpers.utils import (input_to_dictionary)
@@ -14,14 +13,18 @@ from app.filters import FilterConnectionField
 
 
 class TeamNode(SQLAlchemyObjectType):
+    """ Team Node """
     class Meta:
+        """ Team Node """
         model = TeamModel
         interfaces = (Node,)
         connection_field_factory = FilterConnectionField.factory
 
 
 class TeamConnection(Connection):
+    """ Team Connection """
     class Meta:
+        """ Team Connection """
         node = TeamNode
         interfaces = (TotalCount,)
 
@@ -69,7 +72,7 @@ class UpdateTeamInput(InputObjectType, TeamAttribute):
 
 class UpdateTeam(Mutation):
     """Update Team Graphql"""
-    team = Field(lambda: TeamNode, 
+    team = Field(lambda: TeamNode,
                  description="Team updated by this mutation.")
 
     class Arguments:

@@ -1,0 +1,27 @@
+{
+  "data": {
+    "allPlayer": {
+      "totalCount": 1,
+      "edges": [
+        {
+          "node": {
+            "gender": "MALE",
+            "lastName": "Van Houten",
+            "email": "mvanhouten@simpsons.com",
+            "address1": "123 Evergreen Terrace",
+            "city": "Springfield",
+            "state": "MA",
+            "zipCode": "12345",
+            "firstName": "Milhouse",
+            "team": {
+              "description": "Bruins"
+            },
+            "sport": {
+              "description": "Soccer"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
