@@ -169,8 +169,8 @@ class TestPlayerTable(unittest.TestCase):
         self.assertEqual(result.state, "MA")
         self.assertEqual(result.zip_code, "12345")
         self.assertEqual(result.email, "mvanhouten@simpsons.com")
-        self.assertEqual(result.team_id, 1)
-        self.assertEqual(result.sport_id, 2)
+        self.assertEqual(result.team_id, 2)
+        self.assertEqual(result.sport_id, 1)
         self.assertEqual(result.birth_date, date(2000, 3, 10))
 
 if __name__ == '__main__':
