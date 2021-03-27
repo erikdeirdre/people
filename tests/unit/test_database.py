@@ -7,7 +7,7 @@ import pytest
 from flask_fixtures.loaders import JSONLoader
 from flask_fixtures import load_fixtures
 from app import DB
-from app.database import (Team, Sport, Person, Referee, Coach)
+from app.database import (Team, Sport, Referee, Coach, Player)
 
 
 @pytest.fixture(scope='class')
@@ -137,6 +137,41 @@ class TestCoachTable(unittest.TestCase):
         self.assertEqual(result.email, "msimpson@simpsons.com")
         self.assertEqual(result.team_id, 2)
         self.assertEqual(result.sport_id, 2)
+
+@pytest.mark.usefixtures("init_database")
+class TestPlayerTable(unittest.TestCase):
+    """Test Player Table"""
+    def test_player_all(self):
+        """Test Query gets correct number of rows"""
+        result = DB.session.query(Player).all()
+        self.assertEqual(len(result), 2, "Not equal to TWO Player rows")
+    def test_player(self):
+        """Test to confirm columns return correctly"""
+        result = DB.session.query(Player).get(5)
+        self.assertEqual(result.active, True)
+        self.assertEqual(result.first_name, "Maggie")
+        self.assertEqual(result.last_name, "Simpson")
+        self.assertEqual(result.address1, "123 Evergreen Terrace")
+        self.assertEqual(result.city, "Springfield")
+        self.assertEqual(result.state, "MA")
+        self.assertEqual(result.zip_code, "12345")
+        self.assertEqual(result.email, "maggie.simpson@simpsons.com")
+        self.assertEqual(result.team_id, 1)
+        self.assertEqual(result.sport_id, 1)
+        self.assertEqual(result.birth_date, date(2002, 10, 3))
+
+        result = DB.session.query(Player).get(6)
+        self.assertEqual(result.active, False)
+        self.assertEqual(result.first_name, "Milhouse")
+        self.assertEqual(result.last_name, "Van Houten")
+        self.assertEqual(result.address1, "123 Evergreen Terrace")
+        self.assertEqual(result.city, "Springfield")
+        self.assertEqual(result.state, "MA")
+        self.assertEqual(result.zip_code, "12345")
+        self.assertEqual(result.email, "mvanhouten@simpsons.com")
+        self.assertEqual(result.team_id, 1)
+        self.assertEqual(result.sport_id, 2)
+        self.assertEqual(result.birth_date, date(2000, 3, 10))
 
 if __name__ == '__main__':
     unittest.main()

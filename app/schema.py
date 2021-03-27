@@ -24,7 +24,7 @@ class Query(ObjectType):
     city_state = Field(
         CityState,
         postalcode=Argument(String, required=True),
-        resolver = resolve_city_states
+        resolver=resolve_city_states
     )
 
     address = Field(
@@ -34,7 +34,7 @@ class Query(ObjectType):
         address2=Argument(String),
         city=Argument(String),
         state=Argument(String),
-        resolver = resolve_address
+        resolver=resolve_address
     )
 
     sport = relay.Node.Field(SportNode)

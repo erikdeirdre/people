@@ -51,7 +51,7 @@ class CreatePlayerInput(InputObjectType, PlayerAttribute):
 class CreatePlayer(Mutation):
     """Create Player Graphql"""
     player = Field(lambda: PlayerNode,
-                  description="Player created by this mutation.")
+                   description="Player created by this mutation.")
 
     class Arguments:
         """Arguments for Create Player"""

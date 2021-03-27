@@ -22,7 +22,7 @@ class Config():
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     APP_NAME = os.environ.get('APP_NAME') or 'people'
 
-    POST_OFFICE_URL= "https://secure.shippingapis.com/ShippingAPI.dll"
+    POST_OFFICE_URL = "https://secure.shippingapis.com/ShippingAPI.dll"
     POST_OFFICE_USERID ="<your user id>"
 
     DATABASE_TYPE = os.environ.get('DATABASE_TYPE') or 'sqlite'
@@ -93,7 +93,8 @@ class DevelopmentConfig(Config):
 
 class TestConfig(Config):
     """ Configuration settings for Test """
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL',
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        'DATABASE_URL',
         'sqlite:///' + os.path.join(basedir, 'test_app.db'))
     DEBUG = True
     TESTING = True
