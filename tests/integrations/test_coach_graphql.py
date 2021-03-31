@@ -22,6 +22,7 @@ class TestCoachGraphGL(unittest.TestCase):
 
         executed = self.client.execute(test_data.get_send_request())
         print(dumps(executed['data']))
+        print(test_data.get_expected_result()['data'])
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])
 

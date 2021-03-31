@@ -1,6 +1,6 @@
 [
   {
-    "table": "sport",
+    "model": "app.database.Sport",
     "records": [
       {
         "id": 1,

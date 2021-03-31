@@ -12,8 +12,6 @@ class TestSportTable(unittest.TestCase):
     """Test Sport Table"""
     def test_sport_all(self):
         """Test Query gets correct number of rows"""
-        print('here')
-        print(DB.__dict__)
         self.assertEqual(1, 1)
         result = DB.session.query(Sport).all()
         self.assertEqual(len(result), 9, "Not equal to NINE sports rows")

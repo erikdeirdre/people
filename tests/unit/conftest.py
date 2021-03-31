@@ -7,7 +7,7 @@ import pytest
 
 from app import DB
 
-@pytest.fixture(scope='class')
+@pytest.fixture(scope='function')
 def init_database():
     """Initializes the database """
     DB.drop_all()

@@ -13,30 +13,10 @@ from app import DB
 from app.schema import SCHEMA
 
 @pytest.mark.usefixtures("init_database")
-def init_database():
-    """Initializes the database """
-    DB.drop_all()
-    DB.create_all()
-
-    base_dir = join(abspath(dirname(__file__)), '..', '..')
-
-    for fixture_file in glob(join(base_dir, 'seed', '*.json')):
-        fixtures = JSONLoader().load(fixture_file)
-        load_fixtures(DB, fixtures)
-
-    for fixture_file in glob(join(base_dir, 'seed', 'demo', '*.json')):
-        fixtures = JSONLoader().load(fixture_file)
-        load_fixtures(DB, fixtures)
-
-
 class TestRefereeGraphGL(unittest.TestCase):
     """Test Suite for testing Referee GraphQL"""
     dir_name = join(abspath(dirname(__file__)), 'files')
     client = Client(SCHEMA)
-
-    def setUp(self):
-        """Initialize the database"""
-        init_database()
 
     def test_referee_list(self):
         """Execute referee query test"""
