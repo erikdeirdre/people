@@ -15,8 +15,23 @@
             "firstName": "Homer",
             "yearsLevel": "0",
             "levelDate": null,
-            "sport": {
-              "description": "Soccer"
+            "sports": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Soccer"
+                  }
+                }
+              ]
+            },
+            "teams": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Celtics"
+                  }
+                }
+              ]
             }
           }
         },
@@ -32,8 +47,23 @@
             "firstName": "Marge",
             "yearsLevel": "0",
             "levelDate": null,
-            "sport": {
-              "description": "Baseball"
+            "sports": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Baseball"
+                  }
+                }
+              ]
+            },
+            "teams": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Bruins"
+                  }
+                }
+              ]
             }
           }
         }

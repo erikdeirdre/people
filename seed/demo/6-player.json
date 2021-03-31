@@ -12,8 +12,6 @@
         "zip_code": "12345",
         "email": "maggie.simpson@simpsons.com",
         "gender": "FEMALE",
-        "sport_id": 1,
-        "team_id": 1,
         "birth_date": "2002-10-03",
         "active": 1
       },
@@ -27,9 +25,37 @@
         "zip_code": "12345",
         "email": "mvanhouten@simpsons.com",
         "gender": "MALE",
-        "sport_id": 1,
-        "team_id": 2,
         "birth_date": "2000-03-10",
+        "active": 0
+      }
+    ]
+  },
+  {
+    "model": "app.database.PlayerSport",
+    "records": [
+      {
+        "player_id": 5,
+        "sport_id": 1,
+        "active": 1
+      },
+      {
+        "player_id": 6,
+        "sport_id": 2,
+        "active": 0
+      }
+    ]
+  },
+  {
+    "model": "app.database.PlayerTeam",
+    "records": [
+      {
+        "player_id": 5,
+        "team_id": 1,
+        "active": 1
+      },
+      {
+        "player_id": 6,
+        "team_id": 2,
         "active": 0
       }
     ]

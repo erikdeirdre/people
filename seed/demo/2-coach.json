@@ -12,8 +12,6 @@
         "zip_code": "12345",
         "email": "hsimpson@simpsons.com",
         "gender": "MALE",
-        "sport_id": 1,
-        "team_id": 1,
         "active": 1
       },
       {
@@ -26,10 +24,38 @@
         "zip_code": "12345",
         "email": "msimpson@simpsons.com",
         "gender": "FEMALE",
+        "active": 0
+      }
+    ]
+  },
+  {
+    "model": "app.database.CoachSport",
+    "records": [
+      {
+        "coach_id": 1,
+        "sport_id": 1,
+        "active": 1
+      },
+      {
+        "coach_id": 2,
         "sport_id": 2,
+        "active": 0
+      }
+    ]
+  },
+  {
+    "model": "app.database.CoachTeam",
+    "records": [
+      {
+        "coach_id": 1,
+        "team_id": 1,
+        "active": 1
+      },
+      {
+        "coach_id": 2,
         "team_id": 2,
         "active": 0
       }
     ]
-  }
+  } 
 ]

@@ -1,32 +1,11 @@
 """ Database Unit Test Module """
 from datetime import date
-from os.path import (abspath, dirname, join)
-from glob import glob
 import unittest
 import pytest
-from flask_fixtures.loaders import JSONLoader
-from flask_fixtures import load_fixtures
 from app import DB
-from app.database import (Team, Sport, Referee, Coach, Player)
+from app.database import (Team, Sport, Referee, Coach, Player, RefereeSport,
+                          PlayerSport, CoachSport, CoachTeam, PlayerTeam)
 
-
-@pytest.fixture(scope='class')
-def init_database():
-    """Initializes the database """
-
-    DB.drop_all()
-    DB.create_all()
-
-    base_dir = join(abspath(dirname(__file__)), '..', '..')
-    print("base dir: {}".format(join(base_dir, 'seed', '*.json')))
-
-    for fixture_file in glob(join(base_dir, 'seed', '*.json')):
-        fixtures = JSONLoader().load(fixture_file)
-        load_fixtures(DB, fixtures)
-
-    for fixture_file in glob(join(base_dir, 'seed', 'demo', '*.json')):
-        fixtures = JSONLoader().load(fixture_file)
-        load_fixtures(DB, fixtures)
 
 @pytest.mark.usefixtures("init_database")
 class TestSportTable(unittest.TestCase):
@@ -82,7 +61,6 @@ class TestRefereeTable(unittest.TestCase):
         result = DB.session.query(Referee).get(3)
         self.assertEqual(result.active, True)
         self.assertEqual(result.level_date, date(2018, 3, 1))
-        self.assertEqual(result.sport_id, 1)
         self.assertEqual(result.first_name, "Bart")
         self.assertEqual(result.last_name, "Simpson")
         self.assertEqual(result.address1, "123 Evergreen Terrace")
@@ -103,7 +81,26 @@ class TestRefereeTable(unittest.TestCase):
         self.assertEqual(result.email, "lsimpson@simpsons.com")
 #        self.assertEqual(result.gender, "FEMALE")
         self.assertEqual(result.level_date, date(2019, 6, 1))
+
+@pytest.mark.usefixtures("init_database")
+class TestRefereeSportTable(unittest.TestCase):
+    """Test Referee Sport Table"""
+    def test_referee_sport_all(self):
+        """Test Query gets correct number of rows"""
+        result = DB.session.query(RefereeSport).all()
+        self.assertEqual(len(result), 2, "Not equal to TWO Referee Sport rows")
+
+    def test_referee_sport(self):
+        """Test to confirm columns return correctly"""
+        result = DB.session.query(RefereeSport).get((3, 1))
+        self.assertEqual(result.active, True)
+        self.assertEqual(result.sport_id, 1)
+        self.assertEqual(result.referee_id, 3)
+        result = DB.session.query(RefereeSport).get((4, 2))
+        self.assertEqual(result.active, False)
         self.assertEqual(result.sport_id, 2)
+        self.assertEqual(result.referee_id, 4)
+
 
 @pytest.mark.usefixtures("init_database")
 class TestCoachTable(unittest.TestCase):
@@ -123,8 +120,6 @@ class TestCoachTable(unittest.TestCase):
         self.assertEqual(result.state, "MA")
         self.assertEqual(result.zip_code, "12345")
         self.assertEqual(result.email, "hsimpson@simpsons.com")
-        self.assertEqual(result.team_id, 1)
-        self.assertEqual(result.sport_id, 1)
 
         result = DB.session.query(Coach).get(2)
         self.assertEqual(result.active, False)
@@ -135,8 +130,47 @@ class TestCoachTable(unittest.TestCase):
         self.assertEqual(result.state, "MA")
         self.assertEqual(result.zip_code, "12345")
         self.assertEqual(result.email, "msimpson@simpsons.com")
-        self.assertEqual(result.team_id, 2)
+
+
+@pytest.mark.usefixtures("init_database")
+class TestCoachSportTable(unittest.TestCase):
+    """Test Coach Sport Table"""
+    def test_coach_sport_all(self):
+        """Test Query gets correct number of rows"""
+        result = DB.session.query(CoachSport).all()
+        self.assertEqual(len(result), 2, "Not equal to TWO Coach Sport rows")
+
+    def test_coach_sport(self):
+        """Test to confirm columns return correctly"""
+        result = DB.session.query(CoachSport).get((1, 1))
+        self.assertEqual(result.active, True)
+        self.assertEqual(result.sport_id, 1)
+        self.assertEqual(result.coach_id, 1)
+        result = DB.session.query(CoachSport).get((2, 2))
+        self.assertEqual(result.active, False)
         self.assertEqual(result.sport_id, 2)
+        self.assertEqual(result.coach_id, 2)
+
+
+@pytest.mark.usefixtures("init_database")
+class TestCoachTeamTable(unittest.TestCase):
+    """Test Coach Team Table"""
+    def test_coach_team_all(self):
+        """Test Query gets correct number of rows"""
+        result = DB.session.query(CoachSport).all()
+        self.assertEqual(len(result), 2, "Not equal to TWO Coach Team rows")
+
+    def test_coach_team(self):
+        """Test to confirm columns return correctly"""
+        result = DB.session.query(CoachTeam).get((1, 1))
+        self.assertEqual(result.active, True)
+        self.assertEqual(result.team_id, 1)
+        self.assertEqual(result.coach_id, 1)
+        result = DB.session.query(CoachTeam).get((2, 2))
+        self.assertEqual(result.active, False)
+        self.assertEqual(result.team_id, 2)
+        self.assertEqual(result.coach_id, 2)
+
 
 @pytest.mark.usefixtures("init_database")
 class TestPlayerTable(unittest.TestCase):
@@ -156,8 +190,6 @@ class TestPlayerTable(unittest.TestCase):
         self.assertEqual(result.state, "MA")
         self.assertEqual(result.zip_code, "12345")
         self.assertEqual(result.email, "maggie.simpson@simpsons.com")
-        self.assertEqual(result.team_id, 1)
-        self.assertEqual(result.sport_id, 1)
         self.assertEqual(result.birth_date, date(2002, 10, 3))
 
         result = DB.session.query(Player).get(6)
@@ -169,9 +201,48 @@ class TestPlayerTable(unittest.TestCase):
         self.assertEqual(result.state, "MA")
         self.assertEqual(result.zip_code, "12345")
         self.assertEqual(result.email, "mvanhouten@simpsons.com")
-        self.assertEqual(result.team_id, 2)
-        self.assertEqual(result.sport_id, 1)
         self.assertEqual(result.birth_date, date(2000, 3, 10))
+
+
+@pytest.mark.usefixtures("init_database")
+class TestPlayerSportTable(unittest.TestCase):
+    """Test Player Sport Table"""
+    def test_player_sport_all(self):
+        """Test Query gets correct number of rows"""
+        result = DB.session.query(PlayerSport).all()
+        self.assertEqual(len(result), 2, "Not equal to TWO Player Sport rows")
+
+    def test_player_sport(self):
+        """Test to confirm columns return correctly"""
+        result = DB.session.query(PlayerSport).get((5, 1))
+        self.assertEqual(result.active, True)
+        self.assertEqual(result.sport_id, 1)
+        self.assertEqual(result.player_id, 5)
+        result = DB.session.query(PlayerSport).get((6, 2))
+        self.assertEqual(result.active, False)
+        self.assertEqual(result.sport_id, 2)
+        self.assertEqual(result.player_id, 6)
+
+
+@pytest.mark.usefixtures("init_database")
+class TestPlayerTeamTable(unittest.TestCase):
+    """Test Player Team Table"""
+    def test_player_team_all(self):
+        """Test Query gets correct number of rows"""
+        result = DB.session.query(PlayerTeam).all()
+        self.assertEqual(len(result), 2, "Not equal to TWO Player Team rows")
+
+    def test_player_team(self):
+        """Test to confirm columns return correctly"""
+        result = DB.session.query(PlayerTeam).get((5, 1))
+        self.assertEqual(result.active, True)
+        self.assertEqual(result.team_id, 1)
+        self.assertEqual(result.player_id, 5)
+        result = DB.session.query(PlayerTeam).get((6, 2))
+        self.assertEqual(result.active, False)
+        self.assertEqual(result.team_id, 2)
+        self.assertEqual(result.player_id, 6)
+
 
 if __name__ == '__main__':
     unittest.main()

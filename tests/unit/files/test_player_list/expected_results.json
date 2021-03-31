@@ -13,11 +13,23 @@
             "state": "MA",
             "zipCode": "12345",
             "firstName": "Maggie",
-            "team": {
-              "description": "Celtics"
+            "sports": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Soccer"
+                  }
+                }
+              ]
             },
-            "sport": {
-              "description": "Soccer"
+            "teams": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Celtics"
+                  }
+                }
+              ]
             }
           }
         },
@@ -31,11 +43,23 @@
             "state": "MA",
             "zipCode": "12345",
             "firstName": "Milhouse",
-            "team": {
-              "description": "Bruins"
+            "sports": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Baseball"
+                  }
+                }
+              ]
             },
-            "sport": {
-              "description": "Soccer"
+            "teams": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Bruins"
+                  }
+                }
+              ]
             }
           }
         }

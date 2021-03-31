@@ -6,7 +6,7 @@ from graphene_sqlalchemy_filter import FilterableConnectionField
 from .filters import (FilterConnectionField)
 from .schemas.team import (TeamNode, TeamConnection, CreateTeam, UpdateTeam)
 from .schemas.sport import (SportNode, SportConnection, CreateSport,
-                            UpdateSport)
+                            UpdateSport, DeleteSport)
 from .schemas.referee import (RefereeNode, RefereeConnection, CreateReferee,
                               UpdateReferee)
 from .schemas.coach import (CoachNode, CoachConnection, CreateCoach,
@@ -63,5 +63,7 @@ class Mutation(ObjectType):
     updateCoach = UpdateCoach.Field()
     updateSport = UpdateSport.Field()
     updatePlayer = UpdatePlayer.Field()
+
+    deleteSport = DeleteSport.Field()
 
 SCHEMA = Schema(query=Query, mutation=Mutation)

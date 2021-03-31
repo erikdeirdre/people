@@ -13,8 +13,19 @@
         firstName
         yearsLevel
         levelDate
-        sport {
-          description
+        sports {
+          edges {
+            node {
+              description
+            }
+          }
+        }
+        teams {
+          edges {
+            node {
+              description
+            }
+          }
         }
       }
     }

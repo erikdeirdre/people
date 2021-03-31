@@ -122,3 +122,24 @@ class UpdateSport(Mutation):
         sport = DB.session.query(SportModel).filter_by(id=data['id']).first()
 
         return UpdateSport(sport=sport)
+
+class DeleteSportInput(InputObjectType):
+    """Arguments to delete a sport"""
+    id = ID(required=True, description="Global Id of the Sport.")
+
+
+class DeleteSport(Mutation):
+    """Delete a Sport"""
+    ok = Boolean()
+
+    class Arguments:
+        input = DeleteSportInput(required=True)
+
+    def mutate(self, info, mutate_input):
+        data = input_to_dictionary(mutate_input)
+
+        sport = DB.session.query(SportModel).filter_by(id=data['id'])
+        sport.delete(data['id'])
+        DB.session.commit()
+
+        return DeleteSport(ok=True)

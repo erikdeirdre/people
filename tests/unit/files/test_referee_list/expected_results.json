@@ -15,8 +15,14 @@
             "firstName": "Bart",
             "yearsLevel": "3",
             "levelDate": "2018-03-01",
-            "sport": {
-              "description": "Soccer"
+            "sports": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Soccer"
+                  }
+                }
+              ]
             }
           }
         },
@@ -32,8 +38,14 @@
             "firstName": "Lisa",
             "yearsLevel": "1",
             "levelDate": "2019-06-01",
-            "sport": {
-              "description": "Baseball"
+            "sports": {
+              "edges": [
+                {
+                  "node": {
+                    "description": "Baseball"
+                  }
+                }
+              ]
             }
           }
         }

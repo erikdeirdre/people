@@ -11,11 +11,19 @@
         state
         zipCode
         firstName
-        team {
-          description
+        sports {
+          edges {
+            node {
+              description
+            }
+          }
         }
-        sport {
-          description
+        teams {
+          edges {
+            node {
+              description
+            }
+          }
         }
       }
     }

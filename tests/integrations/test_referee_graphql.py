@@ -4,6 +4,7 @@ from os.path import (join, abspath, dirname)
 from glob import glob
 from json import (loads, dumps)
 import unittest
+import pytest
 from flask_fixtures.loaders import JSONLoader
 from flask_fixtures import load_fixtures
 from graphene.test import Client
@@ -11,7 +12,7 @@ from testclass.testclass import TestClass
 from app import DB
 from app.schema import SCHEMA
 
-
+@pytest.mark.usefixtures("init_database")
 def init_database():
     """Initializes the database """
     DB.drop_all()
@@ -45,17 +46,9 @@ class TestRefereeGraphGL(unittest.TestCase):
 
         executed = self.client.execute(test_data.get_send_request())
         print(dumps(executed['data']))
+        print(test_data.get_expected_result()['data'])
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])
-
-#    def test_referee_attribute_query(self):
-#        test_data = TestClass(self.dir_name,
-#                              sys._getframe(  ).f_code.co_name)
-#        test_data.load_files()
-
-#        executed = self.client.execute(test_data.get_send_request())
-#        self.assertEqual(loads(dumps(executed['data'])),
-#                         test_data.get_expected_result()['data'])
 
 
 if __name__ == '__main__':

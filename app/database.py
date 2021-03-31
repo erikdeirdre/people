@@ -9,7 +9,6 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import expression
 from app import DB
 
-
 class Gender(enum.Enum):
     """Gender enum"""
     OTHER = 0
@@ -34,8 +33,12 @@ class Team(DB.Model):
     __tablename__ = 'team'
     id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(100))
-    coaches = relationship("Coach", back_populates="team")
-    players = relationship("Player", back_populates="team")
+    coaches = relationship("Coach",
+                            secondary='coach_team',
+                            back_populates="teams")
+    players = relationship("Player",
+                            secondary='player_team',
+                            back_populates="teams")
     active = Column(Boolean, default=True, server_default=expression.true())
 
 
@@ -44,9 +47,15 @@ class Sport(DB.Model):
     __tablename__ = 'sport'
     id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(100))
-    referees = relationship("Referee", back_populates="sport")
-    coaches = relationship("Coach", back_populates="sport")
-    players = relationship("Player", back_populates="sport")
+    referees = relationship("Referee",
+                            secondary='referee_sport',
+                            back_populates="sports")
+    coaches = relationship("Coach",
+                            secondary='coach_sport',
+                            back_populates="sports")
+    players = relationship("Player",
+                            secondary='player_sport',
+                            back_populates="sports")
     active = Column(Boolean, default=True, server_default=expression.true())
 
 
@@ -76,9 +85,10 @@ class Referee(Person):
     """ Table for listing referees and their unique columns """
     __tablename__ = 'referee'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
-    sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship("Sport", back_populates="referees")
-    active = Column(Boolean)
+    sports = relationship("Sport",
+                          secondary='referee_sport',
+                          back_populates="referees")
+    active = Column(Boolean, default=True, server_default=expression.true())
     level_id = Column(Integer, ForeignKey('level.id'))
     level = relationship("Level", back_populates="referees")
     level_date = Column(Date)
@@ -95,15 +105,27 @@ class Referee(Person):
         return 0
 
 
+class RefereeSport(DB.Model):
+    """ Table for multiple referee / sport associations"""
+    __tablename__ = 'referee_sport'
+    referee_id = Column(Integer,  ForeignKey('referee.id'),
+                        primary_key=True)
+    sport_id = Column(Integer, ForeignKey('sport.id'),
+                      primary_key=True)
+    active = Column(Boolean, default=True, server_default=expression.true())
+
+
 class Coach(Person):
     """ Table for listing coaches and their unique columns """
     __tablename__ = 'coach'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
-    active = Column(Boolean)
-    team_id = Column(Integer, ForeignKey('team.id'))
-    team = relationship("Team", back_populates="coaches")
-    sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship("Sport", back_populates="coaches")
+    active = Column(Boolean, default=True, server_default=expression.true())
+    teams = relationship("Team",
+                          secondary='coach_team',
+                          back_populates="coaches")
+    sports = relationship("Sport",
+                          secondary='coach_sport',
+                          back_populates="coaches")
     level_id = Column(Integer, ForeignKey('level.id'))
     level = relationship("Level", back_populates="coaches")
     level_date = Column(Date)
@@ -120,18 +142,41 @@ class Coach(Person):
         return 0
 
 
+class CoachSport(DB.Model):
+    """ Table for multiple coach / sport associations"""
+    __tablename__ = 'coach_sport'
+    coach_id = Column(Integer,  ForeignKey('coach.id'),
+                        primary_key=True)
+    sport_id = Column(Integer, ForeignKey('sport.id'),
+                      primary_key=True)
+    active = Column(Boolean, default=True, server_default=expression.true())
+
+
+class CoachTeam(DB.Model):
+    """ Table for multiple coach / team associations"""
+    __tablename__ = 'coach_team'
+    coach_id = Column(Integer,  ForeignKey('coach.id'),
+                        primary_key=True)
+    team_id = Column(Integer, ForeignKey('team.id'),
+                      primary_key=True)
+    active = Column(Boolean, default=True, server_default=expression.true())
+
+
 class Player(Person):
     """ Table for listing players and their unique columns """
     __tablename__ = 'player'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
-    team_id = Column(Integer, ForeignKey('team.id'))
-    team = relationship("Team", back_populates="players")
+    teams = relationship("Team",
+                          secondary='player_team',
+                          back_populates="players")
+    sports = relationship("Sport",
+                          secondary='player_sport',
+                          back_populates="players")
+    parents = relationship("Parent",
+                          secondary='player_parent',
+                          back_populates="players")
     birth_date = Column(Date)
- #   parent_id = Column(Integer, ForeignKey('parent.id'))
- #   parent = relationship("Parent", back_populates="players")
-    sport_id = Column(Integer, ForeignKey('sport.id'))
-    sport = relationship("Sport", back_populates="players")
-    active = Column(Boolean)
+    active = Column(Boolean, default=True, server_default=expression.true())
 
     __mapper_args__ = {
         'polymorphic_identity':'player',
@@ -145,12 +190,46 @@ class Player(Person):
         return 0
 
 
+class PlayerSport(DB.Model):
+    """ Table for multiple player / sport associations"""
+    __tablename__ = 'player_sport'
+    player_id = Column(Integer,  ForeignKey('player.id'),
+                        primary_key=True)
+    sport_id = Column(Integer, ForeignKey('sport.id'),
+                      primary_key=True)
+    active = Column(Boolean, default=True, server_default=expression.true())
+
+
+
+class PlayerTeam(DB.Model):
+    """ Table for multiple player / team associations"""
+    __tablename__ = 'player_team'
+    player_id = Column(Integer,  ForeignKey('player.id'),
+                        primary_key=True)
+    team_id = Column(Integer, ForeignKey('team.id'),
+                      primary_key=True)
+    active = Column(Boolean, default=True, server_default=expression.true())
+
+
 class Parent(Person):
     """ Table for listing parents """
     __tablename__ = 'parent'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
+    players = relationship("Player",
+                          secondary='player_parent',
+                          back_populates="parents")
+    active = Column(Boolean, default=True, server_default=expression.true())
+
     __mapper_args__ = {
         'polymorphic_identity':'parent',
     }
 
-    active = Column(Boolean)
+
+class PlayerParent(DB.Model):
+    """ Table for player / parent associations"""
+    __tablename__ = 'player_parent'
+    player_id = Column(Integer,  ForeignKey('player.id'),
+                        primary_key=True)
+    parent_id = Column(Integer, ForeignKey('parent.id'),
+                      primary_key=True)
+    active = Column(Boolean, default=True, server_default=expression.true())
