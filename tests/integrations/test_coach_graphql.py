@@ -1,15 +1,11 @@
 """ Unit Test Module for Graphql """
 import sys
 from os.path import (join, abspath, dirname)
-from glob import glob
 from json import (loads, dumps)
 import unittest
 import pytest
-from flask_fixtures.loaders import JSONLoader
-from flask_fixtures import load_fixtures
 from graphene.test import Client
 from testclass.testclass import TestClass
-from app import DB
 from app.schema import SCHEMA
 
 @pytest.mark.usefixtures("init_database")

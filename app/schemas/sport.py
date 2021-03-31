@@ -133,9 +133,11 @@ class DeleteSport(Mutation):
     ok = Boolean()
 
     class Arguments:
+        """Arguments to delete a sport"""
         input = DeleteSportInput(required=True)
 
     def mutate(self, info, mutate_input):
+        """ Mutate for delete sport """
         data = input_to_dictionary(mutate_input)
 
         sport = DB.session.query(SportModel).filter_by(id=data['id'])

@@ -15,10 +15,6 @@ class TestPlayerGraphGL(unittest.TestCase):
     dir_name = join(abspath(dirname(__file__)), 'files')
     client = Client(SCHEMA)
 
-    def setUp(self):
-        """Initialize the database"""
-        init_database()
-
     def test_player_list(self):
         """Execute player query test"""
         test_data = TestClass(self.dir_name,

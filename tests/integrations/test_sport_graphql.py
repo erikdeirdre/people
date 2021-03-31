@@ -6,7 +6,6 @@ import unittest
 import pytest
 from graphene.test import Client
 from testclass.testclass import TestClass
-from app import DB
 from app.schema import SCHEMA
 
 @pytest.mark.usefixtures("init_database")
@@ -34,8 +33,9 @@ class TestSportGraphGL(unittest.TestCase):
 
         test_data.load_files()
 
-        executed = self.client.execute(test_data.get_send_request(),
-                   variables=test_data.get_variables())
+        executed = self.client.execute(
+            test_data.get_send_request(),
+            variables=test_data.get_variables())
 
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])

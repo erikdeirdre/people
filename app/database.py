@@ -34,11 +34,11 @@ class Team(DB.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(100))
     coaches = relationship("Coach",
-                            secondary='coach_team',
-                            back_populates="teams")
+                           secondary='coach_team',
+                           back_populates="teams")
     players = relationship("Player",
-                            secondary='player_team',
-                            back_populates="teams")
+                           secondary='player_team',
+                           back_populates="teams")
     active = Column(Boolean, default=True, server_default=expression.true())
 
 
@@ -54,8 +54,8 @@ class Sport(DB.Model):
                             secondary='coach_sport',
                             back_populates="sports")
     players = relationship("Player",
-                            secondary='player_sport',
-                            back_populates="sports")
+                           secondary='player_sport',
+                           back_populates="sports")
     active = Column(Boolean, default=True, server_default=expression.true())
 
 
@@ -108,7 +108,7 @@ class Referee(Person):
 class RefereeSport(DB.Model):
     """ Table for multiple referee / sport associations"""
     __tablename__ = 'referee_sport'
-    referee_id = Column(Integer,  ForeignKey('referee.id'),
+    referee_id = Column(Integer, ForeignKey('referee.id'),
                         primary_key=True)
     sport_id = Column(Integer, ForeignKey('sport.id'),
                       primary_key=True)
@@ -121,8 +121,8 @@ class Coach(Person):
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
     active = Column(Boolean, default=True, server_default=expression.true())
     teams = relationship("Team",
-                          secondary='coach_team',
-                          back_populates="coaches")
+                         secondary='coach_team',
+                         back_populates="coaches")
     sports = relationship("Sport",
                           secondary='coach_sport',
                           back_populates="coaches")
@@ -145,8 +145,8 @@ class Coach(Person):
 class CoachSport(DB.Model):
     """ Table for multiple coach / sport associations"""
     __tablename__ = 'coach_sport'
-    coach_id = Column(Integer,  ForeignKey('coach.id'),
-                        primary_key=True)
+    coach_id = Column(Integer, ForeignKey('coach.id'),
+                      primary_key=True)
     sport_id = Column(Integer, ForeignKey('sport.id'),
                       primary_key=True)
     active = Column(Boolean, default=True, server_default=expression.true())
@@ -167,14 +167,14 @@ class Player(Person):
     __tablename__ = 'player'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
     teams = relationship("Team",
-                          secondary='player_team',
-                          back_populates="players")
+                         secondary='player_team',
+                         back_populates="players")
     sports = relationship("Sport",
                           secondary='player_sport',
                           back_populates="players")
     parents = relationship("Parent",
-                          secondary='player_parent',
-                          back_populates="players")
+                           secondary='player_parent',
+                           back_populates="players")
     birth_date = Column(Date)
     active = Column(Boolean, default=True, server_default=expression.true())
 
@@ -194,7 +194,7 @@ class PlayerSport(DB.Model):
     """ Table for multiple player / sport associations"""
     __tablename__ = 'player_sport'
     player_id = Column(Integer,  ForeignKey('player.id'),
-                        primary_key=True)
+                       primary_key=True)
     sport_id = Column(Integer, ForeignKey('sport.id'),
                       primary_key=True)
     active = Column(Boolean, default=True, server_default=expression.true())
@@ -205,9 +205,9 @@ class PlayerTeam(DB.Model):
     """ Table for multiple player / team associations"""
     __tablename__ = 'player_team'
     player_id = Column(Integer,  ForeignKey('player.id'),
-                        primary_key=True)
+                       primary_key=True)
     team_id = Column(Integer, ForeignKey('team.id'),
-                      primary_key=True)
+                     primary_key=True)
     active = Column(Boolean, default=True, server_default=expression.true())
 
 
@@ -216,8 +216,8 @@ class Parent(Person):
     __tablename__ = 'parent'
     id = Column(Integer, ForeignKey('person.id'), primary_key=True)
     players = relationship("Player",
-                          secondary='player_parent',
-                          back_populates="parents")
+                           secondary='player_parent',
+                           back_populates="parents")
     active = Column(Boolean, default=True, server_default=expression.true())
 
     __mapper_args__ = {
@@ -229,7 +229,7 @@ class PlayerParent(DB.Model):
     """ Table for player / parent associations"""
     __tablename__ = 'player_parent'
     player_id = Column(Integer,  ForeignKey('player.id'),
-                        primary_key=True)
+                       primary_key=True)
     parent_id = Column(Integer, ForeignKey('parent.id'),
                       primary_key=True)
     active = Column(Boolean, default=True, server_default=expression.true())
