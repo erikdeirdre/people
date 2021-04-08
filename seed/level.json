@@ -1,0 +1,31 @@
+[
+  {
+    "table": "level",
+    "records": [
+      {
+        "id": 1,
+        "description": "Grassroots Referee",
+        "active": 1,
+        "level_type": "REFEREE"
+      },
+      {
+        "id": 2,
+        "description": "Regional Referee",
+        "active": 1,
+        "level_type": "REFEREE"
+      },
+      {
+        "id": 3,
+        "description": "National Referee and National Assistant Referee",
+        "active": 1,
+        "level_type": "REFEREE"
+      },
+      {
+        "id": 4,
+        "description": "Professional",
+        "active": 0,
+        "level_type": "REFEREE"
+      }
+    ]
+  }
+]

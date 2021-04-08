@@ -2,7 +2,7 @@
 from os.path import (join, exists, abspath, dirname)
 from glob import glob
 import click
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import (IntegrityError, InvalidRequestError)
 from flask_fixtures.loaders import JSONLoader
 from flask_fixtures import load_fixtures
 from app import (APP, DB)
@@ -40,8 +40,10 @@ def seed_command(directory, demo):
         try:
             load_fixtures(DB, fixtures)
         except IntegrityError as err:
+            # rollback required, so subsequent files may be processed
+            DB.session.rollback()
             print('It appears, {}, was already processed'.format(
-                fixture_file))
+                  fixture_file))
         print("Processed fixture file: {}".format(fixture_file))
 
     if demo:
@@ -51,8 +53,10 @@ def seed_command(directory, demo):
             try:
                 load_fixtures(DB, fixtures)
             except IntegrityError as err:
+                # rollback required, so subsequent files may be processed
+                DB.session.rollback()
                 print('It appears, {}, was already processed'.format(
-                    fixture_file))
+                      fixture_file))      
             print("Processed fixture file: {}".format(fixture_file))
 
     return True

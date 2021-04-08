@@ -17,15 +17,23 @@ class Gender(enum.Enum):
     UNDEFINED = 99
 
 
+class LevelType(enum.Enum):
+    """ Level Type """
+    UNDEFINED = 0
+    REFEREE = 1
+    COACH = 2
+    PLAYER = 3
+
+
 class Level(DB.Model):
     """Table to describe skill levels for referees, coaches, and players"""
     __tablename__ = 'level'
     id = Column(Integer, primary_key=True, autoincrement=True)
     description = Column(String(100))
-    level = Column(Integer)
-    referees = relationship("Referee", back_populates="level")
-    coaches = relationship("Coach", back_populates="level")
+    referee_sports = relationship("RefereeSport", back_populates="level")
+    coach_sports = relationship("CoachSport", back_populates="level")
     active = Column(Boolean, default=True, server_default=expression.true())
+    level_type = Column(Enum(LevelType))
 
 
 class Team(DB.Model):
@@ -89,20 +97,10 @@ class Referee(Person):
                           secondary='referee_sport',
                           back_populates="referees")
     active = Column(Boolean, default=True, server_default=expression.true())
-    level_id = Column(Integer, ForeignKey('level.id'))
-    level = relationship("Level", back_populates="referees")
-    level_date = Column(Date)
 
     __mapper_args__ = {
         'polymorphic_identity':'referee',
     }
-
-    @hybrid_property
-    def years_level(self):
-        """ function to return a years of experience at a grade """
-        if self.level_date:
-            return relativedelta(date.today(), self.level_date).years
-        return 0
 
 
 class RefereeSport(DB.Model):
@@ -113,7 +111,16 @@ class RefereeSport(DB.Model):
     sport_id = Column(Integer, ForeignKey('sport.id'),
                       primary_key=True)
     active = Column(Boolean, default=True, server_default=expression.true())
+    level_id = Column(Integer, ForeignKey('level.id'))
+    level = relationship("Level", back_populates="referee_sports")
+    level_date = Column(Date)
 
+    @hybrid_property
+    def years_level(self):
+        """ function to return a years of experience at a grade """
+        if self.level_date:
+            return relativedelta(date.today(), self.level_date).years
+        return 0
 
 class Coach(Person):
     """ Table for listing coaches and their unique columns """
@@ -126,20 +133,10 @@ class Coach(Person):
     sports = relationship("Sport",
                           secondary='coach_sport',
                           back_populates="coaches")
-    level_id = Column(Integer, ForeignKey('level.id'))
-    level = relationship("Level", back_populates="coaches")
-    level_date = Column(Date)
 
     __mapper_args__ = {
         'polymorphic_identity':'coach',
     }
-
-    @hybrid_property
-    def years_level(self):
-        """ function to return a years of experience at a grade """
-        if self.level_date:
-            return relativedelta(date.today(), self.level_date).years
-        return 0
 
 
 class CoachSport(DB.Model):
@@ -150,6 +147,16 @@ class CoachSport(DB.Model):
     sport_id = Column(Integer, ForeignKey('sport.id'),
                       primary_key=True)
     active = Column(Boolean, default=True, server_default=expression.true())
+    level_id = Column(Integer, ForeignKey('level.id'))
+    level = relationship("Level", back_populates="coach_sports")
+    level_date = Column(Date)
+
+    @hybrid_property
+    def years_level(self):
+        """ function to return a years of experience at a grade """
+        if self.level_date:
+            return relativedelta(date.today(), self.level_date).years
+        return 0
 
 
 class CoachTeam(DB.Model):
@@ -159,7 +166,15 @@ class CoachTeam(DB.Model):
                       primary_key=True)
     team_id = Column(Integer, ForeignKey('team.id'),
                      primary_key=True)
+    join_date = Column(Date)
     active = Column(Boolean, default=True, server_default=expression.true())
+
+    @hybrid_property
+    def years_active(self):
+        """ function to return a years of experience at a grade """
+        if self.join_date:
+            return relativedelta(date.today(), self.join_date).years
+        return 0
 
 
 class Player(Person):
@@ -204,12 +219,19 @@ class PlayerSport(DB.Model):
 class PlayerTeam(DB.Model):
     """ Table for multiple player / team associations"""
     __tablename__ = 'player_team'
-    player_id = Column(Integer,  ForeignKey('player.id'),
+    player_id = Column(Integer, ForeignKey('player.id'),
                        primary_key=True)
     team_id = Column(Integer, ForeignKey('team.id'),
                      primary_key=True)
     active = Column(Boolean, default=True, server_default=expression.true())
+    join_date = Column(Date)
 
+    @hybrid_property
+    def years_active(self):
+        """ function to return a years of experience at a grade """
+        if self.join_date:
+            return relativedelta(date.today(), self.join_date).years
+        return 0
 
 class Parent(Person):
     """ Table for listing parents """
@@ -228,8 +250,8 @@ class Parent(Person):
 class PlayerParent(DB.Model):
     """ Table for player / parent associations"""
     __tablename__ = 'player_parent'
-    player_id = Column(Integer,  ForeignKey('player.id'),
+    player_id = Column(Integer, ForeignKey('player.id'),
                        primary_key=True)
     parent_id = Column(Integer, ForeignKey('parent.id'),
-                      primary_key=True)
+                       primary_key=True)
     active = Column(Boolean, default=True, server_default=expression.true())

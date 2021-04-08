@@ -4,7 +4,8 @@ import unittest
 import pytest
 from app import DB
 from app.database import (Team, Sport, Referee, Coach, Player, RefereeSport,
-                          PlayerSport, CoachSport, CoachTeam, PlayerTeam)
+                          PlayerSport, CoachSport, CoachTeam, PlayerTeam,
+                          Level, LevelType, Gender)
 
 
 @pytest.mark.usefixtures("init_database")
@@ -47,6 +48,29 @@ class TestTeamTable(unittest.TestCase):
 
 
 @pytest.mark.usefixtures("init_database")
+class TestLevelTable(unittest.TestCase):
+    """Test Level Table"""
+    def test_level_all(self):
+        """Test Query gets correct number of rows"""
+        result = DB.session.query(Level).all()
+        self.assertEqual(len(result), 4, "Not equal to FOUR level rows")
+
+    def test_level_active_true(self):
+        """Test to check active, true"""
+        result = DB.session.query(Level).filter_by(
+            description="Grassroots Referee").first()
+        self.assertEqual(result.active, True)
+        self.assertEqual(result.level_type, LevelType.REFEREE)
+
+    def test_level_active_false(self):
+        """Test to check active, false"""
+        result = DB.session.query(Level).filter_by(
+            description="Professional").first()
+        self.assertEqual(result.active, False)
+        self.assertEqual(result.level_type, LevelType.REFEREE)
+
+
+@pytest.mark.usefixtures("init_database")
 class TestRefereeTable(unittest.TestCase):
     """Test Referee Table"""
     def test_referee_all(self):
@@ -58,7 +82,6 @@ class TestRefereeTable(unittest.TestCase):
         """Test to confirm columns return correctly"""
         result = DB.session.query(Referee).get(3)
         self.assertEqual(result.active, True)
-        self.assertEqual(result.level_date, date(2018, 3, 1))
         self.assertEqual(result.first_name, "Bart")
         self.assertEqual(result.last_name, "Simpson")
         self.assertEqual(result.address1, "123 Evergreen Terrace")
@@ -66,7 +89,7 @@ class TestRefereeTable(unittest.TestCase):
         self.assertEqual(result.state, "MA")
         self.assertEqual(result.zip_code, "12345")
         self.assertEqual(result.email, "bsimpson@simpsons.com")
-#        self.assertEqual(result.gender, "MALE")
+        self.assertEqual(result.gender, Gender.MALE)
 
         result = DB.session.query(Referee).get(4)
         self.assertEqual(result.active, False)
@@ -77,8 +100,7 @@ class TestRefereeTable(unittest.TestCase):
         self.assertEqual(result.state, "MA")
         self.assertEqual(result.zip_code, "12345")
         self.assertEqual(result.email, "lsimpson@simpsons.com")
-#        self.assertEqual(result.gender, "FEMALE")
-        self.assertEqual(result.level_date, date(2019, 6, 1))
+        self.assertEqual(result.gender, Gender.FEMALE)
 
 @pytest.mark.usefixtures("init_database")
 class TestRefereeSportTable(unittest.TestCase):
@@ -94,10 +116,12 @@ class TestRefereeSportTable(unittest.TestCase):
         self.assertEqual(result.active, True)
         self.assertEqual(result.sport_id, 1)
         self.assertEqual(result.referee_id, 3)
+        self.assertEqual(result.level_date, date(2018, 3, 1))
         result = DB.session.query(RefereeSport).get((4, 2))
         self.assertEqual(result.active, False)
         self.assertEqual(result.sport_id, 2)
         self.assertEqual(result.referee_id, 4)
+        self.assertEqual(result.level_date, date(2019, 6, 1))
 
 
 @pytest.mark.usefixtures("init_database")

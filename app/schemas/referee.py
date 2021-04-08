@@ -1,13 +1,17 @@
 """ Graphql Referee Schema Module """
-from graphene import (String, Boolean, ID, InputObjectType,
-                      Field, Mutation, Connection, Node)
+from graphene import (String, Boolean, ID, InputObjectType, Interface,
+                      Field, Mutation, Connection, Node, List, ObjectType)
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
 from app import (DB)
-from app.database import (Referee as RefereeModel)
+from app.database import (Referee as RefereeModel, Sport, RefereeSport)
 from .total_count import TotalCount
+
+class Sports(ObjectType):
+    description = String()
+    active = Boolean()
 
 
 class RefereeAttribute:
@@ -34,6 +38,23 @@ class RefereeNode(SQLAlchemyObjectType):
         model = RefereeModel
         interfaces = (Node,)
         connection_field_factory = FilterConnectionField.factory
+
+    sport = List(Sports)
+
+    def resolve_sport(self, info):
+        ''' mysport resolver '''
+        sports = []
+        results = DB.session.query(RefereeSport, Sport).join(Sport).filter(
+            RefereeSport.referee_id == self.id)
+        for row in results:
+            sports.append({'description': row.Sport.description, 'active': row.RefereeSport.active})
+            print("description:{}, active: {}".format(row.Sport.description, row.RefereeSport.active))
+
+        return sports
+#        return ["basketball", "soccer"]
+#        return [{"description": "basketball", "active": True},
+#        {"description": "baseball", "active": False}
+#        ]
 
 
 class RefereeConnection(Connection):
