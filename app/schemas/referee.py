@@ -1,6 +1,6 @@
 """ Graphql Referee Schema Module """
-from graphene import (String, Boolean, ID, InputObjectType, Interface,
-                      Field, Mutation, Connection, Node, List, ObjectType)
+from graphene import (String, Boolean, ID, InputObjectType, Field,
+                      Mutation, Connection, Node, List, ObjectType)
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from app.filters import FilterConnectionField
 
@@ -10,6 +10,7 @@ from app.database import (Referee as RefereeModel, Sport, RefereeSport)
 from .total_count import TotalCount
 
 class Sports(ObjectType):
+    """ Sports Graphql Attributes"""
     description = String()
     active = Boolean()
 
@@ -47,8 +48,10 @@ class RefereeNode(SQLAlchemyObjectType):
         results = DB.session.query(RefereeSport, Sport).join(Sport).filter(
             RefereeSport.referee_id == self.id)
         for row in results:
-            sports.append({'description': row.Sport.description, 'active': row.RefereeSport.active})
-            print("description:{}, active: {}".format(row.Sport.description, row.RefereeSport.active))
+            sports.append({'description': row.Sport.description,
+                           'active': row.RefereeSport.active})
+            print("description:{}, active: {}".format(
+                row.Sport.description, row.RefereeSport.active))
 
         return sports
 #        return ["basketball", "soccer"]
