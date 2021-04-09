@@ -13,12 +13,20 @@
             "state": "MA",
             "zipCode": "12345",
             "firstName": "Milhouse",
-            "team": {
-              "description": "Bruins"
-            },
-            "sport": {
-              "description": "Soccer"
-            }
+            "sport": [
+              {
+                "active": false,
+                "description": null
+              }
+            ],
+            "team": [
+              {
+                "active": false,
+                "joinYears": 0,
+                "joinDate": null,
+                "description": null
+              }
+            ]
           }
         }
       ]

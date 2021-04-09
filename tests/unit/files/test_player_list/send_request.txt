@@ -11,19 +11,15 @@
         state
         zipCode
         firstName
-        sports {
-          edges {
-            node {
-              description
-            }
-          }
+        sport {
+          active
+					description
         }
-        teams {
-          edges {
-            node {
-              description
-            }
-          }
+        team {
+          active
+          joinYears
+          joinDate
+          description
         }
       }
     }

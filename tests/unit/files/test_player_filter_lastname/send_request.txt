@@ -11,10 +11,14 @@
         state
         zipCode
         firstName
-        team {
-          description
-        }
         sport {
+          active
+					description
+        }
+        team {
+          active
+          joinYears
+          joinDate
           description
         }
       }

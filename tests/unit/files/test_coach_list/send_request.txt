@@ -12,6 +12,7 @@
         zipCode
         firstName
         sport {
+          description
           active
           achieve
           achieveDate

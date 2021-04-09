@@ -19,13 +19,20 @@ class Levels(ObjectType):
 
 
 class Sports(ObjectType):
-    """ Sports Graphql Attributes"""
+    """ Sports Graphql Attributes for Referees and Coaches"""
     id = ID()
     description = String()
     active = Boolean()
     achieve = String()
     achieve_date = Date()
     achieve_years = Int()
+
+
+class SportsPlayers(ObjectType):
+    """ Sports Graphql Attributes for Players"""
+    id = ID()
+    description = String()
+    active = Boolean()
 
 
 class Teams(ObjectType):

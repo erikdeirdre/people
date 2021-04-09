@@ -215,7 +215,6 @@ class PlayerSport(DB.Model):
     active = Column(Boolean, default=True, server_default=expression.true())
 
 
-
 class PlayerTeam(DB.Model):
     """ Table for multiple player / team associations"""
     __tablename__ = 'player_team'

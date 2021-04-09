@@ -1,13 +1,14 @@
 """ Graphql Player Schema Module """
-from graphene import (String, Boolean, ID, InputObjectType,
+from graphene import (String, Boolean, ID, InputObjectType, List,
                       Field, Mutation, Connection, Node)
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
 from app import DB
-from app.database import (Player as PlayerModel)
-from .helpers import TotalCount
+from app.database import (Player as PlayerModel, PlayerSport, Sport,
+                          PlayerTeam, Team)
+from .helpers import (TotalCount, SportsPlayers, Teams)
 
 
 class PlayerNode(SQLAlchemyObjectType):
@@ -17,6 +18,49 @@ class PlayerNode(SQLAlchemyObjectType):
         model = PlayerModel
         interfaces = (Node,)
         connection_field_factory = FilterConnectionField.factory
+
+    sport = List(SportsPlayers)
+    team = List(Teams)
+
+    def resolve_sport(self, info):
+        ''' sport resolver '''
+        sports = []
+        results = DB.session.query(PlayerSport, Sport).join(Sport).filter(
+            PlayerSport.player_id == self.id)
+        for row in results:
+            description = None
+            active = False
+            if row.PlayerSport.active:
+                description = row.Sport.description
+                active = row.PlayerSport.active
+
+            sports.append({'id': row.Sport.id,
+                           'description': description,
+                           'active': active})
+        return sports
+
+    def resolve_team(self, info):
+        ''' team resolver '''
+        teams = []
+        results = DB.session.query(PlayerTeam, Team).join(Team).filter(
+            PlayerTeam.player_id == self.id)
+        for row in results:
+            join_date = None
+            join_years = 0
+            active = False
+            description = None
+
+            if row.PlayerTeam.active:
+                join_date = row.PlayerTeam.join_date
+                join_years = row.PlayerTeam.years_active
+                active = row.PlayerTeam.active
+                description = row.Team.description
+            teams.append({'id': row.Team.id,
+                           'description': description,
+                           'active': active,
+                           'join_date': join_date,
+                           'join_years': join_years})
+        return teams
 
 
 class PlayerConnection(Connection):
