@@ -65,10 +65,10 @@ class CoachNode(SQLAlchemyObjectType):
                 active = row.CoachTeam.active
                 description = row.Team.description
             teams.append({'id': row.Team.id,
-                           'description': description,
-                           'active': active,
-                           'join_date': join_date,
-                           'join_years': join_years})
+                          'description': description,
+                          'active': active,
+                          'join_date': join_date,
+                          'join_years': join_years})
         return teams
 
 class CoachConnection(Connection):
