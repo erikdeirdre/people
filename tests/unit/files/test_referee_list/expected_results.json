@@ -13,17 +13,16 @@
             "state": "MA",
             "zipCode": "12345",
             "firstName": "Bart",
-            "yearsLevel": "3",
-            "levelDate": "2018-03-01",
-            "sports": {
-              "edges": [
-                {
-                  "node": {
-                    "description": "Soccer"
-                  }
-                }
-              ]
-            }
+            "sport": [
+              {
+                "description": "Soccer",
+                "active": true,
+                "id": "1",
+                "achieve": "Grassroots Referee",
+                "achieveDate": "2018-03-01",
+                "achieveYears": 3
+              }
+            ]
           }
         },
         {
@@ -36,17 +35,16 @@
             "state": "MA",
             "zipCode": "12345",
             "firstName": "Lisa",
-            "yearsLevel": "1",
-            "levelDate": "2019-06-01",
-            "sports": {
-              "edges": [
-                {
-                  "node": {
-                    "description": "Baseball"
-                  }
-                }
-              ]
-            }
+            "sport": [
+              {
+                "description": "Baseball",
+                "active": false,
+                "id": "2",
+                "achieve": "Grassroots Referee",
+                "achieveDate": "2019-06-01",
+                "achieveYears": 1
+              }
+            ]
           }
         }
       ]

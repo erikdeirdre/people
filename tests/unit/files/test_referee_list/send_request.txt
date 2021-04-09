@@ -11,14 +11,13 @@
         state
         zipCode
         firstName
-        yearsLevel
-        levelDate
-        sports {
-          edges {
-            node {
-              description
-            }
-          }
+        sport {
+          description
+          active 
+          id
+          achieve
+          achieveDate
+          achieveYears
         }
       }
     }

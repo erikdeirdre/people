@@ -8,7 +8,7 @@ from app.filters import FilterConnectionField
 from helpers.utils import (input_to_dictionary)
 from app import DB
 from app.database import (Team as TeamModel)
-from .total_count import TotalCount
+from .helpers import TotalCount
 
 
 class TeamNode(SQLAlchemyObjectType):

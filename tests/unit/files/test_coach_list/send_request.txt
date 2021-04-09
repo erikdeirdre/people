@@ -11,21 +11,17 @@
         state
         zipCode
         firstName
-        yearsLevel
-        levelDate
-        sports {
-          edges {
-            node {
-              description
-            }
-          }
+        sport {
+          active
+          achieve
+          achieveDate
+          achieveYears
         }
-        teams {
-          edges {
-            node {
-              description
-            }
-          }
+        team {
+          active
+          joinYears
+          joinDate
+          description
         }
       }
     }

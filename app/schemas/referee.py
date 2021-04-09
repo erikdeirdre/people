@@ -7,13 +7,7 @@ from app.filters import FilterConnectionField
 from helpers.utils import (input_to_dictionary)
 from app import (DB)
 from app.database import (Referee as RefereeModel, Sport, RefereeSport)
-from .total_count import TotalCount
-
-class Sports(ObjectType):
-    """ Sports Graphql Attributes"""
-    description = String()
-    active = Boolean()
-
+from .helpers import (TotalCount, Sports)
 
 class RefereeAttribute:
     """Referee Graphql Attributes"""
@@ -43,21 +37,30 @@ class RefereeNode(SQLAlchemyObjectType):
     sport = List(Sports)
 
     def resolve_sport(self, info):
-        ''' mysport resolver '''
+        ''' sport resolver '''
         sports = []
         results = DB.session.query(RefereeSport, Sport).join(Sport).filter(
             RefereeSport.referee_id == self.id)
         for row in results:
-            sports.append({'description': row.Sport.description,
-                           'active': row.RefereeSport.active})
-            print("description:{}, active: {}".format(
-                row.Sport.description, row.RefereeSport.active))
+            achieve = None
+            achieve_date = None
+            achieve_years = 0
+            description = None
+            active = False
+            if row.RefereeSport.level:
+                achieve = row.RefereeSport.level.description
+                achieve_date = row.RefereeSport.level_date
+                achieve_years = row.RefereeSport.years_level
+                description = row.Sport.description
+                active = row.RefereeSport.active
 
+            sports.append({'id': row.Sport.id,
+                           'description': description,
+                           'active': active,
+                           'achieve': achieve,
+                           'achieve_date': achieve_date,
+                           'achieve_years': achieve_years})
         return sports
-#        return ["basketball", "soccer"]
-#        return [{"description": "basketball", "active": True},
-#        {"description": "baseball", "active": False}
-#        ]
 
 
 class RefereeConnection(Connection):

@@ -9,20 +9,19 @@ from testclass.testclass import TestClass
 from app.schema import SCHEMA
 
 @pytest.mark.usefixtures("init_database")
-class TestCoachGraphGL(unittest.TestCase):
-    """Test Suite for testing Coach GraphQL"""
+class TestRefereeGraphGL(unittest.TestCase):
+    """Test Suite for testing Referee GraphQL"""
     dir_name = join(abspath(dirname(__file__)), 'files')
     client = Client(SCHEMA)
 
-    def test_coach_list(self):
-        """Execute coach query test"""
+    def test_referee_list(self):
+        """Execute referee query test"""
         test_data = TestClass(self.dir_name,
                               sys._getframe(  ).f_code.co_name)
         test_data.load_files()
 
         executed = self.client.execute(test_data.get_send_request())
-        print(dumps(executed['data']))
-        print(test_data.get_expected_result()['data'])
+
         self.assertEqual(loads(dumps(executed['data'])),
                          test_data.get_expected_result()['data'])
 
