@@ -3,6 +3,8 @@ engines:
   pylintpython3:
     exclude_paths:
       - "migrations/**"
+      - "config-sample.py"
 
 exclude_paths:
   - "migrations/**"
+  - "config-sample.py"
