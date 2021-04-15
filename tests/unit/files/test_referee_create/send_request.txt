@@ -1,0 +1,17 @@
+mutation AddReferee($referee: CreateRefereeInput!, $sport:CreateSportsInput) {
+  createReferee(refereeData: $referee, sportData: $sport) {
+    referee {
+      gender
+      state
+      firstName
+      lastName
+      address1
+      address2
+      email
+      telephone
+      zipCode
+      city
+      active
+    }
+  }
+}

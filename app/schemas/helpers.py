@@ -1,5 +1,6 @@
 """ Includes Row Count in Graphql Queries """
-from graphene import (Interface, Int, Boolean, String, ID, ObjectType, Date)
+from graphene import (Interface, Int, Boolean, String, ID, ObjectType, Date,
+                      InputObjectType)
 
 
 class TotalCount(Interface):
@@ -23,9 +24,9 @@ class Sports(ObjectType):
     id = ID()
     description = String()
     active = Boolean()
-    achieve = String()
-    achieve_date = Date()
-    achieve_years = Int()
+    level = String()
+    level_date = Date()
+    level_years = Int()
 
 
 class SportsPlayers(ObjectType):
@@ -42,3 +43,16 @@ class Teams(ObjectType):
     active = Boolean()
     join_date = Date()
     join_years = Int()
+
+
+class SportsAttribute:
+    """Sport Attribute for Coach and Referees"""
+    description = String()
+    active = Boolean()
+    level = String()
+    level_date = Date()
+    level_years = Int()
+
+
+class CreateSportsInput(InputObjectType, SportsAttribute):
+    """Create Sports Input fields derived from SportsAttribute"""

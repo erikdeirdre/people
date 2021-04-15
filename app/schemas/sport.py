@@ -10,7 +10,7 @@ from app.database import (Sport as SportModel)
 from .helpers import TotalCount
 
 
-class SportAttribute(Interface):
+class SportAttribute:
     """Sport Graphql Attributes"""
     description = String()
     active = Boolean()

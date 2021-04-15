@@ -1,0 +1,21 @@
+{ 
+  "referee": {
+    "gender": "MALE",
+    "active": true,
+    "email":"mickeymouse@example.com",
+    "state": "Florida",
+    "city":"Orlando",
+    "firstName": "Mickey",
+    "lastName": "Mouse",
+    "address1": "123 Main St.",
+    "address2": "POB 12345",
+    "telephone": "1234567890",
+    "zipCode": "12345"
+  },
+  "sport": {
+    "description": "BaseBall",
+    "active":"True",
+    "level": "Grassroots Referee",
+    "levelDate":"2020-06-08"
+  }
+}

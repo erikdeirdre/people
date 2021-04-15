@@ -1,13 +1,14 @@
 """ Graphql Referee Schema Module """
 from graphene import (String, Boolean, ID, InputObjectType, Field,
-                      Mutation, Connection, Node, List)
+                      Mutation, Connection, Node, List, InputField)
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from app.filters import FilterConnectionField
 
 from helpers.utils import (input_to_dictionary)
 from app import (DB)
-from app.database import (Referee as RefereeModel, Sport, RefereeSport)
-from .helpers import (TotalCount, Sports)
+from app.database import (Referee as RefereeModel, Sport, RefereeSport,
+                          Level)
+from .helpers import (TotalCount, Sports, CreateSportsInput)
 
 class RefereeAttribute:
     """Referee Graphql Attributes"""
@@ -22,7 +23,6 @@ class RefereeAttribute:
     email = String(required=True)
     gender = String()
     sport = String()
-    grade = String()
     active = Boolean()
 
 
@@ -42,24 +42,24 @@ class RefereeNode(SQLAlchemyObjectType):
         results = DB.session.query(RefereeSport, Sport).join(Sport).filter(
             RefereeSport.referee_id == self.id)
         for row in results:
-            achieve = None
-            achieve_date = None
-            achieve_years = 0
+            level = None
+            level_date = None
+            level_years = 0
             description = None
             active = False
             if row.RefereeSport.level:
-                achieve = row.RefereeSport.level.description
-                achieve_date = row.RefereeSport.level_date
-                achieve_years = row.RefereeSport.years_level
+                level = row.RefereeSport.level.description
+                level_date = row.RefereeSport.level_date
+                level_years = row.RefereeSport.years_level
                 description = row.Sport.description
                 active = row.RefereeSport.active
 
             sports.append({'id': row.Sport.id,
                            'description': description,
                            'active': active,
-                           'achieve': achieve,
-                           'achieve_date': achieve_date,
-                           'achieve_years': achieve_years})
+                           'level': level,
+                           'level_date': level_date,
+                           'level_years': level_years})
         return sports
 
 
@@ -73,29 +73,49 @@ class RefereeConnection(Connection):
 
 class CreateRefereeInput(InputObjectType, RefereeAttribute):
     """Create Referee Input fields derived from RefereeAttribute"""
+    sport = InputField(CreateSportsInput)
+    print('wait')
 
 
 class CreateReferee(Mutation):
     """Create Referee Graphql"""
     referee = Field(lambda: RefereeNode,
                     description="Referee created by this mutation.")
+    ok = Boolean()
 
     class Arguments:
         """Create Referee Arguments"""
         referee_data = CreateRefereeInput(required=True)
+        sport_data = CreateSportsInput()
 
-    def mutate(self, info, referee_data=None):
+    def mutate(self, info, referee_data=None, sport_data=None):
         """Create Referee Graphql"""
-        data = input_to_dictionary(referee_data)
-
-        referee = RefereeModel(**data)
+        ref_data = input_to_dictionary(referee_data)
+        referee = RefereeModel(**ref_data)
         referee_db = DB.session.query(RefereeModel).filter_by(
-            description=data['description']).first()
+            email=ref_data['email']).first()
         if referee_db:
             print('need to update')
             referee_db = referee
         else:
             DB.session.add(referee)
+
+        data = input_to_dictionary(sport_data)
+        # Description isn't part of RefereeSport Model, so pull out the field
+        description = data.pop('description')
+        # Level returns as string, need to get Level Object
+        level = DB.session.query(Level).filter_by(description=data['level']).first()
+        if level:
+            data['level'] = level
+        else:
+            print('need no level logic')
+        sport = RefereeSport(**data)
+        sport_db = DB.session.query(Sport, RefereeSport).join(Sport).filter(
+            Sport.description == description).first()
+        if sport_db:
+            print('need to update')
+        else:
+            DB.session.add(sport)
         DB.session.commit()
 
         return CreateReferee(referee=referee)
