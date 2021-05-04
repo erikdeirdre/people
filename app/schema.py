@@ -14,7 +14,7 @@ from .schemas.coach import (CoachNode, CoachConnection, CreateCoach,
 from .schemas.player import (PlayerNode, PlayerConnection, CreatePlayer,
                              UpdatePlayer)
 from .schemas.address import (CityState, Address, resolve_city_states,
-                              resolve_address)
+                              resolve_address, CityStateNode, AddressNode)
 
 
 class Query(ObjectType):
@@ -23,7 +23,7 @@ class Query(ObjectType):
 
     city_state = Field(
         CityState,
-        postalcode=Argument(String, required=True),
+        postalcode=String(required=True),
         resolver=resolve_city_states
     )
 
@@ -37,6 +37,8 @@ class Query(ObjectType):
         resolver=resolve_address
     )
 
+ #   address = relay.Node.Field(AddressNode)
+ #   citystate = relay.Node.Field(CityStateNode)
     sport = relay.Node.Field(SportNode)
     team = relay.Node.Field(TeamNode)
     referee = relay.Node.Field(RefereeNode)

@@ -14,9 +14,9 @@
         sport {
           description
           active
-          achieve
-          achieveDate
-          achieveYears
+          level
+          levelDate
+          levelYears
         }
         team {
           active

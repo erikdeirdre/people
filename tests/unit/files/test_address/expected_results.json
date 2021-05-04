@@ -1,0 +1,11 @@
+{
+  "data": {
+    "address": {
+      "postalcode": "12345",
+      "city": "SCHENECTADY",
+      "state": "NY",
+      "address1": "123 MAIN ST.",
+      "address2": null
+    }
+  }
+}

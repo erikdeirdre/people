@@ -18,9 +18,9 @@
                 "description": "Soccer",
                 "active": true,
                 "id": "1",
-                "achieve": "Grassroots Referee",
-                "achieveDate": "2018-03-01",
-                "achieveYears": 3
+                "level": "Grassroots Referee",
+                "levelDate": "2018-03-01",
+                "levelYears": 3
               }
             ]
           }
@@ -40,9 +40,9 @@
                 "description": "Baseball",
                 "active": false,
                 "id": "2",
-                "achieve": "Grassroots Referee",
-                "achieveDate": "2019-06-01",
-                "achieveYears": 1
+                "level": "Grassroots Referee",
+                "levelDate": "2019-06-01",
+                "levelYears": 1
               }
             ]
           }

@@ -15,9 +15,9 @@
           description
           active 
           id
-          achieve
-          achieveDate
-          achieveYears
+          level
+          levelDate
+          levelYears
         }
       }
     }

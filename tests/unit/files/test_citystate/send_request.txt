@@ -1,0 +1,6 @@
+{
+  cityState(postalcode: "12345") {
+    state
+    city
+  }
+}

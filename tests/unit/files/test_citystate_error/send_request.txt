@@ -1,0 +1,6 @@
+{
+  cityState(postalcode: "54321") {
+    state
+    city
+  }
+}

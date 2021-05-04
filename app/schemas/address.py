@@ -2,8 +2,9 @@
 import requests
 import xmltodict
 
-from graphene import (Interface, String)
+from graphene import (Interface, String, ObjectType, Connection)
 from app import (PO_URL, PO_USERID)
+from .helpers import TotalCount
 
 
 def postal_code_request(postal_code):
@@ -59,8 +60,9 @@ def verify_address_request(postal_code, address1, address2, city, state):
     return {'postalcode': None, 'city': None, 'state': None,
             'address1': None, 'address2': None}
 
-def resolve_address(postalcode, address1, address2='', city='', state=''):
-    """Verify / cleanup address based on USPS information. """
+def resolve_address(parent, info, postalcode, address1, address2='',
+                    city='', state=''):
+    """ Verify / cleanup address based on USPS information. """
     address = verify_address_request(postalcode, address1, address2, city,
                                      state)
     return Address(
@@ -72,8 +74,8 @@ def resolve_address(postalcode, address1, address2='', city='', state=''):
     )
 
 
-def resolve_city_states(postalcode):
-    """Get city / state from USPS based on zip code. """
+def resolve_city_states(parent, info, postalcode):
+    """ Get city / state from USPS based on zip code. """
     city_state = postal_code_request(postalcode)
     return CityState(
         postalcode=postalcode,
@@ -81,8 +83,8 @@ def resolve_city_states(postalcode):
         state=city_state['state']
     )
 
-class Address(Interface):
-    """Address fields output """
+class Address(ObjectType):
+    """ Address fields output """
     postalcode = String()
     city = String()
     state = String()
@@ -90,8 +92,47 @@ class Address(Interface):
     address2 = String()
 
 
-class CityState(Interface):
-    """City State fields output """
+class CityState(ObjectType):
+    """ City State fields output """
     postalcode = String()
     city = String()
     state = String()
+
+
+class AddressNode(ObjectType):
+    """ Address Graphql Node output """
+#    class Meta:
+#        """ Address Graphql Node output """
+#        interfaces = (Address,)
+
+    postalcode = String()
+    city = String()
+    state = String()
+    address1 = String()
+    address2 = String()
+
+
+class AddressConnection(Connection):
+    """ Address Graphql Query output """
+    class Meta:
+        """ Address Graphql Query output """
+        node = AddressNode
+        interfaces = (TotalCount,)
+
+
+class CityStateNode(ObjectType):
+    """ CityStateGraphql Node output """
+#    class Meta:
+#        """ CityState Graphql Node output """
+#        interfaces = (CityState,)
+
+    postalcode = String()
+    city = String()
+    state = String()
+
+class CityStateConnection(Connection):
+    """ CityState Graphql Query output """
+    class Meta:
+        """ CityState Graphql Query output """
+        node = CityStateNode
+        interfaces = (TotalCount,)

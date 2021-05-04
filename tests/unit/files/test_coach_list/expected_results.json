@@ -17,9 +17,9 @@
               {
                 "description": null,
                 "active": false,
-                "achieve": null,
-                "achieveDate": null,
-                "achieveYears": 0
+                "level": null,
+                "levelDate": null,
+                "levelYears": null
               }
             ],
             "team": [
@@ -46,9 +46,9 @@
               {
                 "description": null,
                 "active": false,
-                "achieve": null,
-                "achieveDate": null,
-                "achieveYears": 0
+                "level": null,
+                "levelDate": null,
+                "levelYears": null
               }
             ],
             "team": [
