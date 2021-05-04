@@ -3,6 +3,10 @@ FROM python:3.8.5-slim AS container-image
 RUN apt-get update && apt-get install --no-install-recommends -y \
     gunicorn \
     curl \
+    postgresql \
+    gcc \
+    sqlite \
+    python3-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -11,14 +15,11 @@ WORKDIR /app
 FROM container-image
 
 COPY ./requirements.txt /app/requirements.txt
-
-RUN apk update && apk add postgresql-dev gcc sqlite python3-dev musl-dev &&\
-    pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY migrations /app/migrations
 COPY ./app /app/app
 COPY ./seed /app/seed
-COPY ./config-sample /app/config.py
 COPY ./helpers /app/helpers
 COPY ./people.py /app/people.py
 
