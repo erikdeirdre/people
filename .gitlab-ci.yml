@@ -29,6 +29,12 @@ before_script:
   - pip install -r test_requirements.txt
 
 code_quality:
+  image: docker:19.03.12
+  before_script:
+    - ''                  #ignore global_before script
+#  state: image
+  services:
+    - docker:19.03.12-dind
   artifacts:
     paths: [gl-code-quality-report.json]
 
