@@ -1,6 +1,6 @@
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
-image: python:3.8
+image: "python:3.8"
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -29,14 +29,11 @@ before_script:
   - pip install -r test_requirements.txt
 
 code_quality:
-  image: docker:19.03.12
-  before_script:
-    - ''                  #ignore global_before script
-#  state: image
-  services:
-    - docker:19.03.12-dind
+  stage: test
   artifacts:
-    paths: [gl-code-quality-report.json]
+    expire_in: 180 days
+    expose_as: code_quality
+    paths: [gl-code_quality-report.json]
 
 #lint:
 #  stage: test
@@ -44,22 +41,23 @@ code_quality:
 #    - pip install flake8  # you can also use tox
 #    - flake8 . --exit-zero
 #
-#pytest:
-#  stage: test
-#  variables:
-#    CONFIG_SETTINGS: config.TestConfig
-#  script:
-#    - cp config-sample.py config.py
-#    - coverage run -m pytest --junitxml=test-results.xml
-#    - coverage report
-#    - coverage xml -o coverage.xml
-#    - coverage html
+pytest:
+  stage: test
+  variables:
+    CONFIG_SETTINGS: config.TestConfig
+  script:
+    - cp config-sample.py config.py
+    - coverage run -m pytest --junitxml=test-results.xml
+    - coverage report
+    - coverage xml -o coverage.xml
+    - coverage html
 #    - python-codacy-coverage -r coverage.xml
-#  artifacts:
-#    when: always
-#    reports:
-#      junit: test-results.xml
-#    expire_in: 1 month
+  artifacts:
+    when: always
+    reports:
+      junit: test-results.xml
+      cobertura: coverage.xml
+    expire_in: 1 month
 
 #build_image:
 #  image: docker:19.03.12
