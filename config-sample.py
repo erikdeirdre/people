@@ -23,7 +23,7 @@ class Config():
     APP_NAME = os.environ.get('APP_NAME') or 'people'
 
     POST_OFFICE_URL = "https://secure.shippingapis.com/ShippingAPI.dll"
-    POST_OFFICE_USERID = environ.get('POST_OFFICE_USERID') or "<your user id>"
+    POST_OFFICE_USERID = os.environ.get('POST_OFFICE_USERID') or "<your user id>"
 
     DATABASE_TYPE = os.environ.get('DATABASE_TYPE') or 'sqlite'
     DATABASE_NAME = os.environ.get('DATABASE_NAME') or 'people'
