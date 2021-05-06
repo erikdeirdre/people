@@ -30,19 +30,13 @@ before_script:
   - pip install -r requirements.txt
   - pip install -r test_requirements.txt
 
-code_quality:
+lint:
   stage: test
-  artifacts:
-    expire_in: 180 days
-    expose_as: code_quality
-    paths: [gl-code_quality-report.json]
+  script:
+    - pip install flake8  # you can also use tox
+    - flake8 . --exit-zero
 
-#lint:
-#  stage: test
-#  script:
-#    - pip install flake8  # you can also use tox
-#    - flake8 . --exit-zero
-#
+
 pytest:
   stage: test
   variables:
@@ -85,6 +79,3 @@ sonarcloud-check:
 #    - docker:19.03.12-dind
 #  variables:
 #    IMAGE_TAG: 
-
-include:
-  - template: Code-Quality.gitlab-ci.yml
