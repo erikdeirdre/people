@@ -56,7 +56,8 @@ pytest:
 
 sonarcloud-check:
   stage: test
-  before_script: ''
+  before_script: 
+    - ''
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
