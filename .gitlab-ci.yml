@@ -36,7 +36,6 @@ lint:
     - pip install flake8  # you can also use tox
     - flake8 . --exit-zero
 
-
 pytest:
   stage: test
   variables:
@@ -57,6 +56,7 @@ pytest:
 
 sonarcloud-check:
   stage: test
+  before_script: ''
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
