@@ -40,7 +40,7 @@ class TestAddressGraphGL(unittest.TestCase):
 
     def test_citystate_error(self):
         """Execute city/state error test"""
-        test_data = TestClass(self.dir_name,
+        test_data = TestHelper(self.dir_name,
                               sys._getframe(  ).f_code.co_name)
         test_data.load_files()
 

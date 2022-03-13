@@ -1,0 +1,7 @@
+pytest
+nose
+coverage
+codecov
+pytest-cov
+codacy-coverage
+git+https://github.com/erikdeirdre/test_helper#egg=testhelper

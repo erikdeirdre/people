@@ -81,12 +81,20 @@ class Person(DB.Model):
     telephone = Column(String(15))
     email = Column(String(100))
     gender = Column(Enum(Gender))
+    birth_date = Column(Date)
     table_type = Column(String(20))
 
     __mapper_args__ = {
         'polymorphic_identity': 'person',
         'polymorphic_on': table_type
     }
+
+    @hybrid_property
+    def age(self):
+        """ function to return a person's age """
+        if self.birth_date:
+            return relativedelta(date.today(), self.birth_date).years
+        return 0
 
 
 class Referee(Person):
@@ -96,6 +104,9 @@ class Referee(Person):
     sports = relationship("Sport",
                           secondary='referee_sport',
                           back_populates="referees")
+    parents = relationship("Parent",
+                           secondary='referee_parent',
+                           back_populates="referees")
     active = Column(Boolean, default=True, server_default=expression.true())
 
     __mapper_args__ = {
@@ -114,6 +125,7 @@ class RefereeSport(DB.Model):
     level_id = Column(Integer, ForeignKey('level.id'))
     level = relationship("Level", back_populates="referee_sports")
     level_date = Column(Date)
+    sport_org_id = Column(String(50))
 
     @hybrid_property
     def years_level(self):
@@ -150,6 +162,7 @@ class CoachSport(DB.Model):
     level_id = Column(Integer, ForeignKey('level.id'))
     level = relationship("Level", back_populates="coach_sports")
     level_date = Column(Date)
+    sport_org_id = Column(String(50))
 
     @hybrid_property
     def years_level(self):
@@ -190,19 +203,11 @@ class Player(Person):
     parents = relationship("Parent",
                            secondary='player_parent',
                            back_populates="players")
-    birth_date = Column(Date)
     active = Column(Boolean, default=True, server_default=expression.true())
 
     __mapper_args__ = {
         'polymorphic_identity':'player',
     }
-
-    @hybrid_property
-    def age(self):
-        """ function to return a player's age """
-        if self.birth_date:
-            return relativedelta(date.today(), self.birth_date).years
-        return 0
 
 
 class PlayerSport(DB.Model):
@@ -239,6 +244,9 @@ class Parent(Person):
     players = relationship("Player",
                            secondary='player_parent',
                            back_populates="parents")
+    referees = relationship("Referee",
+                           secondary='referee_parent',
+                           back_populates="parents")
     active = Column(Boolean, default=True, server_default=expression.true())
 
     __mapper_args__ = {
@@ -250,6 +258,16 @@ class PlayerParent(DB.Model):
     """ Table for player / parent associations"""
     __tablename__ = 'player_parent'
     player_id = Column(Integer, ForeignKey('player.id'),
+                       primary_key=True)
+    parent_id = Column(Integer, ForeignKey('parent.id'),
+                       primary_key=True)
+    active = Column(Boolean, default=True, server_default=expression.true())
+
+
+class RefereeParent(DB.Model):
+    """ Table for referee / parent associations. Needed for referees less than 18 years old"""
+    __tablename__ = 'referee_parent'
+    referee_id = Column(Integer, ForeignKey('referee.id'),
                        primary_key=True)
     parent_id = Column(Integer, ForeignKey('parent.id'),
                        primary_key=True)

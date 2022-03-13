@@ -7,19 +7,19 @@ import pytest
 
 from app import DB
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='class')
 def init_database():
     """Initializes the database """
     DB.drop_all()
     DB.create_all()
 
-    base_dir = join(abspath(dirname(__file__)), '..', '..')
+    base_dir = join(abspath(dirname(__file__)), '..')
 
     for fixture_file in glob(join(base_dir, 'seed', '*.json')):
         fixtures = JSONLoader().load(fixture_file)
         load_fixtures(DB, fixtures)
 
-    for fixture_file in glob(join(base_dir, 'seed', 'demo', '*.json')):
+    for fixture_file in sorted(glob(join(base_dir, 'seed', 'demo', '*.json'))):
         fixtures = JSONLoader().load(fixture_file)
         load_fixtures(DB, fixtures)
 

@@ -5,7 +5,7 @@ from json import (loads, dumps)
 import unittest
 import pytest
 from graphene.test import Client
-from testclass.testclass import TestClass
+from testhelper.testhelper import TestHelper
 from app.schema import SCHEMA
 
 @pytest.mark.usefixtures("init_database")
@@ -16,7 +16,7 @@ class TestSportGraphGL(unittest.TestCase):
 
     def test_sport_list(self):
         """Execute sport listing test"""
-        test_data = TestClass(self.dir_name,
+        test_data = TestHelper(self.dir_name,
                               sys._getframe(  ).f_code.co_name)
 
         test_data.load_files()
@@ -28,7 +28,7 @@ class TestSportGraphGL(unittest.TestCase):
 
     def test_sport_create(self):
         """Execute sport create test"""
-        test_data = TestClass(self.dir_name,
+        test_data = TestHelper(self.dir_name,
                               sys._getframe(  ).f_code.co_name)
 
         test_data.load_files()

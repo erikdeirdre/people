@@ -5,7 +5,7 @@ from json import (loads, dumps)
 import unittest
 import pytest
 from graphene.test import Client
-from testclass.testclass import TestClass
+from testhelper.testhelper import TestHelper
 from app.schema import SCHEMA
 
 
@@ -17,7 +17,7 @@ class TestPlayerGraphGL(unittest.TestCase):
 
     def test_player_list(self):
         """Execute player query test"""
-        test_data = TestClass(self.dir_name,
+        test_data = TestHelper(self.dir_name,
                               sys._getframe(  ).f_code.co_name)
         test_data.load_files()
 
@@ -28,7 +28,7 @@ class TestPlayerGraphGL(unittest.TestCase):
 
     def test_player_filter_lastname(self):
         """Execute player query test"""
-        test_data = TestClass(self.dir_name,
+        test_data = TestHelper(self.dir_name,
                               sys._getframe(  ).f_code.co_name)
         test_data.load_files()
 
