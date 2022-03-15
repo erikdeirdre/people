@@ -12,15 +12,15 @@ jobs:
         python-version: [3.8,3.9]
 
     env:
-      SQLALCHEMY_URI: ${{ secrets.SQLALCHEMY_URI }}
-      SQLALCHEMY_DATABASE_URI: ${{ secrets.SQLALCHEMY_URI }}
+      SQLALCHEMY_URI: "postgresql://postgres:${{ secrets.POSTGRES_CI_PASSWORD }}@localhost/${{ secrets.POSTGRES_CI_DB }}"
+      SQLALCHEMY_DATABASE_URI: "postgresql://postgres:${{ secrets.POSTGRES_CI_PASSWORD }}@localhost/${{ secrets.POSTGRES_CI_DB }}"
 
     services:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }} 
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_CI_DB }} 
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_CI_PASSWORD }}
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
