@@ -1,5 +1,6 @@
 """ Helper for Loading Database Data """
 from os.path import (join, abspath, dirname)
+from sqlalchemy.orm.session import close_all_sessions
 from glob import glob
 from flask_fixtures.loaders import JSONLoader
 from flask_fixtures import load_fixtures
@@ -8,7 +9,7 @@ import pytest
 from app import DB
 
 @pytest.fixture(scope='class')
-def init_database():
+def init_database(request):
     """Initializes the database """
     DB.drop_all()
     DB.create_all()
@@ -23,4 +24,9 @@ def init_database():
         fixtures = JSONLoader().load(fixture_file)
         load_fixtures(DB, fixtures)
 
+
+    request.cls.DB = DB
+
     yield DB
+
+    close_all_sessions()
