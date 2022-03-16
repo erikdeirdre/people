@@ -27,7 +27,9 @@ class TestTeamGraphGL(unittest.TestCase):
 
         executed = self.client.execute(test_data.get_send_request())
 
-        self.assertEqual(loads(dumps(executed['data'])),
+        print(executed['data'])
+        print(test_data.get_expected_result()['data'])
+        self.assertDictEqual(executed['data'],
                          test_data.get_expected_result()['data'])
 
     def test_team_create(self):
@@ -41,7 +43,7 @@ class TestTeamGraphGL(unittest.TestCase):
             test_data.get_send_request(),
             variables=test_data.get_variables())
 
-        self.assertEqual(loads(dumps(executed['data'])),
+        self.assertDictEqual(executed['data'],
                          test_data.get_expected_result()['data'])
 
 if __name__ == '__main__':

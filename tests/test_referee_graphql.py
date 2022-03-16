@@ -23,7 +23,7 @@ class TestRefereeGraphGL(unittest.TestCase):
 
         executed = self.client.execute(test_data.get_send_request())
 
-        self.assertEqual(loads(dumps(executed['data'])),
+        self.assertDictEqual(executed['data'],
                          test_data.get_expected_result()['data'])
 
 
