@@ -9,9 +9,10 @@ It uses a base person class along with specialized people.
 -   Create a virtualenv
 -   Run `pip install -r requirements.txt`
 -   Set environment variables:
-         `FLASK_APP=people.py`
-         `SQLALCHEMY_URI=<your database connection string>`
-         `SQLALCHEMY_DATABASE_URI=SQLALCHEMY_URI`
+        `FLASK_APP=people.py`
+        `SQLALCHEMY_URI=<your database connection string>`
+        `SQLALCHEMY_DATABASE_URI=SQLALCHEMY_URI`
+        `USPS_USERID="<USPS User Id>"`
 -   Set `GRAPHIQL=true`, if you wish to use the 'GraphiQL' interface.
 
 ### Flask Options

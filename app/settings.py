@@ -53,3 +53,7 @@ SOCIAL_GOOGLE = {
 }
 
 GRAPHIQL = environ.get('GRAPHIQL', False)
+
+USPS_URL = environ.get('USPS_URL',
+                       "https://secure.shippingapis.com/ShippingAPI.dll")
+USPS_USERID = environ.get('USPS_USERID')

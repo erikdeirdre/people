@@ -13,8 +13,8 @@ DB = SQLAlchemy(APP)
 
 MIGRATE = Migrate(APP, DB)
 
-PO_URL = APP.config['POST_OFFICE_URL']
-PO_USERID = APP.config['POST_OFFICE_USERID']
+PO_URL = APP.config['USPS_URL']
+PO_USERID = APP.config['USPS_USERID']
 
 from .schema import SCHEMA
 

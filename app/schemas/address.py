@@ -2,17 +2,16 @@
 import requests
 import xmltodict
 
-from graphene import (Interface, String, ObjectType, Connection)
+from graphene import (String, ObjectType, Connection)
 from app import (PO_URL, PO_USERID)
 from .helpers import TotalCount
 
 
 def postal_code_request(postal_code):
     """API call to USPS system to retrieve city state based on zip code."""
-    url = '{}?API=CityStateLookup&XML=<CityStateLookupRequest USERID="{}">' \
-          '<ZipCode ID=\'0\'><Zip5>{}</Zip5></ZipCode>'  \
-          '</CityStateLookupRequest>'.format(PO_URL, PO_USERID,
-                                             postal_code)
+    url = f'{PO_URL}?API=CityStateLookup&XML=<CityStateLookupRequest USERID="{PO_USERID}">' \
+          f'<ZipCode ID=\'0\'><Zip5>{postal_code}</Zip5></ZipCode>'  \
+          f'</CityStateLookupRequest>'
 
     results = requests.get(url)
     if results.status_code == 200:
@@ -24,15 +23,13 @@ def postal_code_request(postal_code):
 
     return None
 
-def verify_address_request(postal_code, address1, address2, city, state):
+def verify_address_request(postal_code, address1, address2=None, city=None,
+                           state=None):
     """API call to USPS system to verify address against zip code."""
-    url = '{}?API=Verify&XML=<AddressValidateRequest USERID="{}">' \
-        '<Address><Address1>{}</Address1><Address2>{}</Address2>' \
-        '<City>{}</City><State>{}</State><Zip5>{}</Zip5><Zip4></Zip4>' \
-        '</Address></AddressValidateRequest>'.format(PO_URL, PO_USERID,
-                                                     address2, address1,
-                                                     city, state,
-                                                     postal_code)
+    url = f'{PO_URL}?API=Verify&XML=<AddressValidateRequest USERID="{PO_USERID}">' \
+        f'<Address><Address1>{address1}</Address1><Address2>{address2}</Address2>' \
+        f'<City>{city}</City><State>{state}</State><Zip5>{postal_code}</Zip5>' \
+        f'<Zip4></Zip4></Address></AddressValidateRequest>'
 
     results = requests.get(url)
     if results.status_code == 200:
