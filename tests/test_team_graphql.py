@@ -8,6 +8,9 @@ from graphene.test import Client
 from testhelper.testhelper import TestHelper
 from app.schema import SCHEMA
 
+TestHelper.__test__ = False
+
+
 @pytest.mark.usefixtures("init_database")
 class TestTeamGraphGL(unittest.TestCase):
     """Test Suite for testing Sport GraphQL"""
