@@ -28,6 +28,8 @@ jobs:
       DB_HOST: localhost
       SQLALCHEMY_URI: "mysql://root:root@localhost/people_test"
       SQLALCHEMY_DATABASE_URI: "mysql://root:root@localhost/people_test"
+      USPS_URL: ${{ secrets.USPS_URL }}
+      USPS_USER: ${{ secrets.USPS_USER }}
 
     steps:
     - uses: actions/checkout@v1
