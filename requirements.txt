@@ -4,11 +4,13 @@ Flask-GraphQL==2.0.1
 Flask-Migrate==3.1.0
 Flask-SQLAlchemy==2.5.1
 Flask-Cors==3.0.10
-requests==2.27.1
-xmltodict==0.12.0
-urllib3==1.26.8
-sqlalchemy==1.4.32
 graphene==2.1.9
 graphene-sqlalchemy==2.3.0
 graphene-sqlalchemy-filter==1.13.0
+mysql-connector-python==8.0.28
+mysqlclient==2.1.0
 python-dateutil==2.8.2
+requests==2.27.1
+sqlalchemy==1.4.32
+urllib3==1.26.8
+xmltodict==0.12.0
