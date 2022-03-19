@@ -1,8 +1,8 @@
-"""empty message
+"""initial load
 
-Revision ID: ee4a31f500b9
+Revision ID: d8e2d438361a
 Revises: 
-Create Date: 2021-04-09 19:34:07.884829
+Create Date: 2022-03-17 20:58:30.642146
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ee4a31f500b9'
+revision = 'd8e2d438361a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('level',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('description', sa.String(length=100), nullable=True),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.Column('level_type', sa.Enum('UNDEFINED', 'REFEREE', 'COACH', 'PLAYER', name='leveltype'), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -37,52 +37,53 @@ def upgrade():
     sa.Column('telephone', sa.String(length=15), nullable=True),
     sa.Column('email', sa.String(length=100), nullable=True),
     sa.Column('gender', sa.Enum('OTHER', 'MALE', 'FEMALE', 'UNDEFINED', name='gender'), nullable=True),
+    sa.Column('birth_date', sa.Date(), nullable=True),
     sa.Column('table_type', sa.String(length=20), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('sport',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('description', sa.String(length=100), nullable=True),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('team',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('description', sa.String(length=100), nullable=True),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('coach',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.ForeignKeyConstraint(['id'], ['person.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('parent',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.ForeignKeyConstraint(['id'], ['person.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('player',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('birth_date', sa.Date(), nullable=True),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.ForeignKeyConstraint(['id'], ['person.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('referee',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.ForeignKeyConstraint(['id'], ['person.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('coach_sport',
     sa.Column('coach_id', sa.Integer(), nullable=False),
     sa.Column('sport_id', sa.Integer(), nullable=False),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.Column('level_id', sa.Integer(), nullable=True),
     sa.Column('level_date', sa.Date(), nullable=True),
+    sa.Column('sport_org_id', sa.String(length=50), nullable=True),
     sa.ForeignKeyConstraint(['coach_id'], ['coach.id'], ),
     sa.ForeignKeyConstraint(['level_id'], ['level.id'], ),
     sa.ForeignKeyConstraint(['sport_id'], ['sport.id'], ),
@@ -92,7 +93,7 @@ def upgrade():
     sa.Column('coach_id', sa.Integer(), nullable=False),
     sa.Column('team_id', sa.Integer(), nullable=False),
     sa.Column('join_date', sa.Date(), nullable=True),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.ForeignKeyConstraint(['coach_id'], ['coach.id'], ),
     sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
     sa.PrimaryKeyConstraint('coach_id', 'team_id')
@@ -100,7 +101,7 @@ def upgrade():
     op.create_table('player_parent',
     sa.Column('player_id', sa.Integer(), nullable=False),
     sa.Column('parent_id', sa.Integer(), nullable=False),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.ForeignKeyConstraint(['parent_id'], ['parent.id'], ),
     sa.ForeignKeyConstraint(['player_id'], ['player.id'], ),
     sa.PrimaryKeyConstraint('player_id', 'parent_id')
@@ -108,7 +109,7 @@ def upgrade():
     op.create_table('player_sport',
     sa.Column('player_id', sa.Integer(), nullable=False),
     sa.Column('sport_id', sa.Integer(), nullable=False),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.ForeignKeyConstraint(['player_id'], ['player.id'], ),
     sa.ForeignKeyConstraint(['sport_id'], ['sport.id'], ),
     sa.PrimaryKeyConstraint('player_id', 'sport_id')
@@ -116,18 +117,27 @@ def upgrade():
     op.create_table('player_team',
     sa.Column('player_id', sa.Integer(), nullable=False),
     sa.Column('team_id', sa.Integer(), nullable=False),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.Column('join_date', sa.Date(), nullable=True),
     sa.ForeignKeyConstraint(['player_id'], ['player.id'], ),
     sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
     sa.PrimaryKeyConstraint('player_id', 'team_id')
     )
+    op.create_table('referee_parent',
+    sa.Column('referee_id', sa.Integer(), nullable=False),
+    sa.Column('parent_id', sa.Integer(), nullable=False),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
+    sa.ForeignKeyConstraint(['parent_id'], ['parent.id'], ),
+    sa.ForeignKeyConstraint(['referee_id'], ['referee.id'], ),
+    sa.PrimaryKeyConstraint('referee_id', 'parent_id')
+    )
     op.create_table('referee_sport',
     sa.Column('referee_id', sa.Integer(), nullable=False),
     sa.Column('sport_id', sa.Integer(), nullable=False),
-    sa.Column('active', sa.Boolean(), server_default=sa.text('1'), nullable=True),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=True),
     sa.Column('level_id', sa.Integer(), nullable=True),
     sa.Column('level_date', sa.Date(), nullable=True),
+    sa.Column('sport_org_id', sa.String(length=50), nullable=True),
     sa.ForeignKeyConstraint(['level_id'], ['level.id'], ),
     sa.ForeignKeyConstraint(['referee_id'], ['referee.id'], ),
     sa.ForeignKeyConstraint(['sport_id'], ['sport.id'], ),
@@ -139,6 +149,7 @@ def upgrade():
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
     op.drop_table('referee_sport')
+    op.drop_table('referee_parent')
     op.drop_table('player_team')
     op.drop_table('player_sport')
     op.drop_table('player_parent')

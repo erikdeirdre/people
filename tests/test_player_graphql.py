@@ -5,8 +5,8 @@ from json import (loads, dumps)
 import unittest
 import pytest
 from graphene.test import Client
-from testclass.testclass import TestClass
 from app.schema import SCHEMA
+from .helpers.load_data import get_test_data
 
 
 @pytest.mark.usefixtures("init_database")
@@ -17,9 +17,8 @@ class TestPlayerGraphGL(unittest.TestCase):
 
     def test_player_list(self):
         """Execute player query test"""
-        test_data = TestClass(self.dir_name,
-                              sys._getframe(  ).f_code.co_name)
-        test_data.load_files()
+        test_data = get_test_data(self.dir_name,
+                                  sys._getframe(  ).f_code.co_name)
 
         executed = self.client.execute(test_data.get_send_request())
         self.assertEqual(loads(dumps(executed['data'])),
@@ -28,10 +27,9 @@ class TestPlayerGraphGL(unittest.TestCase):
 
     def test_player_filter_lastname(self):
         """Execute player query test"""
-        test_data = TestClass(self.dir_name,
-                              sys._getframe(  ).f_code.co_name)
-        test_data.load_files()
-
+        test_data = get_test_data(self.dir_name,
+                                  sys._getframe(  ).f_code.co_name)
+    
         executed = self.client.execute(test_data.get_send_request())
 
         self.assertEqual(loads(dumps(executed['data'])),
