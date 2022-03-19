@@ -26,8 +26,8 @@ jobs:
       DB_USER: root
       DB_PASSWORD: 'root'
       DB_HOST: localhost
-      SQLALCHEMY_URI: "mysql://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@${{ env.DB_HOST}}/${{ env.DB_DATABASE }}"
-      SQLALCHEMY_DATABASE_URI: "mysql://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@${{ env.DB_HOST}}/${{ env.DB_DATABASE }}"
+      SQLALCHEMY_URI: "mysql://${{ DB_USER }}:${{ DB_PASSWORD }}@${{ DB_HOST}}/${{ DB_DATABASE }}"
+      SQLALCHEMY_DATABASE_URI: "mysql://${{ DB_USER }}:${{ DB_PASSWORD }}@${{ DB_HOST}}/${{ DB_DATABASE }}"
 
     steps:
     - uses: actions/checkout@v1
