@@ -5,8 +5,8 @@ from glob import glob
 from flask_fixtures.loaders import JSONLoader
 from flask_fixtures import load_fixtures
 import pytest
-
 from app import DB
+
 
 @pytest.fixture(scope='class')
 def init_database(request):

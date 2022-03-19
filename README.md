@@ -71,7 +71,7 @@ Alembic is configured to generate migration files from changes to `models.py`. M
 
 3. Set `SQLALCHEMY_DATABASE_URI` to point to the proper database.
 
-4. Run `flask db -m "<some comment>"` to generate a new 'version' file within the 'versions' directory.
+4. Run `flask db migrate -m "<some comment>"` to generate a new 'version' file within the 'versions' directory.
 
 5. Check the `migrations` directory for a file matching your comment. Confirm the file has the expected changes. If not, you'll need to modify it so it aligns with the model changes you made earlier. 
 

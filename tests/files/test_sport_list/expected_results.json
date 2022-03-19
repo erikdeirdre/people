@@ -1,6 +1,6 @@
 {
   "data": {
-    "sportList": {
+    "allSport": {
       "edges": [
         {
           "node": {
@@ -10,14 +10,50 @@
         },
         {
           "node": {
-            "active": false,
+            "active": true,
             "description": "Baseball"
           }
         },
         {
           "node": {
-            "active": null,
+            "active": true,
             "description": "Football"
+          }
+        },
+        {
+          "node": {
+            "active": true,
+            "description": "Basketball"
+          }
+        },
+        {
+          "node": {
+            "active": true,
+            "description": "Rugby"
+          }
+        },
+        {
+          "node": {
+            "active": false,
+            "description": "Futsal"
+          }
+        },
+        {
+          "node": {
+            "active": true,
+            "description": "Lacrosse"
+          }
+        },
+        {
+          "node": {
+            "active": true,
+            "description": "Tennis"
+          }
+        },
+        {
+          "node": {
+            "active": true,
+            "description": "Golf"
           }
         }
       ]

@@ -9,6 +9,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import expression
 from app import DB
 
+
 class Gender(enum.Enum):
     """Gender enum"""
     OTHER = 0

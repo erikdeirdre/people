@@ -1,6 +1,16 @@
 name: build_and_package
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'VERSION'
+    branches:
+      - '**'
+      - '!releases/**'
+  pull_request:
+    types:
+      - opened
 
 jobs:
   build:
@@ -48,6 +58,7 @@ jobs:
       run: |
         pip install -r tests/requirements.txt
         coverage run -m pytest --junitxml=coverage-reports/coverage.xml
+        coverage xml
 
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1

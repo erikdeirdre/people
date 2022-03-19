@@ -1,5 +1,5 @@
 query {
-  sportList {
+  allSport {
     edges {
       node {
         active
