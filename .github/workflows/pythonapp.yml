@@ -22,26 +22,18 @@ jobs:
         python-version: [3.8,3.9]
 
     env:
-      SQLALCHEMY_URI: "postgresql://postgres:${{ secrets.POSTGRES_CI_PASSWORD }}@localhost/${{ secrets.POSTGRES_CI_DB }}"
-      SQLALCHEMY_DATABASE_URI: "postgresql://postgres:${{ secrets.POSTGRES_CI_PASSWORD }}@localhost/${{ secrets.POSTGRES_CI_DB }}"
-
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_CI_DB }} 
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_CI_PASSWORD }}
-        ports:
-          - 5432:5432
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+      DB_DATABASE: people_test
+      DB_USER: root
+      DB_PASSWORD: 'root'
+      DB_HOST: localhost
+      SQLALCHEMY_URI: "mysql://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@${{ env.DB_HOST}}/${{ env.DB_DATABASE }}"
+      SQLALCHEMY_DATABASE_URI: "mysql://${{ env.DB_USER }}:${{ env.DB_PASSWORD }}@${{ env.DB_HOST}}/${{ env.DB_DATABASE }}"
 
     steps:
     - uses: actions/checkout@v1
+
+    - name: start mysql
+      run:  sudo /etc/init.d/mysql start
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2

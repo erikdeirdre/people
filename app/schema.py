@@ -13,8 +13,8 @@ from .schemas.coach import (CoachNode, CoachConnection, CreateCoach,
                             UpdateCoach)
 from .schemas.player import (PlayerNode, PlayerConnection, CreatePlayer,
                              UpdatePlayer)
-from .schemas.address import (CityState, Address, resolve_city_states,
-                              resolve_address, CityStateNode, AddressNode)
+from .schemas.address import (resolve_city_states, resolve_address,
+                              CityStateNode, AddressNode)
 
 
 class Query(ObjectType):
@@ -22,13 +22,13 @@ class Query(ObjectType):
     node = relay.Node.Field()
 
     city_state = Field(
-        CityState,
+        CityStateNode,
         postalcode=String(required=True),
         resolver=resolve_city_states
     )
 
     address = Field(
-        Address,
+        AddressNode,
         postalcode=Argument(String, required=True),
         address1=Argument(String, required=True),
         address2=Argument(String),

@@ -62,7 +62,7 @@ def resolve_address(parent, info, postalcode, address1, address2='',
     """ Verify / cleanup address based on USPS information. """
     address = verify_address_request(postalcode, address1, address2, city,
                                      state)
-    return Address(
+    return AddressNode(
         postalcode=postalcode,
         city=address['city'],
         state=address['state'],
@@ -74,34 +74,30 @@ def resolve_address(parent, info, postalcode, address1, address2='',
 def resolve_city_states(parent, info, postalcode):
     """ Get city / state from USPS based on zip code. """
     city_state = postal_code_request(postalcode)
-    return CityState(
+    return CityStateNode(
         postalcode=postalcode,
         city=city_state['city'],
         state=city_state['state']
     )
 
-class Address(ObjectType):
-    """ Address fields output """
-    postalcode = String()
-    city = String()
-    state = String()
-    address1 = String()
-    address2 = String()
+#class Address(ObjectType):
+#    """ Address fields output """
+#    postalcode = String()
+#    city = String()
+#    state = String()
+#    address1 = String()
+#    address2 = String()
 
 
-class CityState(ObjectType):
-    """ City State fields output """
-    postalcode = String()
-    city = String()
-    state = String()
+#class CityState(ObjectType):
+#    """ City State fields output """
+#    postalcode = String()
+#    city = String()
+#    state = String()
 
 
 class AddressNode(ObjectType):
     """ Address Graphql Node output """
-#    class Meta:
-#        """ Address Graphql Node output """
-#        interfaces = (Address,)
-
     postalcode = String()
     city = String()
     state = String()
@@ -119,10 +115,6 @@ class AddressConnection(Connection):
 
 class CityStateNode(ObjectType):
     """ CityStateGraphql Node output """
-#    class Meta:
-#        """ CityState Graphql Node output """
-#        interfaces = (CityState,)
-
     postalcode = String()
     city = String()
     state = String()
