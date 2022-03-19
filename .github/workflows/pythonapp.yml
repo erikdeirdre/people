@@ -26,8 +26,8 @@ jobs:
       DB_USER: root
       DB_PASSWORD: 'root'
       DB_HOST: localhost
-      SQLALCHEMY_URI: "mysql://${{ DB_USER }}:${{ DB_PASSWORD }}@${{ DB_HOST}}/${{ DB_DATABASE }}"
-      SQLALCHEMY_DATABASE_URI: "mysql://${{ DB_USER }}:${{ DB_PASSWORD }}@${{ DB_HOST}}/${{ DB_DATABASE }}"
+      SQLALCHEMY_URI: "mysql://root:root@localhost/people_test"
+      SQLALCHEMY_DATABASE_URI: "mysql://root:root@localhost/people_test"
 
     steps:
     - uses: actions/checkout@v1
