@@ -9,7 +9,7 @@ from flask_graphql import GraphQLView
 import logging
 
 logging.basicConfig(stream=stdout,
-                    level=int(environ.get("LOG_LEVEL", logging.INFO)))
+                    level=environ.get("LOG_LEVEL", logging.INFO))
 
 logging.info('Starting ...')
 
