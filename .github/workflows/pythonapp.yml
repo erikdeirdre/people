@@ -53,8 +53,7 @@ jobs:
     - name: Test with pytest
       run: |
         pip install -r tests/requirements.txt
-        pip freeze
-        coverage run -m pytest --junitxml=coverage-reports/coverage.xml
+        coverage run -m pytest -s --junitxml=coverage-reports/coverage.xml
         coverage xml
 
     - name: Publish Unit Test Results
