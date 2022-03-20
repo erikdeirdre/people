@@ -1,17 +1,23 @@
 """ Graphql Address Schema Module """
+from os import environ
 import requests
 import xmltodict
+
 import logging
 
 from graphene import (String, ObjectType, Connection)
-from app import (PO_URL, PO_USERID)
 from .helpers import TotalCount
+
+USPS_URL = environ.get('USPS_URL',
+                       "https://secure.shippingapis.com/ShippingAPI.dll")
+USPS_USERID = environ.get('USPS_USERID')
+
 
 logger = logging.getLogger(__name__)
 
 def postal_code_request(postal_code):
     """API call to USPS system to retrieve city state based on zip code."""
-    url = f'{PO_URL}?API=CityStateLookup&XML=<CityStateLookupRequest USERID="{PO_USERID}">' \
+    url = f'{USPS_URL}?API=CityStateLookup&XML=<CityStateLookupRequest USERID="{USPS_USERID}">' \
           f'<ZipCode ID=\'0\'><Zip5>{postal_code}</Zip5></ZipCode>'  \
           f'</CityStateLookupRequest>'
     
@@ -38,7 +44,7 @@ def postal_code_request(postal_code):
 def verify_address_request(postal_code, address1, address2=None, city=None,
                            state=None):
     """API call to USPS system to verify address against zip code."""
-    url = f'{PO_URL}?API=Verify&XML=<AddressValidateRequest USERID="{PO_USERID}">' \
+    url = f'{USPS_URL}?API=Verify&XML=<AddressValidateRequest USERID="{USPS_USERID}">' \
         f'<Address><Address1>{address1}</Address1><Address2>{address2}</Address2>' \
         f'<City>{city}</City><State>{state}</State><Zip5>{postal_code}</Zip5>' \
         f'<Zip4></Zip4></Address></AddressValidateRequest>'

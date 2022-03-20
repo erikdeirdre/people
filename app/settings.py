@@ -1,7 +1,4 @@
-from os import (path, environ)
-
-basedir = path.abspath(path.dirname(__file__))
-DATABASE_DIR = environ.get('DATABASE_DIR') or basedir
+from os import environ
 
 APP_NAME = 'people'
 
@@ -50,7 +47,3 @@ SOCIAL_GOOGLE = {
 }
 
 GRAPHIQL = environ.get('GRAPHIQL', False)
-
-USPS_URL = environ.get('USPS_URL',
-                       "https://secure.shippingapis.com/ShippingAPI.dll")
-USPS_USERID = environ.get('USPS_USERID')

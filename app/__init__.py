@@ -21,10 +21,8 @@ DB = SQLAlchemy(APP)
 
 MIGRATE = Migrate(APP, DB)
 
-PO_URL = APP.config['USPS_URL'] 
 
-PO_USERID = APP.config['USPS_USERID']
-if PO_URL is None:
+if APP.config['USPS_USERID'] is None:
     logging.error("USPS_USERID isn't set ... exiting")
     exit(9)
 
