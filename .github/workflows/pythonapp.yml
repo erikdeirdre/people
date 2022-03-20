@@ -54,8 +54,12 @@ jobs:
       run: |
         pip install -r tests/requirements.txt
         coverage run -m pytest --junitxml=coverage-reports/coverage.xml
-        cat url.txt
         coverage xml
+
+    - name: Debug
+      run: |
+        ls -l
+        cat url.txt
 
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
