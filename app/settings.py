@@ -5,9 +5,6 @@ DATABASE_DIR = environ.get('DATABASE_DIR') or basedir
 
 APP_NAME = 'people'
 
-POST_OFFICE_URL = "https://secure.shippingapis.com/ShippingAPI.dll"
-POST_OFFICE_USERID = environ.get('POST_OFFICE_USERID') or "<your user id>"
-
 SQLALCHEMY_URI = environ.get("SQLALCHEMY_URI")
 SQLALCHEMY_DATABASE_URI = SQLALCHEMY_URI
 

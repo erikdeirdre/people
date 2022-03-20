@@ -1,9 +1,17 @@
 """ Main Module """
+from os import environ
+from sys import (exit, stdout)
 from flask import Flask
 from flask_sqlalchemy import (SQLAlchemy)
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_graphql import GraphQLView
+import logging
+
+logging.basicConfig(stream=stdout,
+                    level=int(environ.get("LOG_LEVEL", logging.INFO)))
+
+logging.info('Starting ...')
 
 APP = Flask(__name__)
 CORS(APP)
@@ -13,8 +21,12 @@ DB = SQLAlchemy(APP)
 
 MIGRATE = Migrate(APP, DB)
 
-PO_URL = APP.config['USPS_URL']
+PO_URL = APP.config['USPS_URL'] 
+
 PO_USERID = APP.config['USPS_USERID']
+if PO_URL is None:
+    logging.error("USPS_USERID isn't set ... exiting")
+    exit(9)
 
 from .schema import SCHEMA
 
