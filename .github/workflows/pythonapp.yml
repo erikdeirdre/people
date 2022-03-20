@@ -57,6 +57,7 @@ jobs:
         coverage xml
 
     - name: Debug
+      if: always()
       run: |
         ls -l
         cat url.txt
