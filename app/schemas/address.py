@@ -1,5 +1,5 @@
 """ Graphql Address Schema Module """
-from os import environ
+from os import getenv
 import requests
 import xmltodict
 
@@ -8,9 +8,9 @@ import logging
 from graphene import (String, ObjectType, Connection)
 from .helpers import TotalCount
 
-USPS_URL = environ.get('USPS_URL',
+USPS_URL = getenv('USPS_URL',
                        "https://secure.shippingapis.com/ShippingAPI.dll")
-USPS_USERID = environ.get('USPS_USERID')
+USPS_USERID = getenv('USPS_USERID')
 
 
 logger = logging.getLogger(__name__)

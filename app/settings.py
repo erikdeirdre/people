@@ -2,7 +2,7 @@ from os import getenv
 
 APP_NAME = 'people'
 # Default to info
-LOG_LEVEL = int(getenv("LOG_LEVEL", "20"))
+LOG_LEVEL = int(getenv("LOG_LEVEL", 20))
 
 SQLALCHEMY_URI = getenv("SQLALCHEMY_URI")
 SQLALCHEMY_DATABASE_URI = SQLALCHEMY_URI
