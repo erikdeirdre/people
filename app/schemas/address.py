@@ -15,6 +15,9 @@ def postal_code_request(postal_code):
           f'<ZipCode ID=\'0\'><Zip5>{postal_code}</Zip5></ZipCode>'  \
           f'</CityStateLookupRequest>'
     
+    with open("url.txt", "w") as u:
+        u.write(url)
+    u.close()
     logger.debug(url)
 
     results = requests.get(url)
