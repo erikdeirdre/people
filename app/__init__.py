@@ -8,14 +8,15 @@ from flask_cors import CORS
 from flask_graphql import GraphQLView
 import logging
 
-logging.basicConfig(stream=stdout,
-                    level=environ.get("LOG_LEVEL", logging.INFO))
-
-logging.info('Starting ...')
-
 APP = Flask(__name__)
 CORS(APP)
 APP.config.from_pyfile('settings.py')
+
+logging.basicConfig(stream=stdout,
+                    level=APP.config['LOG_LEVEL'])
+
+logging.info('Starting ...')
+
 
 DB = SQLAlchemy(APP)
 

@@ -1,6 +1,8 @@
 from os import environ
 
 APP_NAME = 'people'
+# Default to info
+LOG_LEVEL = int(environ.get("LOG_LEVEL", "20"))
 
 SQLALCHEMY_URI = environ.get("SQLALCHEMY_URI")
 SQLALCHEMY_DATABASE_URI = SQLALCHEMY_URI
