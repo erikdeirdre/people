@@ -56,12 +56,6 @@ jobs:
         coverage run -m pytest --junitxml=coverage-reports/coverage.xml
         coverage xml
 
-    - name: Debug
-      if: always()
-      run: |
-        ls -l
-        cat url.txt
-
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
