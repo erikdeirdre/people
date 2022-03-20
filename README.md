@@ -24,6 +24,9 @@ Two additional, `flask` commands exist for prepping the database.
 -   `seed` populates the database with data found in the directory specified. `DEMO` loads demo data. It's not intended to do updates, only initial data load.
     Usage: `flask seed {load files directory} (defaults to 'seed') {demo switch} (defaults to 'false')`.
 
+
+[![build_and_package](https://github.com/erikdeirdre/people/actions/workflows/pythonapp.yml/badge.svg)](https://github.com/erikdeirdre/people/actions/workflows/pythonapp.yml)
+
 ### Running Graphql
 
 You should be able to access the `graphql` console via `http://127.0.0.1:5000/graphql`
