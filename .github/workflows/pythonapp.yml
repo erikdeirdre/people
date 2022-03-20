@@ -28,7 +28,7 @@ jobs:
       DB_HOST: localhost
       SQLALCHEMY_URI: "mysql://root:root@localhost/people_test"
       USPS_URL: ${{ secrets.USPS_URL }}
-      USPS_USER: ${{ secrets.USPS_USER }}
+      USPS_USERID: ${{ secrets.USPS_USERID }}
       LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
 
     steps:
