@@ -22,7 +22,7 @@ DB = SQLAlchemy(APP)
 MIGRATE = Migrate(APP, DB)
 
 
-if APP.config['USPS_USERID'] is None:
+if environ.get('USPS_USERID') is None:
     logging.error("USPS_USERID isn't set ... exiting")
     exit(9)
 
